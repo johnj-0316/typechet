@@ -5,7 +5,7 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet],
   selector: 'app-root',
   styleUrl: './app.css',
-  templateUrl: './app.html',
+  template: '<h1>Hi</h1><router-outlet />',
 })
 export class App {
   protected readonly title = signal('crochet-counter');
