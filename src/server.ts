@@ -7,6 +7,8 @@ import {
 import express from 'express';
 import { join } from 'node:path';
 
+import { registerRouter } from './utils/routers/register';
+
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
@@ -34,6 +36,10 @@ app.use(
     redirect: false,
   }),
 );
+
+app.use(express.json());
+
+app.use("/api", registerRouter);
 
 /**
  * Handle all other requests by rendering the Angular application.
