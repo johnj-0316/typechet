@@ -1,11 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Home } from './home/home';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [Home],
   selector: 'app-root',
   styleUrl: './app.css',
-  template: '<h1>Hi</h1><router-outlet />',
+  templateUrl: './app.html',
 })
 export class App {
   protected readonly title = signal('crochet-counter');
