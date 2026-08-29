@@ -18,7 +18,7 @@ export async function registerUser(req: Request, res: Response) {
     try {
         const hash = await bcrypt.hash(password, 10);
         const user = new User(username, email, hash);
-        res.status(201).json({message: "User registered!", user});
+        res.status(201).json({ message: "User registered!", user });
     }
     catch (err: unknown) {
         if (err instanceof Error) {
