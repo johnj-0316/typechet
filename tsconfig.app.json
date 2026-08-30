@@ -7,6 +7,9 @@
       "node"
     ]
   },
+  "files": [
+    "src/env.d.ts"
+  ],
   "include": [
     "src/**/*.ts"
   ],

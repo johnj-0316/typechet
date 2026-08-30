@@ -8,4 +8,8 @@ export class User {
         this.email = email.trim();
         this.password = password;
     }
+
+    signUp(): void {
+
+    }
 };

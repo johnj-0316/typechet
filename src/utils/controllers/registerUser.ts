@@ -1,4 +1,3 @@
-import bcrypt from "bcryptjs";
 import { validationResult } from "express-validator";
 import { Request, Response } from "express";
 
@@ -16,8 +15,7 @@ export async function registerUser(req: Request, res: Response) {
     const { username, email, password }: User = req.body;
 
     try {
-        const hash = await bcrypt.hash(password, 10);
-        const user = new User(username, email, hash);
+        const user = new User(username, email, password);
         res.status(201).json({ message: "User registered!", user });
     }
     catch (err: unknown) {
