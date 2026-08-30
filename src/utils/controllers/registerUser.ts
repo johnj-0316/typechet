@@ -3,7 +3,6 @@ import { Request, Response } from "express";
 
 import { User } from "./User"
 
-
 export async function registerUser(req: Request, res: Response) {
     const result = validationResult(req);
 
@@ -16,6 +15,7 @@ export async function registerUser(req: Request, res: Response) {
 
     try {
         const user = new User(username, email, password);
+        await user.signUp();
         res.status(201).json({ message: "User registered!", user });
     }
     catch (err: unknown) {
