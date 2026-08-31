@@ -8,6 +8,7 @@ import express from 'express';
 import { join } from 'node:path';
 
 import { registerRouter } from './utils/routers/register';
+import { loginRouter } from './utils/routers/login';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -39,7 +40,8 @@ app.use(
 
 app.use(express.json());
 
-app.use("/api", registerRouter);
+app.use("/api/auth", registerRouter);
+app.use("/api/auth", loginRouter);
 
 /**
  * Handle all other requests by rendering the Angular application.
