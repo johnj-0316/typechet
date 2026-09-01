@@ -27,6 +27,5 @@ export async function registerUser(req: Request, res: Response) {
         } else {
             res.status(500).json({ message: "An unexpected error occurred." });
         }
-
     }
 }

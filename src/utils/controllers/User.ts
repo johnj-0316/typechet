@@ -63,7 +63,26 @@ export class User {
     }
 
     static async getUser() {
-        const { data } = await supabase.auth.getUser();
-        return data;
+        try {
+            const { data: { user } } = await supabase.auth.getUser();
+
+            if (!user) {
+                throw new Error(`No session found for user!`);
+            }
+
+            const { data, error } = await supabase
+            .from('user_profiles')
+            .select()
+            .eq('id', user.id)
+
+            return user;
+        }
+        catch (err: unknown) {
+            if (err instanceof Error) {
+                throw new Error(`Sign in error: ${err.message}`);
+            }
+
+            throw new Error(`An unexpected error occured. ${err}`);
+        }
     } 
 };

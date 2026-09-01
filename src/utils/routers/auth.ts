@@ -3,12 +3,15 @@ import { body } from "express-validator";
 
 import { registerUser } from "../controllers/registerUser";
 import { loginUser } from "../controllers/loginUser";
+import { findUser } from "../controllers/findUser";
 
 export const authRouter = Router();
 
 // array contains validators: 
 // email must be email, otherwise err msg
 // password must be length of 8+
+
+authRouter.get("/profile", findUser);
 
 authRouter.post("/register", [
     body("email").trim().isEmail().withMessage("Not a valid email format."),
