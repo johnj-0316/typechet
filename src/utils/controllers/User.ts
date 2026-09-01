@@ -5,17 +5,25 @@ export class User {
     email: string;
     password: string;
 
+    // password can include trailing spaces
     constructor(username: string, email: string, password: string) {
         this.username = username.trim();
         this.email = email.trim();
         this.password = password;
     }
 
+    // create session in storage after signup
+    // save username in user_metadata
     async signUp(): Promise<void> {
         try {
             const { data, error } = await supabase.auth.signUp({
                 email: this.email,
-                password: this.password
+                password: this.password,
+                options: {
+                    data: {
+                        username: this.username
+                    }
+                }
             });
 
             if (error)
@@ -32,6 +40,7 @@ export class User {
         }
     }
 
+    // sign up with email/password
     async signIn(): Promise<void> {
         try {
             const { data, error } = await supabase.auth.signInWithPassword({
@@ -52,4 +61,9 @@ export class User {
             throw new Error(`An unexpected error occured. ${err}`);
         }
     }
+
+    static async getUser() {
+        const { data } = await supabase.auth.getUser();
+        return data;
+    } 
 };

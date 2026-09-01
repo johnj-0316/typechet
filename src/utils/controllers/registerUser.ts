@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import { User } from "./User"
 
 export async function registerUser(req: Request, res: Response) {
+    // result will not be empty if something goes wrong.
     const result = validationResult(req);
 
     if (!result.isEmpty()) {
@@ -11,6 +12,7 @@ export async function registerUser(req: Request, res: Response) {
         return;
     }
 
+    //supabase autohashes, otherwise use bcrypt
     const { username, email, password }: User = req.body;
 
     try {
