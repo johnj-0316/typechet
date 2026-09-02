@@ -1,7 +1,7 @@
 import { validationResult } from "express-validator";
 import { Request, Response } from "express";
 
-import { User } from "./User"
+import { signUp } from "./User"
 
 export async function registerUser(req: Request, res: Response) {
     // result will not be empty if something goes wrong.
@@ -13,11 +13,10 @@ export async function registerUser(req: Request, res: Response) {
     }
 
     //supabase autohashes, otherwise use bcrypt
-    const { username, email, password }: User = req.body;
+    const { username, email } = req.body;
 
     try {
-        const user = new User(username, email, password);
-        await user.signUp();
+        const user = await signUp(username, email, req.body?.password);
         res.status(201).json({ message: "User registered!", user });
     }
     catch (err: unknown) {

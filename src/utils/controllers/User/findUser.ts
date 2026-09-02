@@ -1,17 +1,17 @@
 import { Request, Response } from "express";
 
-import { User } from "./User";
+import { getUser } from "./User";
 
 export async function findUser(req: Request, res: Response) {
     try {
-        const profile = await User.getUser();
+        const user = await getUser();
 
-        if (!profile) {
+        if (!user) {
             res.sendStatus(404);
             return;
         }
 
-        res.status(200).json({message: "Found user profile", profile});
+        res.status(200).json({message: "Found user profile", user});
     }
     catch (err: unknown) {
         if (err instanceof Error) {

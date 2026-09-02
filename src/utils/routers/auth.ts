@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { body } from "express-validator";
 
-import { registerUser } from "../controllers/registerUser";
-import { loginUser } from "../controllers/loginUser";
-import { findUser } from "../controllers/findUser";
+import { registerUser } from "../controllers/User/registerUser";
+import { loginUser } from "../controllers/User/loginUser";
+import { findUser } from "../controllers/User/findUser";
 
 export const authRouter = Router();
 
