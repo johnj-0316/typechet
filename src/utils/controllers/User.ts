@@ -64,18 +64,24 @@ export class User {
 
     static async getUser() {
         try {
-            const { data: { user } } = await supabase.auth.getUser();
+            //data will always have user property, success or fail
+            const { data: userData } = await supabase.auth.getUser();
+            const user = userData.user;
 
             if (!user) {
                 throw new Error(`No session found for user!`);
             }
 
+            //only works when policy allows for select (RLS)
             const { data, error } = await supabase
-            .from('user_profiles')
+            .from('user_profile')
             .select()
             .eq('id', user.id)
 
-            return user;
+            if (error)
+                throw error;
+
+            return data;
         }
         catch (err: unknown) {
             if (err instanceof Error) {
