@@ -1,3 +1,10 @@
+import supabase from "../../../db/supabase_client";
+
+import { getUser } from "../User/User";
+import { TablesInsert } from "../../../db/database.types";
+
+export { createPattern };
+
 type Pair = Record<string, string>;
 
 // rows are 0 indexed
@@ -6,20 +13,21 @@ type Pair = Record<string, string>;
 //  -on color change, index should be color -> row
 
 // colors should be color: hex string
+async function createPattern(
+    rows: string[], 
+    colors: Pair, 
+    sizes: Pair, 
+    materials: string[]
+): Promise<TablesInsert<'patterns'>> {
+    const user = await getUser();
+    const { data, error } = await supabase
+    .from("patterns")
+    .insert({rows, colors, sizes, materials, author_id: user.id})
+    .select()
+    .single();
 
-export class Pattern {
-    #rows: string[];
-    #colors: Pair;
-    #sizes: Pair;
-    #stitches: Pair;
-    #materials: string[];
+    if (error)
+        throw error;
 
-    constructor(rows: string[], colors: Pair, sizes: Pair, stitches: Pair, materials: string[]) {
-        this.#rows = rows;
-        this.#colors = colors;
-        this.#sizes = sizes;
-        this.#stitches = stitches;
-        this.#materials = materials;
-    }
-    
+    return data;
 }
