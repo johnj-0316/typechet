@@ -1,9 +1,9 @@
 import supabase from "../../../db/supabase_client";
 
 import { getUser } from "../User/User";
-import { TablesInsert } from "../../../db/database.types";
+import { Tables, TablesInsert } from "../../../db/database.types";
 
-export { createPattern };
+export { createPattern, getAllPatterns };
 
 type Pair = Record<string, string>;
 
@@ -13,6 +13,24 @@ type Pair = Record<string, string>;
 //  -on color change, index should be color -> row
 
 // colors should be color: hex string
+
+// find patterns by selecting owners and doing join with patterns,
+// where owners.user_id = supabase session id
+async function getAllPatterns(
+): Promise<Tables<'patterns'>[]> {
+    const user = await getUser();
+    const { data, error } = await supabase
+    .from('owners')
+    .select('...patterns!inner(*)')
+    .eq('user_id', user.id);
+
+    if (error)
+        throw error;
+
+    return data;
+}
+
+// insert pattern
 async function createPattern(
     rows: string[], 
     colors: Pair, 
