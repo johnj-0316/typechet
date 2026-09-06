@@ -2,7 +2,10 @@ import { Request, Response } from "express";
 
 import { createPattern } from "./Pattern";
 
-export async function postPattern(req: Request, res: Response) {
+export async function postPattern(
+    req: Request, 
+    res: Response
+) {
     const { rows, colors, sizes, materials } = req.body;
 
     try {

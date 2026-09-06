@@ -6,7 +6,8 @@ import { postPattern } from "../controllers/Pattern/postPatterns";
 
 export const patternRouter = Router();
 
-patternRouter.get("/", getPatterns);
+patternRouter.get(["/", "/:id"], getPatterns);
+
 
 patternRouter.post("/", postPattern);
 

@@ -1,11 +1,20 @@
 import { Request, Response } from "express";
 
-import { getAllPatterns } from "./Pattern";
+import { getAllPatterns, getPattern, handlePagination } from "./Pattern";
+import { PatternRouteParams, PatternQueryParams } from "./pattern.types";
 
-export async function getPatterns(req: Request, res: Response) {
+export async function getPatterns(
+    req: Request<PatternRouteParams, unknown, unknown, PatternQueryParams>, 
+    res: Response
+) {
+    const { id } = req.params;
+    const { page, limit } = req.query;
+
     try {
-        const data = await getAllPatterns();
-        res.status(200).json({ message: "Found patterns: ", data });
+        //pq should throw error on faulty values
+        const pq = handlePagination(page, limit);
+        const data = id ? await getPattern(id) : await getAllPatterns(pq.offset, pq.limit);
+        res.status(200).json({ message: "Found patterns!", data });
     }
     catch (err: unknown) {
         if (err instanceof Error) {

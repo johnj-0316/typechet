@@ -46,7 +46,8 @@ async function signIn(
 }
 
 //returns user_profile row according to user.id
-async function getUser(): Promise<Tables<'user_profile'>> {
+async function getUser(
+): Promise<Tables<'user_profile'>> {
     // data will always have user property, success or fail
     const { data: userData } = await supabase.auth.getUser();
     const user = userData.user;

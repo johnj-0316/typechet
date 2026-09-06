@@ -62,6 +62,7 @@ export type Database = {
           materials: Json
           rows: Json
           sizes: Json
+          title: string | null
           url_id: number | null
         }
         Insert: {
@@ -72,6 +73,7 @@ export type Database = {
           materials: Json
           rows: Json
           sizes: Json
+          title?: string | null
           url_id?: number | null
         }
         Update: {
@@ -82,6 +84,7 @@ export type Database = {
           materials?: Json
           rows?: Json
           sizes?: Json
+          title?: string | null
           url_id?: number | null
         }
         Relationships: [
