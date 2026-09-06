@@ -1,3 +1,5 @@
+type Pair = Record<string, string>;
+
 type PatternRouteParams = {
     id: string | void
 };
@@ -7,4 +9,5 @@ type PatternQueryParams = {
     limit: string | void
 };
 
-export type { PatternRouteParams, PatternQueryParams };
+
+export type { Pair, PatternRouteParams, PatternQueryParams };
