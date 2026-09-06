@@ -6,7 +6,7 @@ import { signIn } from "./User";
 export async function loginUser(
     req: Request, 
     res: Response
-) {
+): Promise<void> {
     // result will not be empty if something goes wrong.
     const result = validationResult(req);
 

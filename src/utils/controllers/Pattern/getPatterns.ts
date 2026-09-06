@@ -6,7 +6,7 @@ import { PatternRouteParams, PatternQueryParams } from "./pattern.types";
 export async function getPatterns(
     req: Request<PatternRouteParams, unknown, unknown, PatternQueryParams>, 
     res: Response
-) {
+): Promise<void> {
     const { id } = req.params;
     const { page, limit } = req.query;
 

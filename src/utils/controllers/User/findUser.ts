@@ -5,7 +5,7 @@ import { getUser } from "./User";
 export async function findUser(
     req: Request, 
     res: Response
-) {
+): Promise<void> {
     try {
         const user = await getUser();
 

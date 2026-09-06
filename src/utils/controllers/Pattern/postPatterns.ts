@@ -5,7 +5,7 @@ import { createPattern } from "./Pattern";
 export async function postPattern(
     req: Request, 
     res: Response
-) {
+): Promise<void> {
     const { rows, colors, sizes, materials } = req.body;
 
     try {

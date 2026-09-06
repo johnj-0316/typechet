@@ -11,6 +11,8 @@ export const authRouter = Router();
 // email must be email, otherwise err msg
 // password must be length of 8+
 
+// need validator for dupe email
+
 authRouter.get("/profile", findUser);
 
 authRouter.post("/register", [

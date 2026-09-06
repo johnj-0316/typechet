@@ -6,7 +6,7 @@ import { signUp } from "./User"
 export async function registerUser(
     req: Request, 
     res: Response
-) {
+): Promise<void> {
     // result will not be empty if something goes wrong.
     const result = validationResult(req);
 
@@ -25,7 +25,6 @@ export async function registerUser(
     catch (err: unknown) {
         if (err instanceof Error) {
             res.status(500).json({ message: "Something went wrong with registration.", error: err.message });
-            return;
         } else {
             res.status(500).json({ message: "An unexpected error occurred." });
         }
