@@ -2,7 +2,10 @@ import { Request, Response } from "express";
 
 import { getUser } from "./User";
 
-export async function findUser(req: Request, res: Response) {
+export async function findUser(
+    req: Request, 
+    res: Response
+) {
     try {
         const user = await getUser();
 

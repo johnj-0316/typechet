@@ -3,7 +3,10 @@ import { Request, Response } from "express";
 
 import { signIn } from "./User";
 
-export async function loginUser(req: Request, res: Response) {
+export async function loginUser(
+    req: Request, 
+    res: Response
+) {
     // result will not be empty if something goes wrong.
     const result = validationResult(req);
 

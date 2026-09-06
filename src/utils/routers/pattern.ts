@@ -8,7 +8,6 @@ export const patternRouter = Router();
 
 patternRouter.get(["/", "/:id"], getPatterns);
 
-
 patternRouter.post("/", postPattern);
 
 //patternRouter.put("/")
