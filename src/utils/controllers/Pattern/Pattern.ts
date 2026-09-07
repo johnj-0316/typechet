@@ -4,7 +4,7 @@ import { getUser } from "../User/User";
 import { Tables, TablesInsert } from "../../../db/database.types";
 import { Pair } from "./pattern.types";
 
-export { createPattern, deletePattern, getAllPatterns, getPattern, handlePagination };
+export { createPattern, deletePattern, getAllPatterns, getPattern };
 
 // rows are 0 indexed
 //  -index 0 should be color -> base
@@ -15,35 +15,6 @@ export { createPattern, deletePattern, getAllPatterns, getPattern, handlePaginat
 
 // find patterns by selecting owners and doing join with patterns,
 // where owners.user_id = supabase session id
-
-// pages are 1 indexed
-function handlePagination(
-    pageQuery: string | void, 
-    limitQuery: string | void = "10"
-): {
-    offset: number,
-    limit: number
-} {
-    const limit = Math.round(+limitQuery);
-
-    // default value on no page specified
-    if (!pageQuery) {
-        return {
-            offset: 0,
-            limit
-        };
-    }
-
-    const offset = limit * (Math.round(+pageQuery) - 1);
-
-    if (offset < 0)
-        throw new Error("Invalid page query");
-
-    if (limit <= 0 || limit > 50)
-        throw new Error("Invalid limit query");
-
-    return { offset, limit };
-}
 
 // page and limit safe as numbers because of handlePagination
 // returns all patterns that match session id

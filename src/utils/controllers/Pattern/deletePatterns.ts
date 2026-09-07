@@ -11,7 +11,7 @@ export async function deletePatterns(
     const result = validationResult(req);
 
     if (!result.isEmpty()) {
-        res.status(400).json({ message: "Something went wrong with deleting the pattern.", error: result.array() })
+        res.status(400).json({ message: "Something went wrong with deleting the pattern.", error: result.array() });
         return;
     }
 

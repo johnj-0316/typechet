@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 
-import { getAllPatterns, getPattern, handlePagination } from "./Pattern";
+import { getAllPatterns, getPattern } from "./Pattern";
 import { PatternRouteParams, PatternQueryParams } from "./pattern.types";
+import { handlePagination } from "../../tools/handlePagination";
 
 export async function getPatterns(
     req: Request<PatternRouteParams, unknown, unknown, PatternQueryParams>, 

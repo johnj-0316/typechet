@@ -9,6 +9,7 @@ import { join } from 'node:path';
 
 import { authRouter } from './utils/routers/auth';
 import { patternRouter } from './utils/routers/pattern';
+import { ownerRouter } from './utils/routers/owners';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -43,6 +44,8 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 
 app.use("/api/patterns", patternRouter);
+
+app.use("/api/owners", ownerRouter);
 
 /**
  * Handle all other requests by rendering the Angular application.
