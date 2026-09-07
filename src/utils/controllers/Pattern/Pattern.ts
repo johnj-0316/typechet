@@ -87,16 +87,16 @@ async function getPattern(
 
 // insert pattern
 async function createPattern(
+    title: string,
     rows: string[], 
     colors: Pair, 
     sizes: Pair, 
     materials: string[],
-    title?: string
 ): Promise<TablesInsert<'patterns'>> {
     const user = await getUser();
     const { data, error } = await supabase
     .from("patterns")
-    .insert({rows, colors, sizes, materials, author_id: user.id})
+    .insert({title, rows, colors, sizes, materials, author_id: user.id})
     .select()
     .single();
 

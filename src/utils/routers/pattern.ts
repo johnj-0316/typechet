@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { body, CustomValidator } from "express-validator";
+import { body, query, CustomValidator } from "express-validator";
 
 import { getPatterns } from "../controllers/Pattern/getPatterns";
 import { postPatterns } from "../controllers/Pattern/postPatterns";
@@ -9,11 +9,15 @@ import { rowValidator } from "../tools/rowValidator";
 
 export const patternRouter = Router();
 
-patternRouter.get(["/", "/:id"], getPatterns);
+patternRouter.get(["/", "/:id"], [
+    query("id").escape()
+], getPatterns);
 
 patternRouter.post("/", [
-    body("colors").custom(patternKeyValidator).withMessage("Not all keys are present in both colors and sizes"),
-    body("rows").custom(rowValidator).withMessage("Invalid stitches in pattern")
+    body("colors").escape().custom(patternKeyValidator).withMessage("Not all keys are present in both colors and sizes"),
+    body("rows").escape().custom(rowValidator).withMessage("Invalid stitches in pattern"),
+    body("materials").escape(),
+    body("title").escape()
 ], postPatterns);
 
 //patternRouter.put("/", [], putPatterns);

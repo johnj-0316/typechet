@@ -16,6 +16,7 @@ export const authRouter = Router();
 authRouter.get("/profile", findUser);
 
 authRouter.post("/register", [
+    body("username").escape(),
     body("email").trim().isEmail().withMessage("Not a valid email format."),
     body("password").isLength({ min: 8 }).withMessage("Password must be at least 8 characters.")
 ], registerUser);
