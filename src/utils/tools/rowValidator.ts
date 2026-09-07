@@ -18,7 +18,7 @@ export const rowValidator: CustomValidator = async (
         throw error;
 
     const cleanRows = rowCleaner(rows);
-    const stitchSet = new Set(data.map(value => value.shorthand));
+    const stitchSet = new Set(data.map(value => value.shorthand.trim().toLowerCase()));
 
     if (cleanRows.every(stitch => stitchSet.has(stitch)))
         return;
