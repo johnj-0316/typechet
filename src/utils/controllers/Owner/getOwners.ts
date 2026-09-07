@@ -13,7 +13,9 @@ export async function getOwners(
 
     try {
         const pq = handlePagination(page, limit);
-        const data = pattern_id ? await getOwnerByPattern(pattern_id, pq.offset, pq.limit) : await getAllOwners(pq.offset, pq.limit);
+        const data = pattern_id ? 
+            await getOwnerByPattern(pattern_id, pq.offset, pq.limit) 
+            : await getAllOwners(pq.offset, pq.limit);
 
         if (!data.length)
             res.sendStatus(404);

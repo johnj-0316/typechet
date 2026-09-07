@@ -58,12 +58,18 @@ async function postOwner(
     pattern_id: string,
     user_id: string,
     message?: string | null
- ) {
+ ): Promise<TablesInsert<"owners">> {
     const { data, error } = await supabase
     .from("owners")
     .insert({pattern_id: +pattern_id, user_id, message: message})
-
+    .select()
+    .single();
 
     if (error)
         throw error;
+
+    return data;
 }
+
+async function editOwner(
+) {}
