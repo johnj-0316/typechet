@@ -42,7 +42,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRouter);
 
-app.use("/api/pattern", patternRouter);
+app.use("/api/patterns", patternRouter);
 
 /**
  * Handle all other requests by rendering the Angular application.
