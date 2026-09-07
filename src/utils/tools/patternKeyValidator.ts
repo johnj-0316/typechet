@@ -8,8 +8,8 @@ export const patternKeyValidator: CustomValidator = (
     colors: Pair, 
     { req }: Meta
 ) => {
-    const colorKeys = Object.keys(colors).map(key => key.toLowerCase());
-    const sizeKeys = Object.keys(req.body.sizes).map(key => key.toLowerCase());
+    const colorKeys = Object.keys(colors).map(key => key.trim().toLowerCase());
+    const sizeKeys = Object.keys(req.body.sizes).map(key => key.trim().toLowerCase());
 
     if (colorKeys.length !== sizeKeys.length)
         return false;
