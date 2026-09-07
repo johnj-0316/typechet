@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { body, query, CustomValidator } from "express-validator";
+import { body, query, CustomValidator, param } from "express-validator";
 
 import { getPatterns } from "../controllers/Pattern/getPatterns";
 import { postPatterns } from "../controllers/Pattern/postPatterns";
 import { putPatterns } from "../controllers/Pattern/putPatterns";
+import { deletePatterns } from "../controllers/Pattern/deletePatterns";
 import { patternKeyValidator } from "../tools/patternKeyValidator";
 import { rowValidator } from "../tools/rowValidator";
 
@@ -21,3 +22,7 @@ patternRouter.post("/", [
 ], postPatterns);
 
 //patternRouter.put("/", [], putPatterns);
+
+patternRouter.delete("/:id", [
+    param("id").escape().isNumeric().withMessage("id must be a whole number")
+], deletePatterns);

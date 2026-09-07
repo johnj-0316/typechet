@@ -10,7 +10,7 @@ export async function postPatterns(
     const result = validationResult(req);
 
     if (!result.isEmpty()) {
-        res.status(400).json({ message: "Something went wrong with saving the pattern", err: result.array() });
+        res.status(400).json({ message: "Something went wrong with saving the pattern.", err: result.array() });
         return;
     }
 
@@ -22,7 +22,7 @@ export async function postPatterns(
     }
     catch (err: unknown) {
         if (err instanceof Error) {
-            res.status(500).json({ message: "Something went wrong with saving the pattern", err: err.message });
+            res.status(500).json({ message: "Something went wrong with saving the pattern.", err: err.message });
         } 
         else {
             res.status(500).json({ message: "An unexpected error has occured.", err });

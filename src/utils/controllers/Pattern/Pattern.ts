@@ -4,7 +4,7 @@ import { getUser } from "../User/User";
 import { Tables, TablesInsert } from "../../../db/database.types";
 import { Pair } from "./pattern.types";
 
-export { createPattern, getAllPatterns, getPattern, handlePagination };
+export { createPattern, deletePattern, getAllPatterns, getPattern, handlePagination };
 
 // rows are 0 indexed
 //  -index 0 should be color -> base
@@ -104,5 +104,19 @@ async function createPattern(
         throw error;
 
     return data;
+}
+
+async function deletePattern(
+    id: string
+): Promise<void> {
+    const user = await getUser();
+    const { data, error } = await supabase
+    .from("patterns")
+    .delete()
+    .eq("author_id", user.id)
+    .eq("id", +id);
+
+    if (error)
+        throw error;
 }
 

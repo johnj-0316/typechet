@@ -10,7 +10,7 @@ export async function putPatterns(
     const result = validationResult(req);
 
     if (!result.isEmpty()) {
-        res.status(400).json({ message: "Something went wrong with editing the pattern", err: result.array() });
+        res.status(400).json({ message: "Something went wrong with editing the pattern.", err: result.array() });
         return;
     }
 }

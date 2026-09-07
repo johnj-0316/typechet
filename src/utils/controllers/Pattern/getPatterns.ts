@@ -18,7 +18,7 @@ export async function getPatterns(
     }
     catch (err: unknown) {
         if (err instanceof Error) {
-            res.status(500).json({ message: "Something went wrong with getting your patterns", err: err.message });
+            res.status(500).json({ message: "Something went wrong with getting your patterns.", err: err.message });
         } 
         else {
             res.status(500).json({ message: "An unexpected error has occured.", err });
