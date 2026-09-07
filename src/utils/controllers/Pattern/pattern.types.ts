@@ -1,13 +1,17 @@
 type Pair = Record<string, string>;
 
-type PatternRouteParams = {
+type PatternGetRouteParams = {
     id: string | void
 };
 
-type PatternQueryParams = {
+type PatternDeleteRouteParams = {
+    id: string
+};
+
+type PatternGetQueryParams = {
     page: string | void,
     limit: string | void
 };
 
 
-export type { Pair, PatternRouteParams, PatternQueryParams };
+export type { Pair, PatternGetRouteParams, PatternGetQueryParams, PatternDeleteRouteParams };

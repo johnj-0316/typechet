@@ -1,9 +1,9 @@
 import supabase from "../../../db/supabase_client";
-import { Tables } from "../../../db/database.types";
+import { Tables, TablesInsert } from "../../../db/database.types";
 
 import { getUser } from "../User/User";
 
-export { getAllOwners, getOwnerByPattern };
+export { getAllOwners, getOwnerByPattern, postOwner };
 
 async function getAllOwners(
     offset: number,
@@ -30,7 +30,7 @@ async function getAllOwners(
 }
 
 async function getOwnerByPattern(
-    id: string,
+    pattern_id: string,
     offset: number,
     limit: number
 ): Promise<Pick<Tables<"owners">, "user_id">[]> {
@@ -44,7 +44,7 @@ async function getOwnerByPattern(
         `,
     )
     .eq('patterns.author_id', user.id)
-    .eq('patterns.id', +id)
+    .eq('patterns.id', +pattern_id)
     .limit(limit)
     .range(offset, offset + limit);
 
@@ -54,6 +54,16 @@ async function getOwnerByPattern(
     return data;
 }
 
-async function postOwner() {
-    
+async function postOwner(
+    pattern_id: string,
+    user_id: string,
+    message?: string | null
+ ) {
+    const { data, error } = await supabase
+    .from("owners")
+    .insert({pattern_id: +pattern_id, user_id, message: message})
+
+
+    if (error)
+        throw error;
 }

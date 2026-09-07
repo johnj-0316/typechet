@@ -8,7 +8,7 @@ import express from 'express';
 import { join } from 'node:path';
 
 import { authRouter } from './utils/routers/auth';
-import { patternRouter } from './utils/routers/pattern';
+import { patternRouter } from './utils/routers/patterns';
 import { ownerRouter } from './utils/routers/owners';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');

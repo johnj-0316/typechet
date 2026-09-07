@@ -1,12 +1,13 @@
 import { Router } from "express";
 
 import { getOwners } from "../controllers/Owner/getOwners";
+import { postOwners } from "../controllers/Owner/postOwners";
 
 export const ownerRouter = Router();
 
-ownerRouter.get(["/", "/:id"], getOwners);
+ownerRouter.get(["/", "/:pattern_id"], getOwners);
 
-//ownerRouter.post
+ownerRouter.post("/", postOwners);
 
 //ownerRouter.put
 

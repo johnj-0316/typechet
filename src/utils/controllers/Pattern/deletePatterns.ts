@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
-import { PatternRouteParams } from "./pattern.types";
+import { PatternDeleteRouteParams } from "./pattern.types";
 import { deletePattern } from "./Pattern";
 
 export async function deletePatterns(
-    req: Request<PatternRouteParams>, 
+    req: Request<PatternDeleteRouteParams>, 
     res: Response
 ): Promise<void> {
     const result = validationResult(req);
@@ -18,7 +18,7 @@ export async function deletePatterns(
     const { id } = req.params;
 
     try {
-        if (id === undefined || id === null) {
+        if (id === "") {
             res.status(400).json({ message: "Something went wrong with deleting the pattern.", error: "id field is required." });
             return;
         }
