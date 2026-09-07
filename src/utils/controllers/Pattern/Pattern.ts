@@ -2,10 +2,9 @@ import supabase from "../../../db/supabase_client";
 
 import { getUser } from "../User/User";
 import { Tables, TablesInsert } from "../../../db/database.types";
+import { Pair } from "./pattern.types";
 
 export { createPattern, getAllPatterns, getPattern, handlePagination };
-
-type Pair = Record<string, string>;
 
 // rows are 0 indexed
 //  -index 0 should be color -> base
@@ -106,3 +105,4 @@ async function createPattern(
 
     return data;
 }
+

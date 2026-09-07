@@ -1,10 +1,15 @@
+import { Meta } from "express-validator";
+import { CustomValidator } from "express-validator";
+
 import { Pair } from "../controllers/Pattern/pattern.types";
-import { Request } from "express";
 
 // checks if colors and sizes obj from body have the same keys
-// otherwise return false (error also works)
-export default function patternKeyMatch(value: Pair, { req }: { req: Request }) {
-    const colorKeys = Object.keys(value);
+// CustomValidator doesnt like param types apparently
+export const patternKeyValidator: CustomValidator = (
+    colors: Pair, 
+    { req }: Meta
+) => {
+    const colorKeys = Object.keys(colors);
     const sizeKeys = Object.keys(req.body.sizes);
 
     if (colorKeys.length !== sizeKeys.length)

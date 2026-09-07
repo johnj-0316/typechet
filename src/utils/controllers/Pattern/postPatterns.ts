@@ -1,11 +1,19 @@
 import { Request, Response } from "express";
+import { validationResult } from "express-validator";
 
 import { createPattern } from "./Pattern";
 
-export async function postPattern(
+export async function postPatterns(
     req: Request, 
     res: Response
 ): Promise<void> {
+    const result = validationResult(req);
+
+    if (!result.isEmpty()) {
+        res.status(400).json({ message: "Something went wrong with saving the pattern", err: result.array() });
+        return;
+    }
+
     const { rows, colors, sizes, materials } = req.body;
 
     try {

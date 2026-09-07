@@ -104,6 +104,44 @@ export type Database = {
           },
         ]
       }
+      stitches: {
+        Row: {
+          author_id: string | null
+          created_at: string
+          custom: boolean
+          id: number
+          name: string
+          origin: string | null
+          shorthand: string
+        }
+        Insert: {
+          author_id?: string | null
+          created_at?: string
+          custom?: boolean
+          id?: number
+          name?: string
+          origin?: string | null
+          shorthand?: string
+        }
+        Update: {
+          author_id?: string | null
+          created_at?: string
+          custom?: boolean
+          id?: number
+          name?: string
+          origin?: string | null
+          shorthand?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stitches_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "user_profile"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       url: {
         Row: {
           creator: string | null
