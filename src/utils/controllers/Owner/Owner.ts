@@ -1,9 +1,10 @@
 import supabase from "../../../db/supabase_client";
-import { Tables, TablesInsert } from "../../../db/database.types";
+import { Tables, TablesInsert, TablesUpdate } from "../../../db/database.types";
 
 import { getUser } from "../User/User";
+import { handleCompositeEndpoint } from "../../tools/handleCompositeEndpoint";
 
-export { getAllOwners, getOwnerByPattern, postOwner };
+export { getAllOwners, getOwnerByPattern, postOwner, editOwner };
 
 async function getAllOwners(
     offset: number,
@@ -72,4 +73,28 @@ async function postOwner(
 }
 
 async function editOwner(
-) {}
+    compositeEndpoint: string,
+    pattern_id: string,
+    user_id: string,
+    message?: string | null
+): Promise<TablesUpdate<"owners">> {
+    const user = await getUser();
+    const [userId, patternId] = handleCompositeEndpoint(compositeEndpoint);
+    const { data, error } = await supabase
+    .from("owners")
+    .update({
+        user_id,
+        pattern_id: +pattern_id,
+        message
+    })
+    .eq("user_id", userId)
+    .eq("pattern_id", +patternId)
+    .neq("user_id", user.id)
+    .select()
+    .single();
+
+    if (error)
+        throw error;
+
+    return data;
+}

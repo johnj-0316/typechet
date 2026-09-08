@@ -13,4 +13,10 @@ type OwnerPostBodyParams = {
     message?: string
 };
 
-export type { OwnerGetRouteParams, OwnerGetQueryParams, OwnerPostBodyParams };
+type OwnerPutRouteParams = {
+    user_pattern_id: string
+};
+
+type OwnerPutBodyParams = OwnerPostBodyParams;
+
+export type { OwnerGetRouteParams, OwnerGetQueryParams, OwnerPostBodyParams, OwnerPutRouteParams, OwnerPutBodyParams };
