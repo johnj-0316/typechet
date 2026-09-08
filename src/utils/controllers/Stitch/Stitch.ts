@@ -88,7 +88,9 @@ async function deleteStitch(
     .from("stitches")
     .delete()
     .eq("author_id", user.id)
-    .eq("id", +id);
+    .eq("id", +id)
+    .select()
+    .single();
 
     if (error)
         throw error;
