@@ -19,4 +19,13 @@ type OwnerPutRouteParams = {
 
 type OwnerPutBodyParams = OwnerPostBodyParams;
 
-export type { OwnerGetRouteParams, OwnerGetQueryParams, OwnerPostBodyParams, OwnerPutRouteParams, OwnerPutBodyParams };
+type OwnerDeleteRouteParams = OwnerPutRouteParams;
+
+export type { 
+    OwnerGetRouteParams, 
+    OwnerGetQueryParams, 
+    OwnerPostBodyParams, 
+    OwnerPutRouteParams, 
+    OwnerPutBodyParams, 
+    OwnerDeleteRouteParams 
+};

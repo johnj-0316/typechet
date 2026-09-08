@@ -77,6 +77,7 @@ async function createPattern(
     return data;
 }
 
+// delete pattern that belongs to user
 async function deletePattern(
     id: string
 ): Promise<void> {
