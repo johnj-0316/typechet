@@ -14,6 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
+      inventory: {
+        Row: {
+          amount: number
+          author_id: string
+          category: string
+          color: string | null
+          cost: number | null
+          created_at: string
+          id: number
+          item: string
+          url_id: number | null
+        }
+        Insert: {
+          amount: number
+          author_id?: string
+          category?: string
+          color?: string | null
+          cost?: number | null
+          created_at?: string
+          id?: number
+          item: string
+          url_id?: number | null
+        }
+        Update: {
+          amount?: number
+          author_id?: string
+          category?: string
+          color?: string | null
+          cost?: number | null
+          created_at?: string
+          id?: number
+          item?: string
+          url_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "user_profile"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_url_id_fkey"
+            columns: ["url_id"]
+            isOneToOne: false
+            referencedRelation: "url"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       owners: {
         Row: {
           created_at: string
@@ -47,6 +98,45 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "user_profile"
             referencedColumns: ["id"]
+          },
+        ]
+      }
+      owners_trackers: {
+        Row: {
+          created_at: string
+          id: number
+          pattern_id: number
+          tracker_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id: number
+          pattern_id: number
+          tracker_id?: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          pattern_id?: number
+          tracker_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "owners_trackers_tracker_id_fkey"
+            columns: ["tracker_id"]
+            isOneToOne: false
+            referencedRelation: "trackers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "owners_trackers_user_id_pattern_id_fkey"
+            columns: ["user_id", "pattern_id"]
+            isOneToOne: false
+            referencedRelation: "owners"
+            referencedColumns: ["user_id", "pattern_id"]
           },
         ]
       }
@@ -138,6 +228,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      trackers: {
+        Row: {
+          created_at: string
+          current_index: number | null
+          current_row: string | null
+          current_stitch: string | null
+          id: string
+          title: string | null
+        }
+        Insert: {
+          created_at?: string
+          current_index?: number | null
+          current_row?: string | null
+          current_stitch?: string | null
+          id?: string
+          title?: string | null
+        }
+        Update: {
+          created_at?: string
+          current_index?: number | null
+          current_row?: string | null
+          current_stitch?: string | null
+          id?: string
+          title?: string | null
+        }
+        Relationships: []
       }
       url: {
         Row: {
