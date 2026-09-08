@@ -21,7 +21,7 @@ export function handlePagination(
     if (offset < 0)
         throw new Error("Invalid page query");
 
-    if (limit <= 0 || limit > 50)
+    if (limit <= 0 || limit > 100)
         throw new Error("Invalid limit query");
 
     return { offset, limit };

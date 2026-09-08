@@ -1,22 +1,13 @@
-import supabase from "../../db/supabase_client";
 import { CustomValidator } from "express-validator";
 
-import { getUser } from "../controllers/User/User";
+import { getUserStitches } from "../controllers/Stitch/Stitch";
 
 // async validators do not count false returns as reject
 // must throw error to invalidate input
 export const rowValidator: CustomValidator = async (
     rows: string[]
 ) => {
-    const user = await getUser();
-    const { data, error } = await supabase
-    .from('stitches')
-    .select('shorthand')
-    .or(`author_id.eq.${user.id},custom.is.false`);
-
-    if (error)
-        throw error;
-
+    const data = await getUserStitches(0, 100);
     const cleanRows = rowCleaner(rows);
     const stitchSet = new Set(data.map(value => value.shorthand.trim().toLowerCase()));
 

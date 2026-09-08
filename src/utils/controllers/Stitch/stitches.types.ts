@@ -21,7 +21,6 @@ type StitchesPutBodyParams = StitchesPostBodyParams;
 
 type StitchesDeleteRouteParams = StitchesPutRouteParams;
 
-
 export type {
     StitchesGetRouteParams,
     StitchesGetQueryParams,
