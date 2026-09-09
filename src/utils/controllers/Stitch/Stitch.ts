@@ -6,6 +6,7 @@ import { getUser } from "../User/User";
 
 export { getUserStitches, getUserStitch, createStitch, editStitch, deleteStitch };
 
+// get all stitches paginated
 async function getUserStitches(
     offset: number,
     limit: number
@@ -24,6 +25,7 @@ async function getUserStitches(
     return data;
 }
 
+// get all stitches by id
 async function getUserStitch(
     id: string
 ): Promise<Tables<"stitches">> {
@@ -49,7 +51,12 @@ async function createStitch(
     const user = await getUser();
     const { data, error } = await supabase
     .from("stitches")
-    .insert({ shorthand, name, origin, author_id: user.id })
+    .insert({ 
+        shorthand, 
+        name, 
+        origin, 
+        author_id: user.id 
+    })
     .select()
     .single();
 
@@ -68,7 +75,11 @@ async function editStitch(
     const user = await getUser();
     const { data, error } = await supabase
     .from("stitches")
-    .update({ shorthand, name, origin, author_id: user.id })
+    .update({ 
+        shorthand, 
+        name, 
+        origin
+    })
     .eq("author_id", user.id)
     .eq("id", +id)
     .select()

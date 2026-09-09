@@ -69,7 +69,11 @@ async function postOwner(
  ): Promise<TablesInsert<"owners">> {
     const { data, error } = await supabase
     .from("owners")
-    .insert({pattern_id: +pattern_id, user_id, message: message})
+    .insert({
+        pattern_id: +pattern_id, 
+        user_id, 
+        message: message
+    })
     .select()
     .single();
 

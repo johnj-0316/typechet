@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
-import { OwnerPutRouteParams, OwnerPutBodyParams } from "./owners.types";
 import { editOwner } from "./Owner";
+import { OwnerPutRouteParams, OwnerPutBodyParams } from "./owners.types";
 
 export async function putOwners(
     req: Request<OwnerPutRouteParams, unknown, OwnerPutBodyParams>, 

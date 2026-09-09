@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
-import { OwnerDeleteRouteParams } from "./owners.types";
 import { removeOwner } from "./Owner";
+import { OwnerDeleteRouteParams } from "./owners.types";
 
 export async function deleteOwners(
     req: Request<OwnerDeleteRouteParams>, 
