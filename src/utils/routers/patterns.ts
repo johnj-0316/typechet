@@ -26,5 +26,5 @@ patternRouter.post("/", [
 //patternRouter.put("/", [], putPatterns);
 
 patternRouter.delete("/:id", [
-    param("id").escape().isNumeric().withMessage("numeric id is required")
+    param("id").escape().isNumeric().notEmpty().withMessage("numeric id is required")
 ], deletePatterns);

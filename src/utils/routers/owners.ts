@@ -23,7 +23,7 @@ ownerRouter.post("/", [
 ], postOwners);
 
 ownerRouter.put("/:user_pattern_id", [
-    param("user_pattern_id").escape().custom(compositeEndpointValidator).withMessage("not a valid route parameter"),
+    param("user_pattern_id").escape().notEmpty().custom(compositeEndpointValidator).withMessage("not a valid route parameter"),
     body("message").optional().escape(),
     body("pattern_id").escape().notEmpty().withMessage("pattern id is required")
     .isNumeric().withMessage("pattern id must be a number"),
@@ -31,6 +31,6 @@ ownerRouter.put("/:user_pattern_id", [
 ], putOwners);
 
 ownerRouter.delete("/:user_pattern_id", [
-    param("user_pattern_id").escape().custom(compositeEndpointValidator).withMessage("not a valid route parameter")
+    param("user_pattern_id").escape().notEmpty().custom(compositeEndpointValidator).withMessage("not a valid route parameter")
 ],deleteOwners);
 

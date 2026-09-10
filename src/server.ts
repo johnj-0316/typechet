@@ -19,6 +19,9 @@ const browserDistFolder = join(import.meta.dirname, '../browser');
 const app = express();
 const angularApp = new AngularNodeAppEngine();
 
+const VERSION = 1;
+const api = (endpoint: string) => `/api/v${VERSION}/${endpoint}`;
+
 /**
  * Example Express Rest API endpoints can be defined here.
  * Uncomment and define endpoints as necessary.
@@ -44,17 +47,17 @@ app.use(
 
 app.use(express.json());
 
-app.use("/api/auth", authRouter);
+app.use(api("auth"), authRouter);
 
-app.use("/api/patterns", patternRouter);
+app.use(api("patterns"), patternRouter);
 
-app.use("/api/owners", ownerRouter);
+app.use(api("owners"), ownerRouter);
 
-app.use("/api/stitches", stitchRouter);
+app.use(api("stitches"), stitchRouter);
 
-app.use("/api/inventories", inventoryRouter);
+app.use(api("inventories"), inventoryRouter);
 
-app.use("/api/trackers", trackerRouter);
+app.use(api("trackers"), trackerRouter);
 
 /**
  * Handle all other requests by rendering the Angular application.
