@@ -1,16 +1,16 @@
 type OwnerGetRouteParams = {
-    pattern_id: string | void
+    pattern_id?: string | void
 };
 
 type OwnerGetQueryParams = {
-    page: string | void,
-    limit: string | void
+    page?: string,
+    limit?: string
 };
 
 type OwnerPostBodyParams = {
     pattern_id: string,
     user_id: string,
-    message?: string
+    message?: string | void
 };
 
 type OwnerPutRouteParams = {

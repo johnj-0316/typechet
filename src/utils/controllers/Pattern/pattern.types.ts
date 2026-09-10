@@ -1,7 +1,7 @@
 type Pair = Record<string, string>;
 
 type PatternGetRouteParams = {
-    id: string | void
+    id?: string | void
 };
 
 type PatternPostBodyParams = {
@@ -17,8 +17,8 @@ type PatternDeleteRouteParams = {
 };
 
 type PatternGetQueryParams = {
-    page: string | void,
-    limit: string | void
+    page?: string | void,
+    limit?: string | void
 };
 
 

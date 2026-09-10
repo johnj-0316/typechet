@@ -1,18 +1,19 @@
 type InventoryGetRouteParams = {
-    id: string | void
+    id?: string | void
 };
 
 type InventoryGetQueryParams = {
-    page: string | void,
-    limit: string | void
+    page?: string | void,
+    limit?: string | void
 };
 
 type InventoryPostBodyParams = {
     item: string,
-    amount: string | void,
-    category: string | void,
-    color: string | null,
-    cost: string | null
+    amount?: string | void,
+    amount_unit?: string | void,
+    category?: string | void,
+    color?: string | null,
+    cost?: string | null
 };
 
 type InventoryPutRouteParams = {
