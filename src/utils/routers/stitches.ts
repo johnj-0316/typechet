@@ -18,7 +18,7 @@ stitchRouter.get(["/", "/:id"], [
 stitchRouter.post("/", [
     body("shorthand").escape().trim().notEmpty().withMessage("shorthand is required"),
     body("name").escape().trim().notEmpty().withMessage("name is required"),
-    body("origin").escape().trim().notEmpty().withMessage("origin is required")
+    body("origin").optional().escape().trim()
     .custom(countryCodeValidator).withMessage("Invalid origin country code")
 ], postStitches);
 
@@ -26,7 +26,7 @@ stitchRouter.put("/:id", [
     param("id").escape().isNumeric().notEmpty().withMessage("numeric id is required"),
     body("shorthand").escape().trim().notEmpty().withMessage("shorthand is required"),
     body("name").escape().trim().notEmpty().withMessage("name is required"),
-    body("origin").escape().trim().notEmpty().withMessage("origin is required")
+    body("origin").optional().escape().trim()
     .custom(countryCodeValidator).withMessage("Invalid origin country code")
 ], putStitches);
 

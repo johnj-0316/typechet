@@ -17,10 +17,10 @@ patternRouter.get(["/", "/:id"], [
 ], getPatterns);
 
 patternRouter.post("/", [
-    body("title").escape().isLength({ min: 3, max: 75 }).withMessage("title must be between 3 to 75 characters."),
-    body("colors").escape().custom(patternKeyValidator).withMessage("not all keys are present in both colors and sizes"),
-    body("rows").escape().custom(rowValidator).withMessage("invalid stitches in pattern"),
-    body("materials").escape()
+    body("title").optional().escape().trim().isLength({ min: 3, max: 75 }).withMessage("title must be between 3 to 75 characters."),
+    body("colors").custom(patternKeyValidator).withMessage("not all keys are present in both colors and sizes"),
+    body("rows").escape().trim().custom(rowValidator).withMessage("invalid stitches in pattern"),
+    body("materials").escape().trim()
 ], postPatterns);
 
 //patternRouter.put("/", [], putPatterns);

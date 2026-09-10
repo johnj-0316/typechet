@@ -68,7 +68,7 @@ async function createPattern(
     const { data, error } = await supabase
     .from("patterns")
     .insert({
-        title, 
+        title: title || "Untitled Pattern", 
         rows, 
         colors, 
         sizes, 

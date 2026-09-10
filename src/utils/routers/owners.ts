@@ -16,18 +16,20 @@ ownerRouter.get(["/", "/:pattern_id"], [
 ], getOwners);
 
 ownerRouter.post("/", [
-    body("message").optional().escape(),
-    body("pattern_id").escape().notEmpty().withMessage("pattern id is required")
+    body("message").optional().escape().trim(),
+    body("pattern_id").escape().trim().notEmpty().withMessage("pattern id is required")
     .isNumeric().withMessage("pattern id must be a number"),
-    body("user_id").escape().notEmpty().withMessage("user id is required"),
+    body("user_id").escape().trim().notEmpty().withMessage("user uuid is required")
+    .isUUID().withMessage("valid user uuid is required")
 ], postOwners);
 
 ownerRouter.put("/:user_pattern_id", [
     param("user_pattern_id").escape().notEmpty().custom(compositeEndpointValidator).withMessage("not a valid route parameter"),
-    body("message").optional().escape(),
-    body("pattern_id").escape().notEmpty().withMessage("pattern id is required")
+    body("message").optional().escape().trim(),
+    body("pattern_id").escape().trim().notEmpty().withMessage("pattern id is required")
     .isNumeric().withMessage("pattern id must be a number"),
-    body("user_id").escape().notEmpty().withMessage("user id is required"),
+    body("user_id").escape().trim().notEmpty().withMessage("uuid id is required")
+    .isUUID().withMessage("valid user uuid is required")
 ], putOwners);
 
 ownerRouter.delete("/:user_pattern_id", [

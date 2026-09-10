@@ -9,17 +9,21 @@ import { deleteTrackers } from "../controllers/Tracker/deleteTrackers";
 export const trackerRouter = Router();
 
 trackerRouter.get(["/", "/:id"], [
-    param("id").optional().escape().isUUID().notEmpty().withMessage("uuid must be valid"),
+    param("id").optional().escape().isUUID().withMessage("uuid must be valid"),
     query("offset").optional().escape().isNumeric().withMessage("offset must be a number"),
     query("limit").optional().escape().isNumeric().withMessage("limit must be a number")
 ], getTrackers);
 
-trackerRouter.post("/", [], postTrackers);
+trackerRouter.post("/", [
+    
+], postTrackers);
 
 trackerRouter.put("/:id", [
-    param("id").escape().isUUID().notEmpty().withMessage("valid uuid is required")
+    param("id").escape().notEmpty().withMessage("uuid is required")
+    .isUUID().withMessage("valid uuid is required")
 ], putTrackers);
 
 trackerRouter.delete("/:id", [
-    param("id").escape().isUUID().notEmpty().withMessage("valid uuid is required")
+    param("id").escape().notEmpty().withMessage("uuid is required")
+    .isUUID().withMessage("valid uuid is required")
 ], deleteTrackers);
