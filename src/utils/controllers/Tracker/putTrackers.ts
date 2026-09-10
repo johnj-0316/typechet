@@ -16,10 +16,10 @@ export async function putTrackers(
     }
 
     const { id } = req.params;
-    const { current_row, current_stitch, current_index, title } = req.body;
+    const { title, current_row, current_stitch, current_index, is_finished } = req.body;
 
     try {
-        const data = await editTracker(id, title, current_row, current_stitch, current_index);
+        const data = await editTracker(id, title, current_row, current_stitch, current_index, is_finished);
         res.status(200).json({ message: "Successfully edited the tracker!", data });
     }
     catch (err: unknown) {

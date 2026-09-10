@@ -15,10 +15,10 @@ export async function postTrackers(
         return;
     }
 
-    const { pattern_id, current_row, current_stitch, current_index, title } = req.body;
+    const { pattern_id, title, current_row, current_stitch, current_index, is_finished } = req.body;
 
     try {
-        const data = await createTracker(pattern_id, title, current_row, current_stitch, current_index);
+        const data = await createTracker(pattern_id, title, current_row, current_stitch, current_index, is_finished);
         res.status(201).json({ message: "Tracker successfully created!", data });
     }
     catch (err: unknown) {

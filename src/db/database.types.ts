@@ -17,6 +17,7 @@ export type Database = {
       inventory: {
         Row: {
           amount: number
+          amount_unit: string
           author_id: string
           category: string
           color: string | null
@@ -28,6 +29,7 @@ export type Database = {
         }
         Insert: {
           amount: number
+          amount_unit?: string
           author_id?: string
           category?: string
           color?: string | null
@@ -39,6 +41,7 @@ export type Database = {
         }
         Update: {
           amount?: number
+          amount_unit?: string
           author_id?: string
           category?: string
           color?: string | null
@@ -107,6 +110,7 @@ export type Database = {
           colors: Json
           created_at: string
           id: number
+          is_editing: boolean
           materials: Json
           rows: Json
           sizes: Json
@@ -118,6 +122,7 @@ export type Database = {
           colors: Json
           created_at?: string
           id?: number
+          is_editing?: boolean
           materials: Json
           rows: Json
           sizes: Json
@@ -129,6 +134,7 @@ export type Database = {
           colors?: Json
           created_at?: string
           id?: number
+          is_editing?: boolean
           materials?: Json
           rows?: Json
           sizes?: Json
@@ -197,6 +203,7 @@ export type Database = {
           current_row: number
           current_stitch: string | null
           id: string
+          is_finished: boolean
           pattern_id: number
           title: string | null
           user_id: string
@@ -207,6 +214,7 @@ export type Database = {
           current_row?: number
           current_stitch?: string | null
           id?: string
+          is_finished?: boolean
           pattern_id: number
           title?: string | null
           user_id?: string
@@ -217,6 +225,7 @@ export type Database = {
           current_row?: number
           current_stitch?: string | null
           id?: string
+          is_finished?: boolean
           pattern_id?: number
           title?: string | null
           user_id?: string

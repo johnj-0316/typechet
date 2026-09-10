@@ -12,7 +12,8 @@ type TrackersPostBodyParams = {
     title: string,
     current_row: string,
     current_stitch: string,
-    current_index: string
+    current_index: string,
+    is_finished: string
 };
 
 type TrackersPutRouteParams = {

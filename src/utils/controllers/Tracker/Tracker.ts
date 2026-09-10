@@ -51,7 +51,8 @@ async function createTracker(
     title: string,
     current_row: string,
     current_stitch: string,
-    current_index: string
+    current_index: string,
+    is_finished: string
 ): Promise<TablesInsert<"trackers">> {
     const user = await getUser();
     const { data, error } = await supabase
@@ -62,7 +63,8 @@ async function createTracker(
         current_index: +current_index || 0,
         title: title || "My Tracker",
         user_id: user.id,
-        pattern_id: +pattern_id
+        pattern_id: +pattern_id,
+        is_finished: Boolean(is_finished)
     })
     .select()
     .single();
@@ -80,7 +82,8 @@ async function editTracker(
     title: string,
     current_row: string,
     current_stitch: string,
-    current_index: string
+    current_index: string,
+    is_finished: string
 ): Promise<TablesUpdate<"trackers">> {
     const user = await getUser();
     const { data, error } = await supabase
@@ -89,7 +92,8 @@ async function editTracker(
         current_stitch,
         current_row: +current_row || 0, 
         current_index: +current_index || 0,
-        title: title || "My Tracker"
+        title: title || "My Tracker",
+        is_finished: Boolean(is_finished)
     })
     .eq("user_id", user.id)
     .eq("id", id)
