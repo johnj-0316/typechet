@@ -18,7 +18,7 @@ export async function postOwners(
     const { pattern_id, user_id, message } = req.body;
 
     try {
-        const data = await postOwner(pattern_id, user_id, message || null);
+        const data = await postOwner(pattern_id, user_id, message);
         res.status(200).json({ message: "Owner succesfully added!", data });
     }
     catch (err: unknown) {

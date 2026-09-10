@@ -18,7 +18,7 @@ export async function postStitches(
     const { shorthand, name, origin } = req.body;
 
     try {
-        const data = await createStitch(shorthand, name, origin || "US");
+        const data = await createStitch(shorthand, name, origin);
         res.status(200).json({ message: "Stitch succesfully created!", data });
     }
     catch (err: unknown) {

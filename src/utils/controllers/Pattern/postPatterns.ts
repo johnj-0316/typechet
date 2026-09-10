@@ -2,9 +2,10 @@ import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
 import { createPattern } from "./Pattern";
+import { PatternPostBodyParams } from "./pattern.types";
 
 export async function postPatterns(
-    req: Request, 
+    req: Request<any, unknown, PatternPostBodyParams>, 
     res: Response
 ): Promise<void> {
     const result = validationResult(req);

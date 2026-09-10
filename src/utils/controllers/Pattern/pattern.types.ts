@@ -4,6 +4,14 @@ type PatternGetRouteParams = {
     id: string | void
 };
 
+type PatternPostBodyParams = {
+    title: string,
+    rows: string[], 
+    colors: Pair, 
+    sizes: Pair, 
+    materials: string[]
+};
+
 type PatternDeleteRouteParams = {
     id: string
 };
@@ -14,4 +22,10 @@ type PatternGetQueryParams = {
 };
 
 
-export type { Pair, PatternGetRouteParams, PatternGetQueryParams, PatternDeleteRouteParams };
+export type { 
+    Pair, 
+    PatternGetRouteParams, 
+    PatternGetQueryParams, 
+    PatternPostBodyParams,
+    PatternDeleteRouteParams 
+};

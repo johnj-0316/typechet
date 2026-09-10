@@ -72,7 +72,7 @@ async function postOwner(
     .insert({
         pattern_id: +pattern_id, 
         user_id, 
-        message: message
+        message: message || null
     })
     .select()
     .single();
@@ -101,7 +101,7 @@ async function editOwner(
     .update({
         user_id,
         pattern_id: +pattern_id,
-        message
+        message: message || null
     })
     .eq("user_id", userId)
     .eq("pattern_id", +patternId)
@@ -129,7 +129,6 @@ async function removeOwner(
     .neq("user_id", user.id)
     .select()
     .single();
-    // use select and single for now until we have a validator check
 
     if (error)
         throw error;

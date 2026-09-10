@@ -18,8 +18,6 @@ export async function postInventories(
     const { item, amount, category, color, cost } = req.body;
 
     try {
-        //res.status(200).json({item,amount,category,color,cost});
-        //return;
         const data = await createItem(item, amount, category, color, cost);
         res.status(200).json({ message: "Item succesfully added!", data });
     }

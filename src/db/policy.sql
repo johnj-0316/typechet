@@ -1,3 +1,3 @@
- AND (EXISTS ( SELECT 1
-   FROM user_profile
-  WHERE (user_profile.id = owners.user_id)))
+  ((auth.uid() = user_id) AND (EXISTS ( SELECT 1
+   FROM owners
+  WHERE ((owners.user_id = trackers.user_id) AND (owners.pattern_id = trackers.pattern_id)))))

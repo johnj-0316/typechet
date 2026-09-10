@@ -19,7 +19,7 @@ export async function putStitches(
     const { shorthand, name, origin } = req.body;
 
     try {
-        const data = await editStitch(id, shorthand, name, origin || "US");
+        const data = await editStitch(id, shorthand, name, origin);
         res.status(200).json({ message: "Successfully edited stitch!", data });
     }
     catch (err: unknown) {

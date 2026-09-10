@@ -19,7 +19,7 @@ export async function putOwners(
     const { user_id, pattern_id, message } = req.body;
 
     try {
-        const data = await editOwner(user_pattern_id, pattern_id, user_id, message || null);
+        const data = await editOwner(user_pattern_id, pattern_id, user_id, message);
         res.status(200).json({ message: "Successfully edited ownership!", data });
     }
     catch (err: unknown) {

@@ -101,45 +101,6 @@ export type Database = {
           },
         ]
       }
-      owners_trackers: {
-        Row: {
-          created_at: string
-          id: number
-          pattern_id: number
-          tracker_id: string
-          user_id: string
-        }
-        Insert: {
-          created_at?: string
-          id: number
-          pattern_id: number
-          tracker_id?: string
-          user_id?: string
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          pattern_id?: number
-          tracker_id?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "owners_trackers_tracker_id_fkey"
-            columns: ["tracker_id"]
-            isOneToOne: false
-            referencedRelation: "trackers"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "owners_trackers_user_id_pattern_id_fkey"
-            columns: ["user_id", "pattern_id"]
-            isOneToOne: false
-            referencedRelation: "owners"
-            referencedColumns: ["user_id", "pattern_id"]
-          },
-        ]
-      }
       patterns: {
         Row: {
           author_id: string | null
@@ -232,29 +193,43 @@ export type Database = {
       trackers: {
         Row: {
           created_at: string
-          current_index: number | null
-          current_row: string | null
+          current_index: number
+          current_row: number
           current_stitch: string | null
           id: string
+          pattern_id: number
           title: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string
-          current_index?: number | null
-          current_row?: string | null
+          current_index?: number
+          current_row?: number
           current_stitch?: string | null
           id?: string
+          pattern_id: number
           title?: string | null
+          user_id?: string
         }
         Update: {
           created_at?: string
-          current_index?: number | null
-          current_row?: string | null
+          current_index?: number
+          current_row?: number
           current_stitch?: string | null
           id?: string
+          pattern_id?: number
           title?: string | null
+          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "trackers_user_id_pattern_id_fkey"
+            columns: ["user_id", "pattern_id"]
+            isOneToOne: false
+            referencedRelation: "owners"
+            referencedColumns: ["user_id", "pattern_id"]
+          },
+        ]
       }
       url: {
         Row: {

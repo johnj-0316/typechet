@@ -12,6 +12,7 @@ import { patternRouter } from './utils/routers/patterns';
 import { ownerRouter } from './utils/routers/owners';
 import { stitchRouter } from './utils/routers/stitches';
 import { inventoryRouter } from './utils/routers/inventories';
+import { trackerRouter } from './utils/routers/trackers';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -52,6 +53,8 @@ app.use("/api/owners", ownerRouter);
 app.use("/api/stitches", stitchRouter);
 
 app.use("/api/inventories", inventoryRouter);
+
+app.use("/api/trackers", trackerRouter);
 
 /**
  * Handle all other requests by rendering the Angular application.

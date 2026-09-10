@@ -1,6 +1,6 @@
 import supabase from "../../../db/supabase_client";
 
-import { Tables, TablesInsert } from "../../../db/database.types";
+import { Tables, TablesInsert, TablesUpdate } from "../../../db/database.types";
 
 import { getUser } from "../User/User";
 
@@ -35,6 +35,7 @@ async function getUserStitch(
     .select()
     .eq("id", +id)
     .or(`custom.eq.FALSE, author_id.eq.${user.id}`)
+    .select()
     .single();
 
     if (error)
@@ -54,7 +55,7 @@ async function createStitch(
     .insert({ 
         shorthand, 
         name, 
-        origin, 
+        origin: origin || "US", 
         author_id: user.id 
     })
     .select()
@@ -71,14 +72,14 @@ async function editStitch(
     shorthand: string,
     name: string,
     origin: string
-): Promise<TablesInsert<"stitches">> {
+): Promise<TablesUpdate<"stitches">> {
     const user = await getUser();
     const { data, error } = await supabase
     .from("stitches")
     .update({ 
         shorthand, 
         name, 
-        origin
+        origin: origin || "US"
     })
     .eq("author_id", user.id)
     .eq("id", +id)

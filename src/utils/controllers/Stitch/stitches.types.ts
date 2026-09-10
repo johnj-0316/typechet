@@ -10,7 +10,7 @@ type StitchesGetQueryParams = {
 type StitchesPostBodyParams = {
     shorthand: string,
     name: string,
-    origin: string | void
+    origin: string
 };
 
 type StitchesPutRouteParams = {
