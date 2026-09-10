@@ -47,7 +47,7 @@ async function getUserStitch(
 async function createStitch(
     shorthand: string,
     name: string,
-    origin: string
+    origin?: string
 ): Promise<TablesInsert<"stitches">> {
     const user = await getUser();
     const { data, error } = await supabase
@@ -71,7 +71,7 @@ async function editStitch(
     id: string,
     shorthand: string,
     name: string,
-    origin: string
+    origin?: string
 ): Promise<TablesUpdate<"stitches">> {
     const user = await getUser();
     const { data, error } = await supabase

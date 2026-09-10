@@ -1,16 +1,16 @@
 type StitchesGetRouteParams = {
-    id?: string | void
+    id?: string
 };
 
 type StitchesGetQueryParams = {
-    page?: string | void,
-    limit?: string | void
+    page?: string,
+    limit?: string
 };
 
 type StitchesPostBodyParams = {
     shorthand: string,
     name: string,
-    origin?: string | void
+    origin?: string
 };
 
 type StitchesPutRouteParams = {

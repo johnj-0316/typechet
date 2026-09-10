@@ -16,10 +16,10 @@ export async function putInventories(
     }
 
     const { id } = req.params;
-    const { item, amount, category, color, cost } = req.body;
+    const { item, amount, amount_unit, category, color, cost } = req.body;
 
     try {
-        const data = await editItem(id, item, amount, category, color, cost);
+        const data = await editItem(id, item, amount, amount_unit, category, color, cost);
         res.status(200).json({ message: "Successfully edited the item!", data });
     }
     catch (err: unknown) {

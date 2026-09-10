@@ -17,8 +17,8 @@ type PatternDeleteRouteParams = {
 };
 
 type PatternGetQueryParams = {
-    page?: string | void,
-    limit?: string | void
+    page?: string,
+    limit?: string
 };
 
 

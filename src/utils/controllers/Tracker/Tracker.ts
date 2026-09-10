@@ -48,11 +48,11 @@ async function getUserTracker(
 // row and index default to 0, title defaults, and stitch can be null
 async function createTracker(
     pattern_id: string,
-    title: string,
     current_row: string,
-    current_stitch: string,
     current_index: string,
-    is_finished: string
+    is_finished: string,
+    title?: string,
+    current_stitch?: string,
 ): Promise<TablesInsert<"trackers">> {
     const user = await getUser();
     const { data, error } = await supabase
@@ -79,11 +79,11 @@ async function createTracker(
 // would not make sense to edit the pattern_id after creation
 async function editTracker(
     id: string,
-    title: string,
     current_row: string,
-    current_stitch: string,
     current_index: string,
-    is_finished: string
+    is_finished: string,
+    title?: string,
+    current_stitch?: string
 ): Promise<TablesUpdate<"trackers">> {
     const user = await getUser();
     const { data, error } = await supabase

@@ -10,7 +10,7 @@ type OwnerGetQueryParams = {
 type OwnerPostBodyParams = {
     pattern_id: string,
     user_id: string,
-    message?: string | void
+    message?: string
 };
 
 type OwnerPutRouteParams = {

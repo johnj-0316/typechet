@@ -48,17 +48,19 @@ async function getItem(
 
 async function createItem(
     item: string,
-    amount: string | void,
-    category: string | void,
-    color: string | null,
-    cost: string | null
+    amount: string,
+    amount_unit: string,
+    category: string,
+    color?: string | null,
+    cost?: string | null
 ): Promise<TablesInsert<"inventory">> {
     const user = await getUser();
     const { data, error } = await supabase
     .from("inventory")
     .insert({ 
         item, 
-        amount: +amount || 1, 
+        amount: +amount || 1,
+        amount_unit: amount_unit || "g",
         category: category || handleInventoryCategory(item), 
         color, 
         cost: cost ? +cost : null, 
@@ -76,10 +78,11 @@ async function createItem(
 async function editItem(
     id: string,
     item: string,
-    amount: string | void,
-    category: string | void,
-    color: string | null,
-    cost: string | null
+    amount: string,
+    amount_unit: string,
+    category: string,
+    color?: string | null,
+    cost?: string | null
 ): Promise<TablesInsert<"inventory">> {
     const user = await getUser();
     const { data, error } = await supabase
@@ -87,6 +90,7 @@ async function editItem(
     .update({ 
         item, 
         amount: +amount || 1, 
+        amount_unit: amount_unit || "g",
         category: category || handleInventoryCategory(item), 
         color, 
         cost: cost ? +cost : null

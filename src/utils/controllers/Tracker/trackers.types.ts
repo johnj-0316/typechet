@@ -1,17 +1,17 @@
 type TrackersGetRouteParams = {
-    id?: string | void
+    id?: string
 };
 
 type TrackersGetQueryParams = {
-    page?: string | void,
-    limit?: string | void
+    page?: string,
+    limit?: string
 };
 
 type TrackersPostBodyParams = {
     pattern_id: string,
-    title?: string | void,
+    title?: string,
     current_row: string,
-    current_stitch?: string | void,
+    current_stitch?: string,
     current_index: string,
     is_finished: string
 };
