@@ -1,5 +1,5 @@
-const categories = ["material", "hook", "tool", "ami", "other"] as const;
-type categoryTypes = typeof categories[number];
+export const categories = ["material", "hook", "tool", "ami", "other"] as const;
+export type categoryTypes = typeof categories[number];
 
 const MATERIALS = ["yarn", "thread", "plarn", "twine", "hemp", "jute", "floss", "wire", "strips", "raffia", "paracord"];
 const TOOLS = ["scissor", "needle", "marker", "pin"];
