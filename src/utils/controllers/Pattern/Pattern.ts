@@ -59,10 +59,7 @@ async function getPattern(
 // insert pattern
 async function createPattern(
     title: string,
-    rows: string[], 
-    colors: Pair, 
-    sizes: Pair, 
-    materials: string[]
+    rows: string[]
 ): Promise<TablesInsert<'patterns'>> {
     const user = await getUser();
     const { data, error } = await supabase
@@ -70,9 +67,6 @@ async function createPattern(
     .insert({
         title: title || "Untitled Pattern", 
         rows, 
-        colors, 
-        sizes, 
-        materials, 
         author_id: user.id
     })
     .select()
@@ -93,7 +87,9 @@ async function deletePattern(
     .from("patterns")
     .delete()
     .eq("author_id", user.id)
-    .eq("id", +id);
+    .eq("id", +id)
+    .select()
+    .single();
 
     if (error)
         throw error;

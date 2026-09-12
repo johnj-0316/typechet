@@ -9,18 +9,43 @@ type InventoryGetQueryParams = {
 
 type InventoryPostBodyParams = {
     item: string,
-    amount: string,
-    amount_unit: string,
     category: string,
-    color?: string,
-    cost?: string
-};
+    color: string,
+    color_hex?: string
+} & (
+    {
+        cost?: string,
+        cost_unit?: string
+    } |
+    {
+        cost: string,
+        cost_unit: string
+    }
+) & (
+    {
+        amount: string,
+        amount_unit: string
+    } |
+    {
+        amount?: string,
+        amount_unit?: string
+    }
+)
 
 type InventoryPutRouteParams = {
     id: string
 };
 
-type InventoryPutBodyParams = InventoryPostBodyParams;
+type InventoryPutBodyParams = {
+    item: string,
+    category: string,
+    amount?: string,
+    amount_unit?: string,
+    color?: string,
+    color_hex?: string,
+    cost?: string,
+    cost_unit?: string
+};
 
 type InventoryDeleteRouteParams = InventoryPutRouteParams;
 

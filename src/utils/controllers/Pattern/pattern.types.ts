@@ -6,10 +6,7 @@ type PatternGetRouteParams = {
 
 type PatternPostBodyParams = {
     title: string,
-    rows: string[], 
-    colors: Pair, 
-    sizes: Pair, 
-    materials: string[]
+    rows: string[]
 };
 
 type PatternDeleteRouteParams = {

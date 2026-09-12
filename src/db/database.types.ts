@@ -16,36 +16,42 @@ export type Database = {
     Tables: {
       inventory: {
         Row: {
-          amount: number
-          amount_unit: string
+          amount: number | null
+          amount_unit: string | null
           author_id: string
           category: string
           color: string | null
+          color_hex: string | null
           cost: number | null
+          cost_unit: string | null
           created_at: string
           id: number
           item: string
           url_id: number | null
         }
         Insert: {
-          amount: number
-          amount_unit?: string
+          amount?: number | null
+          amount_unit?: string | null
           author_id?: string
           category?: string
           color?: string | null
+          color_hex?: string | null
           cost?: number | null
+          cost_unit?: string | null
           created_at?: string
           id?: number
           item: string
           url_id?: number | null
         }
         Update: {
-          amount?: number
-          amount_unit?: string
+          amount?: number | null
+          amount_unit?: string | null
           author_id?: string
           category?: string
           color?: string | null
+          color_hex?: string | null
           cost?: number | null
+          cost_unit?: string | null
           created_at?: string
           id?: number
           item?: string
@@ -61,6 +67,66 @@ export type Database = {
           },
           {
             foreignKeyName: "inventory_url_id_fkey"
+            columns: ["url_id"]
+            isOneToOne: false
+            referencedRelation: "url"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      materials: {
+        Row: {
+          amount: number
+          amount_unit: string
+          category: string
+          color: string | null
+          color_hex: string | null
+          cost: number | null
+          cost_unit: string | null
+          created_at: string
+          id: number
+          item: string
+          pattern_id: number | null
+          url_id: number | null
+        }
+        Insert: {
+          amount: number
+          amount_unit?: string
+          category?: string
+          color?: string | null
+          color_hex?: string | null
+          cost?: number | null
+          cost_unit?: string | null
+          created_at?: string
+          id?: number
+          item: string
+          pattern_id?: number | null
+          url_id?: number | null
+        }
+        Update: {
+          amount?: number
+          amount_unit?: string
+          category?: string
+          color?: string | null
+          color_hex?: string | null
+          cost?: number | null
+          cost_unit?: string | null
+          created_at?: string
+          id?: number
+          item?: string
+          pattern_id?: number | null
+          url_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "materials_pattern_id_fkey"
+            columns: ["pattern_id"]
+            isOneToOne: false
+            referencedRelation: "patterns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "materials_url_id_fkey"
             columns: ["url_id"]
             isOneToOne: false
             referencedRelation: "url"
@@ -107,37 +173,28 @@ export type Database = {
       patterns: {
         Row: {
           author_id: string | null
-          colors: Json
           created_at: string
           id: number
           is_editing: boolean
-          materials: Json
           rows: Json
-          sizes: Json
           title: string
           url_id: number | null
         }
         Insert: {
           author_id?: string | null
-          colors: Json
           created_at?: string
           id?: number
           is_editing?: boolean
-          materials: Json
           rows: Json
-          sizes: Json
           title?: string
           url_id?: number | null
         }
         Update: {
           author_id?: string | null
-          colors?: Json
           created_at?: string
           id?: number
           is_editing?: boolean
-          materials?: Json
           rows?: Json
-          sizes?: Json
           title?: string
           url_id?: number | null
         }
@@ -242,16 +299,19 @@ export type Database = {
       }
       url: {
         Row: {
+          brand: string | null
           creator: string | null
           id: number
           url: string
         }
         Insert: {
+          brand?: string | null
           creator?: string | null
           id?: number
           url?: string
         }
         Update: {
+          brand?: string | null
           creator?: string | null
           id?: number
           url?: string

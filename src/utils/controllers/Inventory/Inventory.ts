@@ -42,28 +42,32 @@ async function getItem(
 }
 
 // amount will default to 1
-// category will be automatically decided
 // color should be hex
 // cost can be null
 
+//refactor table and then create new types
 async function createItem(
     item: string,
-    amount: string,
-    amount_unit: string,
     category: string,
-    color?: string | null,
-    cost?: string | null
+    amount?: string,
+    amount_unit?: string,
+    color?: string,
+    color_hex?: string,
+    cost?: string,
+    cost_unit?: string
 ): Promise<TablesInsert<"inventory">> {
     const user = await getUser();
     const { data, error } = await supabase
     .from("inventory")
     .insert({ 
         item, 
-        amount: +amount || 1,
+        amount: amount ? +amount : 1,
         amount_unit: amount_unit || "g",
-        category: category || handleInventoryCategory(item), 
+        category: handleInventoryCategory(category, item), 
         color, 
-        cost: cost ? +cost : null, 
+        color_hex,
+        cost: cost ? +cost : null,
+        cost_unit,
         author_id: user.id 
     })
     .select()
@@ -78,22 +82,26 @@ async function createItem(
 async function editItem(
     id: string,
     item: string,
-    amount: string,
-    amount_unit: string,
     category: string,
-    color?: string | null,
-    cost?: string | null
+    amount?: string,
+    amount_unit?: string,
+    color?: string,
+    color_hex?: string,
+    cost?: string,
+    cost_unit?: string
 ): Promise<TablesInsert<"inventory">> {
     const user = await getUser();
     const { data, error } = await supabase
     .from("inventory")
     .update({ 
         item, 
-        amount: +amount || 1, 
+        amount: amount ? +amount : 1,
         amount_unit: amount_unit || "g",
-        category: category || handleInventoryCategory(item), 
+        category: handleInventoryCategory(category, item), 
         color, 
-        cost: cost ? +cost : null
+        color_hex,
+        cost: cost ? +cost : null,
+        cost_unit
     })
     .eq("id", +id)
     .eq("author_id", user.id)
