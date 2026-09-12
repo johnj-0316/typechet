@@ -2,9 +2,9 @@ import supabase from "../../../db/supabase_client";
 import { Tables, TablesInsert, TablesUpdate } from "../../../db/database.types";
 
 import { getUser } from "../User/User";
-import { handleCompositeEndpoint } from "../../tools/handleCompositeEndpoint";
+import { handleOwnerEndpoint } from "../../tools/handleOwnerEndpoint";
 
-export { getAllOwners, getOwnerByPattern, postOwner, editOwner, removeOwner };
+export { getAllOwners, getOwnerByPattern, postOwner, editOwner, deleteOwner };
 
 // returns all owner ids of patterns that belong to user
 // i.e. will return all people who saved any of your patterns
@@ -95,7 +95,7 @@ async function editOwner(
     message?: string | null
 ): Promise<TablesUpdate<"owners">> {
     const user = await getUser();
-    const [userId, patternId] = handleCompositeEndpoint(compositeEndpoint);
+    const [userId, patternId] = handleOwnerEndpoint(compositeEndpoint);
     const { data, error } = await supabase
     .from("owners")
     .update({
@@ -116,11 +116,11 @@ async function editOwner(
 }
 
 // remove owner given composite endpoint w comma delim
-async function removeOwner(
+async function deleteOwner(
     compositeEndpoint: string
 ): Promise<void> {
     const user = await getUser();
-    const [userId, patternId] = handleCompositeEndpoint(compositeEndpoint);
+    const [userId, patternId] = handleOwnerEndpoint(compositeEndpoint);
     const { error } = await supabase
     .from("owners")
     .delete()

@@ -18,7 +18,7 @@ patternRouter.get(["/", "/:id"], [
 
 patternRouter.post("/", [
     body("title").optional().escape().trim().isLength({ min: 3, max: 75 }).withMessage("title must be between 3 to 75 characters."),
-    body("colors").custom(patternKeyValidator).withMessage("not all keys are present in both colors and sizes"),
+    body("colors"),
     body("rows").escape().trim().custom(rowValidator).withMessage("invalid stitches in pattern"),
     body("materials").escape().trim()
 ], postPatterns);

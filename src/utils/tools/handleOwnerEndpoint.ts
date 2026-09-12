@@ -1,7 +1,7 @@
 // delimeter will be comma
 // structure should be
 // user_id,pattern_id
-export function handleCompositeEndpoint(compositeEndpoint: string) {
+export function handleOwnerEndpoint(compositeEndpoint: string) {
     if (typeof compositeEndpoint !== "string")
         throw new Error("path parameter is not a string.");
 

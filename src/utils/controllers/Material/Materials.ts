@@ -1,21 +1,20 @@
 import supabase from "../../../db/supabase_client";
 import { Tables, TablesInsert, TablesUpdate } from "../../../db/database.types";
 
-import { getUser } from "../User/User";
 import { handleInventoryCategory } from "../../tools/handleInventoryCategory";
 import { handleHexCodeConversion } from "../../tools/handleHexCodeConversion";
 
-export { getAllItems, getItem, createItem, editItem, deleteItem };
+export { getAllMaterials, getMaterial, createMaterial, editMaterial, deleteMaterial };
 
-async function getAllItems(
+async function getAllMaterials(
+    pattern_id: string,
     offset: number,
     limit: number
-): Promise<Tables<"inventory">[]> {
-    const user = await getUser();
+): Promise<Tables<"materials">[]> {
     const { data, error } = await supabase
-    .from("inventory")
+    .from("materials")
     .select()
-    .eq("author_id", user.id)
+    .eq("pattern_id", +pattern_id)
     .limit(limit)
     .range(offset, offset + limit);
 
@@ -25,15 +24,15 @@ async function getAllItems(
     return data;
 }
 
-async function getItem(
-    id: string
-): Promise<Tables<"inventory">> {
-    const user = await getUser();
+async function getMaterial(
+    id: string,
+    pattern_id: string
+): Promise<Tables<"materials">> {
     const { data, error } = await supabase
-    .from("inventory")
+    .from("materials")
     .select()
     .eq("id", +id)
-    .eq("author_id", user.id)
+    .eq("pattern_id", +pattern_id)
     .single();
 
     if (error)
@@ -47,7 +46,8 @@ async function getItem(
 // cost can be null
 
 //refactor table and then create new types
-async function createItem(
+async function createMaterial(
+    pattern_id: string,
     item: string,
     category: string,
     amount?: string,
@@ -56,10 +56,9 @@ async function createItem(
     color_hex?: string,
     cost?: string,
     cost_unit?: string
-): Promise<TablesInsert<"inventory">> {
-    const user = await getUser();
+): Promise<TablesInsert<"materials">> {
     const { data, error } = await supabase
-    .from("inventory")
+    .from("materials")
     .insert({ 
         item, 
         amount: amount ? +amount : 1,
@@ -69,7 +68,7 @@ async function createItem(
         color_hex,
         cost: cost ? +cost : null,
         cost_unit,
-        author_id: user.id 
+        pattern_id: +pattern_id
     })
     .select()
     .single();
@@ -80,8 +79,9 @@ async function createItem(
     return data;
 }
 
-async function editItem(
+async function editMaterial(
     id: string,
+    pattern_id: string,
     item: string,
     category: string,
     amount?: string,
@@ -90,10 +90,9 @@ async function editItem(
     color_hex?: string,
     cost?: string,
     cost_unit?: string
-): Promise<TablesUpdate<"inventory">> {
-    const user = await getUser();
+): Promise<TablesUpdate<"materials">> {
     const { data, error } = await supabase
-    .from("inventory")
+    .from("materials")
     .update({ 
         item, 
         amount: amount ? +amount : 1,
@@ -105,7 +104,7 @@ async function editItem(
         cost_unit
     })
     .eq("id", +id)
-    .eq("author_id", user.id)
+    .eq("pattern_id", +pattern_id)
     .select()
     .single();
 
@@ -115,15 +114,15 @@ async function editItem(
     return data;
 }
 
-async function deleteItem(
-    id: string
+async function deleteMaterial(
+    id: string,
+    pattern_id: string
 ): Promise<void> {
-    const user = await getUser();
     const { data, error } = await supabase
-    .from("inventory")
+    .from("materials")
     .delete()
     .eq("id", +id)
-    .eq("author_id", user.id)
+    .eq("pattern_id", +pattern_id)
     .select()
     .single();
 

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
-import { removeOwner } from "./Owner";
+import { deleteOwner } from "./Owner";
 import { OwnerDeleteRouteParams } from "./owners.types";
 
 export async function deleteOwners(
@@ -23,7 +23,7 @@ export async function deleteOwners(
             return;
         }
 
-        await removeOwner(user_pattern_id);
+        await deleteOwner(user_pattern_id);
         res.sendStatus(204);
     }
     catch (err: unknown) {
