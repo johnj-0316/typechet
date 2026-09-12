@@ -1,12 +1,11 @@
-type Pair = Record<string, string>;
-
 type PatternGetRouteParams = {
     id?: string | void
 };
 
 type PatternPostBodyParams = {
     title: string,
-    rows: string[]
+    rows: string[],
+    is_editing: string
 };
 
 type PatternDeleteRouteParams = {
@@ -18,9 +17,7 @@ type PatternGetQueryParams = {
     limit?: string
 };
 
-
 export type { 
-    Pair, 
     PatternGetRouteParams, 
     PatternGetQueryParams, 
     PatternPostBodyParams,

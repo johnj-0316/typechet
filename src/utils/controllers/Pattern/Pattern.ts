@@ -2,7 +2,6 @@ import supabase from "../../../db/supabase_client";
 
 import { getUser } from "../User/User";
 import { Tables, TablesInsert } from "../../../db/database.types";
-import { Pair } from "./pattern.types";
 
 export { createPattern, deletePattern, getAllPatterns, getPattern };
 
@@ -59,7 +58,8 @@ async function getPattern(
 // insert pattern
 async function createPattern(
     title: string,
-    rows: string[]
+    rows: string[],
+    is_editing: string
 ): Promise<TablesInsert<'patterns'>> {
     const user = await getUser();
     const { data, error } = await supabase
@@ -67,6 +67,7 @@ async function createPattern(
     .insert({
         title: title || "Untitled Pattern", 
         rows, 
+        is_editing: Boolean(is_editing),
         author_id: user.id
     })
     .select()

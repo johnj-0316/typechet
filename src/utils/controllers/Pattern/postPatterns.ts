@@ -15,10 +15,10 @@ export async function postPatterns(
         return;
     }
 
-    const { title, rows } = req.body;
+    const { title, rows, is_editing } = req.body;
 
     try {
-        const data = await createPattern(title, rows);
+        const data = await createPattern(title, rows, is_editing);
         res.status(201).json({ message: "Pattern successfully saved!", data });
     }
     catch (err: unknown) {
