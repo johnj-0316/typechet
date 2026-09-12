@@ -1,6 +1,7 @@
 const categories = ["material", "hook", "tool", "ami", "other"] as const;
 type categoryTypes = typeof categories[number];
 
+const MATERIALS = ["yarn", "thread", "plarn", "twine", "hemp", "jute", "floss", "wire", "strips", "raffia", "paracord"];
 const TOOLS = ["scissor", "needle", "marker", "pin"];
 const AMI = ["eye", "stuffing"];
 
@@ -12,13 +13,13 @@ export function handleInventoryCategory(category: string = "", item: string): ca
     if (categories.includes(c))
         return c;
 
-    // contains keyword yarn
-    if (i.includes("material"))
-        return "material";
-
     // contains keyword hook
     if (i.includes("hook"))
         return "hook";
+
+    // contains keyword yarn
+    if (MATERIALS.some(material => i.includes(material)))
+        return "material";
 
     if (TOOLS.some(tool => i.includes(tool)))
         return "tool";

@@ -3,6 +3,7 @@ import { Tables, TablesInsert, TablesUpdate } from "../../../db/database.types";
 
 import { getUser } from "../User/User";
 import { handleInventoryCategory } from "../../tools/handleInventoryCategory";
+import { handleHexCodeConversion } from "../../tools/handleHexCodeConversion";
 
 export { getAllItems, getItem, createItem, editItem, deleteItem };
 
@@ -64,7 +65,7 @@ async function createItem(
         amount: amount ? +amount : 1,
         amount_unit: amount_unit || "g",
         category: handleInventoryCategory(category, item), 
-        color, 
+        color: color ? color : color_hex ? handleHexCodeConversion(color_hex) : "Unknown", 
         color_hex,
         cost: cost ? +cost : null,
         cost_unit,
@@ -98,7 +99,7 @@ async function editItem(
         amount: amount ? +amount : 1,
         amount_unit: amount_unit || "g",
         category: handleInventoryCategory(category, item), 
-        color, 
+        color: color ? color : color_hex ? handleHexCodeConversion(color_hex) : "Unknown", 
         color_hex,
         cost: cost ? +cost : null,
         cost_unit
