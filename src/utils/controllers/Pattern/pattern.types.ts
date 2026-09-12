@@ -2,6 +2,11 @@ type PatternGetRouteParams = {
     id?: string | void
 };
 
+type PatternGetQueryParams = {
+    page?: string,
+    limit?: string
+};
+
 type PatternPostBodyParams = {
     title: string,
     rows: string[],
@@ -12,14 +17,17 @@ type PatternDeleteRouteParams = {
     id: string
 };
 
-type PatternGetQueryParams = {
-    page?: string,
-    limit?: string
+type PatternPutRouteParams = {
+    id: string
 };
+
+type PatternPutBodyParams = PatternPostBodyParams;
 
 export type { 
     PatternGetRouteParams, 
     PatternGetQueryParams, 
     PatternPostBodyParams,
+    PatternPutRouteParams,
+    PatternPutBodyParams,
     PatternDeleteRouteParams 
 };

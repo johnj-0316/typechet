@@ -5,7 +5,7 @@ import { getOwners } from "../controllers/Owner/getOwners";
 import { postOwners } from "../controllers/Owner/postOwners";
 import { putOwners } from "../controllers/Owner/putOwners";
 import { deleteOwners } from "../controllers/Owner/deleteOwners";
-import { compositeEndpointValidator } from "../tools/compositeEndpointValidator";
+import { ownerEndpointValidator } from "../tools/ownerEndpointValidator";
 
 export const ownerRouter = Router();
 
@@ -24,7 +24,7 @@ ownerRouter.post("/", [
 ], postOwners);
 
 ownerRouter.put("/:user_pattern_id", [
-    param("user_pattern_id").escape().notEmpty().custom(compositeEndpointValidator).withMessage("not a valid route parameter"),
+    param("user_pattern_id").escape().notEmpty().custom(ownerEndpointValidator).withMessage("not a valid route parameter"),
     body("message").optional().escape().trim(),
     body("pattern_id").escape().trim().notEmpty().withMessage("pattern id is required")
     .isNumeric().withMessage("pattern id must be a number"),
@@ -33,6 +33,6 @@ ownerRouter.put("/:user_pattern_id", [
 ], putOwners);
 
 ownerRouter.delete("/:user_pattern_id", [
-    param("user_pattern_id").escape().notEmpty().custom(compositeEndpointValidator).withMessage("not a valid route parameter")
+    param("user_pattern_id").escape().notEmpty().custom(ownerEndpointValidator).withMessage("not a valid route parameter")
 ],deleteOwners);
 

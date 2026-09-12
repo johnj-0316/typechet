@@ -44,8 +44,6 @@ async function getMaterial(
 // amount will default to 1
 // color should be hex
 // cost can be null
-
-//refactor table and then create new types
 async function createMaterial(
     pattern_id: string,
     item: string,

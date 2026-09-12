@@ -5,7 +5,6 @@ import { getPatterns } from "../controllers/Pattern/getPatterns";
 import { postPatterns } from "../controllers/Pattern/postPatterns";
 import { putPatterns } from "../controllers/Pattern/putPatterns";
 import { deletePatterns } from "../controllers/Pattern/deletePatterns";
-import { patternKeyValidator } from "../tools/patternKeyValidator";
 import { rowValidator } from "../tools/rowValidator";
 
 export const patternRouter = Router();
@@ -18,13 +17,19 @@ patternRouter.get(["/", "/:id"], [
 
 patternRouter.post("/", [
     body("title").optional().escape().trim().isLength({ min: 3, max: 75 }).withMessage("title must be between 3 to 75 characters."),
-    body("colors"),
     body("rows").escape().trim().custom(rowValidator).withMessage("invalid stitches in pattern"),
-    body("materials").escape().trim()
+    body("is_editing").escape().trim().isBoolean().withMessage("is_editing must be a valid boolean")
 ], postPatterns);
 
-//patternRouter.put("/", [], putPatterns);
+patternRouter.put("/", [
+    param("id").escape().notEmpty().withMessage("id is required")
+    .isNumeric().withMessage("id must be a number"),
+    body("title").optional().escape().trim().isLength({ min: 3, max: 75 }).withMessage("title must be between 3 to 75 characters."),
+    body("rows").escape().trim().custom(rowValidator).withMessage("invalid stitches in pattern"),
+    body("is_editing").escape().trim().isBoolean().withMessage("is_editing must be a valid boolean")
+], putPatterns);
 
 patternRouter.delete("/:id", [
-    param("id").escape().isNumeric().notEmpty().withMessage("numeric id is required")
+    param("id").escape().notEmpty().withMessage("id is required")
+    .isNumeric().withMessage("id must be a number")
 ], deletePatterns);

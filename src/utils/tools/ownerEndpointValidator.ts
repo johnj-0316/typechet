@@ -1,6 +1,7 @@
 import validator from "validator";
+import { CustomValidator } from "express-validator";
 
-export function compositeEndpointValidator(value: string) {
+export const ownerEndpointValidator: CustomValidator = (value: string): boolean => {
     const params = value.split(",");
 
     if (params.length !== 2 || !validator.isUUID(params[0]) ||isNaN(+params[1]))

@@ -3,7 +3,7 @@ import supabase from "../../../db/supabase_client";
 import { getUser } from "../User/User";
 import { Tables, TablesInsert } from "../../../db/database.types";
 
-export { createPattern, deletePattern, getAllPatterns, getPattern };
+export { getAllPatterns, getPattern, createPattern, editPattern, deletePattern };
 
 // rows are 0 indexed
 //  -index 0 should be color -> base
@@ -70,6 +70,32 @@ async function createPattern(
         is_editing: Boolean(is_editing),
         author_id: user.id
     })
+    .select()
+    .single();
+
+    if (error)
+        throw error;
+
+    return data;
+}
+
+// edit patten
+async function editPattern(
+    id: string,
+    title: string,
+    rows: string[],
+    is_editing: string
+): Promise<TablesInsert<'patterns'>> {
+    const user = await getUser();
+    const { data, error } = await supabase
+    .from("patterns")
+    .update({
+        title: title || "Untitled Pattern", 
+        rows, 
+        is_editing: Boolean(is_editing),
+    })
+    .eq("author_id", user.id)
+    .eq("id", +id)
     .select()
     .single();
 
