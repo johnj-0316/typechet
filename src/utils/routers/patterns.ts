@@ -17,7 +17,7 @@ patternRouter.get(["/", "/:id"], [
 
 patternRouter.post("/", [
     body("title").optional().escape().trim().isLength({ min: 3, max: 75 }).withMessage("title must be between 3 to 75 characters."),
-    body("rows").escape().trim().custom(rowValidator).withMessage("invalid stitches in pattern"),
+    //body("rows").escape().trim().custom(rowValidator).withMessage("invalid stitches in pattern"),
     body("is_editing").escape().trim().isBoolean().withMessage("is_editing must be a valid boolean")
 ], postPatterns);
 
@@ -25,7 +25,7 @@ patternRouter.put("/", [
     param("id").escape().notEmpty().withMessage("id is required")
     .isNumeric().withMessage("id must be a number"),
     body("title").optional().escape().trim().isLength({ min: 3, max: 75 }).withMessage("title must be between 3 to 75 characters."),
-    body("rows").escape().trim().custom(rowValidator).withMessage("invalid stitches in pattern"),
+    //body("rows").escape().trim().custom(rowValidator).withMessage("invalid stitches in pattern"),
     body("is_editing").escape().trim().isBoolean().withMessage("is_editing must be a valid boolean")
 ], putPatterns);
 

@@ -5,6 +5,7 @@ import { getTrackers } from "../controllers/Tracker/getTrackers";
 import { postTrackers } from "../controllers/Tracker/postTrackers";
 import { putTrackers } from "../controllers/Tracker/putTrackers";
 import { deleteTrackers } from "../controllers/Tracker/deleteTrackers";
+import { currentStitchValidator } from "../tools/currentStitchValidator";
 
 export const trackerRouter = Router();
 
@@ -20,6 +21,7 @@ trackerRouter.post("/", [
     body("title").optional().escape().trim().isLength({ min: 3, max: 75 }).withMessage("title must be between 3 to 75 characters."),
     body("current_row").escape().notEmpty().withMessage("current_row is required")
     .isNumeric().withMessage("current_row must be a number"),
+    //body("current_stitch").optional().escape().custom(currentStitchValidator).withMessage("current_stitch must be a valid in the pattern"),
     body("current_index").escape().notEmpty().withMessage("current_index is required")
     .isNumeric().withMessage("current_index must be a number"),
     body("is_finished").escape().trim().isBoolean().withMessage("is_finished must be a valid boolean")
@@ -31,6 +33,7 @@ trackerRouter.put("/:id", [
     body("title").optional().escape().trim().isLength({ min: 3, max: 75 }).withMessage("title must be between 3 to 75 characters."),
     body("current_row").escape().notEmpty().withMessage("current_row is required")
     .isNumeric().withMessage("current_row must be a number"),
+    //body("current_stitch").optional().escape().custom(currentStitchValidator).withMessage("current_stitch must be a valid in the pattern"),
     body("current_index").escape().notEmpty().withMessage("current_index is required")
     .isNumeric().withMessage("current_index must be a number"),
     body("is_finished").escape().trim().isBoolean().withMessage("is_finished must be a valid boolean")
