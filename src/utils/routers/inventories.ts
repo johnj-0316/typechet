@@ -19,7 +19,7 @@ inventoryRouter.get(["/", "/:id"], [
 inventoryRouter.post("/", [
     body("item").escape().trim().isLength({ min: 3, max: 75 }).withMessage("item name must be between 3 to 75 characters."),
     body("amount").optional().escape().trim().isNumeric().withMessage("amount must be a number"),
-    body("amount_unit").optional().escape().trim().isLength({ min: 1, max: 5 }).withMessage("amount unit must be between 1 to 5 characters."),
+    body("amount_unit").optional().escape().trim().isLength({ min: 1, max: 20 }).withMessage("amount unit must be between 1 to 5 characters."),
     body("category").optional().escape().trim().custom(categoryValidator).withMessage("category must be a valid type."),
     body("color").optional().escape().trim().isLength({ min: 2, max: 30 }).withMessage("color must be between 2 to 30 characters."),
     body("color_hex").optional().escape().trim().isLength({ max: 7 }).isHexColor().withMessage("color_hex must be a valid hex"),
@@ -32,7 +32,7 @@ inventoryRouter.put("/:id", [
     .isNumeric().withMessage("id must be a number"),
     body("item").escape().trim().isLength({ min: 3, max: 75 }).withMessage("title must be between 3 to 75 characters."),
     body("amount").optional().escape().trim().isNumeric().withMessage("amount must be a number"),
-    body("amount_unit").optional().escape().trim().isLength({ min: 1, max: 5 }).withMessage("amount unit must be between 1 to 5 characters."),
+    body("amount_unit").optional().escape().trim().isLength({ min: 1, max: 20 }).withMessage("amount unit must be between 1 to 5 characters."),
     body("category").optional().escape().trim().custom(categoryValidator).withMessage("category must be a valid type."),
     body("color").optional().escape().trim().isLength({ min: 2, max: 30 }).withMessage("color must be between 2 to 30 characters."),
     body("color_hex").optional().escape().trim().isLength({ max: 7 }).isHexColor().withMessage("color_hex must be a valid hex"),
