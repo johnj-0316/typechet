@@ -6,7 +6,7 @@ import { Nav } from "./nav/nav";
     selector: `app-header`,
     template: `
         <header>
-            <h1>tc</h1>
+            <h1>typechet</h1>
             <app-nav />
         </header>
     `,

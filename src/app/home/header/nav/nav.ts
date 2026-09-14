@@ -1,4 +1,5 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild, computed } from "@angular/core";
+import { Button } from "../../../basic/button/button";
 
 @Component({
     selector: `app-nav`,
@@ -10,10 +11,14 @@ import { Component } from "@angular/core";
                         <a href="{{list.href}}">{{list.name}}</a>
                     </li>
                 }
+                <li>
+                    <app-button radius="10px">Get Started</app-button>
+                </li>
             </ul>
         </nav>
     `,
-    styleUrl: `./nav.css`
+    styleUrl: `./nav.css`,
+    imports: [Button]
 })
 export class Nav {
     readonly navList = [
