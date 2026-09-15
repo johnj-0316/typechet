@@ -11,36 +11,36 @@ import { currencySymbolCodeValidator } from "../tools/currencySymbolCodeValidato
 export const inventoryRouter = Router();
 
 inventoryRouter.get(["/", "/:id"], [
-    param("id").optional().escape().isNumeric().withMessage("id must be a number"),
-    query("offset").optional().escape().isNumeric().withMessage("offset must be a number"),
-    query("limit").optional().escape().isNumeric().withMessage("limit must be a number")
+    param("id").optional().isNumeric().withMessage("id must be a number"),
+    query("offset").optional().isNumeric().withMessage("offset must be a number"),
+    query("limit").optional().isNumeric().withMessage("limit must be a number")
 ], getInventories);
 
 inventoryRouter.post("/", [
-    body("item").escape().trim().isLength({ min: 3, max: 75 }).withMessage("item name must be between 3 to 75 characters."),
-    body("amount").optional().escape().trim().isNumeric().withMessage("amount must be a number"),
-    body("amount_unit").optional().escape().trim().isLength({ min: 1, max: 20 }).withMessage("amount unit must be between 1 to 5 characters."),
-    body("category").optional().escape().trim().custom(categoryValidator).withMessage("category must be a valid type."),
-    body("color").optional().escape().trim().isLength({ min: 2, max: 30 }).withMessage("color must be between 2 to 30 characters."),
-    body("color_hex").optional().escape().trim().isLength({ max: 7 }).isHexColor().withMessage("color_hex must be a valid hex"),
-    body("cost").optional().escape().trim().isNumeric().withMessage("cost must be a number"),
-    body("cost_unit").optional().escape().trim().custom(currencySymbolCodeValidator).withMessage("cost unit must be valid"),
+    body("item").trim().isLength({ min: 3, max: 75 }).withMessage("item name must be between 3 to 75 characters."),
+    body("amount").optional().trim().isNumeric().withMessage("amount must be a number"),
+    body("amount_unit").optional().trim().isLength({ min: 1, max: 20 }).withMessage("amount unit must be between 1 to 5 characters."),
+    body("category").optional().trim().custom(categoryValidator).withMessage("category must be a valid type."),
+    body("color").optional().trim().isLength({ min: 2, max: 30 }).withMessage("color must be between 2 to 30 characters."),
+    body("color_hex").optional().trim().isLength({ max: 7 }).isHexColor().withMessage("color_hex must be a valid hex"),
+    body("cost").optional().trim().isNumeric().withMessage("cost must be a number"),
+    body("cost_unit").optional().trim().custom(currencySymbolCodeValidator).withMessage("cost unit must be valid"),
 ], postInventories);
 
 inventoryRouter.put("/:id", [
     param("id").escape().notEmpty().withMessage("id is required")
     .isNumeric().withMessage("id must be a number"),
-    body("item").escape().trim().isLength({ min: 3, max: 75 }).withMessage("title must be between 3 to 75 characters."),
-    body("amount").optional().escape().trim().isNumeric().withMessage("amount must be a number"),
-    body("amount_unit").optional().escape().trim().isLength({ min: 1, max: 20 }).withMessage("amount unit must be between 1 to 5 characters."),
-    body("category").optional().escape().trim().custom(categoryValidator).withMessage("category must be a valid type."),
-    body("color").optional().escape().trim().isLength({ min: 2, max: 30 }).withMessage("color must be between 2 to 30 characters."),
-    body("color_hex").optional().escape().trim().isLength({ max: 7 }).isHexColor().withMessage("color_hex must be a valid hex"),
-    body("cost").optional().escape().trim().isNumeric().withMessage("cost must be a number"),
-    body("cost_unit").optional().escape().trim().custom(currencySymbolCodeValidator).withMessage("cost unit must be a valid"),
+    body("item").trim().isLength({ min: 3, max: 75 }).withMessage("title must be between 3 to 75 characters."),
+    body("amount").optional().trim().isNumeric().withMessage("amount must be a number"),
+    body("amount_unit").optional().trim().isLength({ min: 1, max: 20 }).withMessage("amount unit must be between 1 to 5 characters."),
+    body("category").optional().trim().custom(categoryValidator).withMessage("category must be a valid type."),
+    body("color").optional().trim().isLength({ min: 2, max: 30 }).withMessage("color must be between 2 to 30 characters."),
+    body("color_hex").optional().trim().isLength({ max: 7 }).isHexColor().withMessage("color_hex must be a valid hex"),
+    body("cost").optional().trim().isNumeric().withMessage("cost must be a number"),
+    body("cost_unit").optional().trim().custom(currencySymbolCodeValidator).withMessage("cost unit must be a valid"),
 ], putInventories);
 
 inventoryRouter.delete("/:id", [
-    param("id").escape().notEmpty().withMessage("id is required")
+    param("id").notEmpty().withMessage("id is required")
     .isNumeric().withMessage("id must be a number"),
 ], deleteInventories);

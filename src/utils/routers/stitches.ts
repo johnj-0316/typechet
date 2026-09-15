@@ -10,26 +10,26 @@ import { countryCodeValidator } from "../tools/countryCodeValidator";
 export const stitchRouter = Router();
 
 stitchRouter.get(["/", "/:id"], [
-    param("id").optional().escape().isNumeric().withMessage("id must be a number"),
-    query("offset").optional().escape().isNumeric().withMessage("offset must be a number"),
-    query("limit").optional().escape().isNumeric().withMessage("limit must be a number")
+    param("id").optional().isNumeric().withMessage("id must be a number"),
+    query("offset").optional().isNumeric().withMessage("offset must be a number"),
+    query("limit").optional().isNumeric().withMessage("limit must be a number")
 ], getStitches);
 
 stitchRouter.post("/", [
-    body("shorthand").escape().trim().notEmpty().withMessage("shorthand is required"),
-    body("name").escape().trim().notEmpty().withMessage("name is required"),
-    body("origin").optional().escape().trim()
+    body("shorthand").trim().notEmpty().withMessage("shorthand is required"),
+    body("name").trim().notEmpty().withMessage("name is required"),
+    body("origin").optional().trim()
     .custom(countryCodeValidator).withMessage("Invalid origin country code")
 ], postStitches);
 
 stitchRouter.put("/:id", [
-    param("id").escape().isNumeric().notEmpty().withMessage("numeric id is required"),
-    body("shorthand").escape().trim().notEmpty().withMessage("shorthand is required"),
-    body("name").escape().trim().notEmpty().withMessage("name is required"),
-    body("origin").optional().escape().trim()
+    param("id").isNumeric().notEmpty().withMessage("numeric id is required"),
+    body("shorthand").trim().notEmpty().withMessage("shorthand is required"),
+    body("name").trim().notEmpty().withMessage("name is required"),
+    body("origin").optional().trim()
     .custom(countryCodeValidator).withMessage("Invalid origin country code")
 ], putStitches);
 
 stitchRouter.delete("/:id", [
-    param("id").escape().isNumeric().notEmpty().withMessage("numeric id is required")
+    param("id").isNumeric().notEmpty().withMessage("numeric id is required")
 ], deleteStitches);
