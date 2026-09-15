@@ -116,7 +116,7 @@ async function deleteMaterial(
     id: string,
     pattern_id: string
 ): Promise<void> {
-    const { data, error } = await supabase
+    const { error } = await supabase
     .from("materials")
     .delete()
     .eq("id", +id)

@@ -6,6 +6,7 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import helmet from "helmet";
 
 import { authRouter } from './utils/routers/auth';
 import { patternRouter } from './utils/routers/patterns';
@@ -35,9 +36,12 @@ const api = (endpoint: string) => `/api/v${VERSION}/${endpoint}`;
  * ```
  */
 
+app.use(helmet());
+
 /**
  * Serve static files from /browser
  */
+
 app.use(
   express.static(browserDistFolder, {
     maxAge: '1y',

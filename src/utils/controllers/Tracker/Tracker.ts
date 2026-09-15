@@ -50,7 +50,7 @@ async function createTracker(
     pattern_id: string,
     current_row: string,
     current_index: string,
-    is_finished: string,
+    is_finished: boolean,
     title?: string,
     current_stitch?: string,
 ): Promise<TablesInsert<"trackers">> {
@@ -64,7 +64,7 @@ async function createTracker(
         title: title || "My Tracker",
         user_id: user.id,
         pattern_id: +pattern_id,
-        is_finished: Boolean(is_finished)
+        is_finished
     })
     .select()
     .single();
@@ -81,7 +81,7 @@ async function editTracker(
     id: string,
     current_row: string,
     current_index: string,
-    is_finished: string,
+    is_finished: boolean,
     title?: string,
     current_stitch?: string
 ): Promise<TablesUpdate<"trackers">> {
@@ -93,7 +93,7 @@ async function editTracker(
         current_row: +current_row || 0, 
         current_index: +current_index || 0,
         title: title || "My Tracker",
-        is_finished: Boolean(is_finished)
+        is_finished
     })
     .eq("user_id", user.id)
     .eq("id", id)
@@ -111,7 +111,7 @@ async function deleteTracker(
     id: string
 ): Promise<void> {
     const user = await getUser();
-    const { data, error } = await supabase
+    const { error } = await supabase
     .from('trackers')
     .delete()
     .eq("id", id)

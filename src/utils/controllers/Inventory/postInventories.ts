@@ -19,7 +19,7 @@ export async function postInventories(
 
     try {
         const data = await createItem(item, category, amount, amount_unit, color, color_hex, cost, cost_unit);
-        res.status(200).json({ message: "Item succesfully added!", data });
+        res.status(201).json({ message: "Item succesfully added!", data });
     }
     catch (err: unknown) {
         if (err instanceof Error) {

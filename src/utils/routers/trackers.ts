@@ -24,7 +24,7 @@ trackerRouter.post("/", [
     //body("current_stitch").optional().custom(currentStitchValidator).withMessage("current_stitch must be a valid in the pattern"),
     body("current_index").notEmpty().withMessage("current_index is required")
     .isNumeric().withMessage("current_index must be a number"),
-    body("is_finished").trim().isBoolean().withMessage("is_finished must be a valid boolean")
+    body("is_finished").trim().notEmpty().withMessage("is_finished boolean is required").toBoolean()
 ], postTrackers);
 
 trackerRouter.put("/:id", [
@@ -36,7 +36,7 @@ trackerRouter.put("/:id", [
     //body("current_stitch").optional().custom(currentStitchValidator).withMessage("current_stitch must be a valid in the pattern"),
     body("current_index").notEmpty().withMessage("current_index is required")
     .isNumeric().withMessage("current_index must be a number"),
-    body("is_finished").trim().isBoolean().withMessage("is_finished must be a valid boolean")
+    body("is_finished").trim().notEmpty().withMessage("is_finished boolean is required").toBoolean()
 ], putTrackers);
 
 trackerRouter.delete("/:id", [

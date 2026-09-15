@@ -59,7 +59,7 @@ async function getPattern(
 async function createPattern(
     title: string,
     rows: string[],
-    is_editing: string
+    is_editing: boolean
 ): Promise<TablesInsert<'patterns'>> {
     const user = await getUser();
     const { data, error } = await supabase
@@ -67,7 +67,7 @@ async function createPattern(
     .insert({
         title: title || "Untitled Pattern", 
         rows, 
-        is_editing: Boolean(is_editing),
+        is_editing,
         author_id: user.id
     })
     .select()
@@ -84,7 +84,7 @@ async function editPattern(
     id: string,
     title: string,
     rows: string[],
-    is_editing: string
+    is_editing: boolean
 ): Promise<TablesInsert<'patterns'>> {
     const user = await getUser();
     const { data, error } = await supabase
@@ -92,7 +92,7 @@ async function editPattern(
     .update({
         title: title || "Untitled Pattern", 
         rows, 
-        is_editing: Boolean(is_editing),
+        is_editing,
     })
     .eq("author_id", user.id)
     .eq("id", +id)
@@ -110,7 +110,7 @@ async function deletePattern(
     id: string
 ): Promise<void> {
     const user = await getUser();
-    const { data, error } = await supabase
+    const { error } = await supabase
     .from("patterns")
     .delete()
     .eq("author_id", user.id)

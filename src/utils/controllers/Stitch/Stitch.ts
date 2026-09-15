@@ -35,7 +35,6 @@ async function getUserStitch(
     .select()
     .eq("id", +id)
     .or(`custom.eq.FALSE, author_id.eq.${user.id}`)
-    .select()
     .single();
 
     if (error)

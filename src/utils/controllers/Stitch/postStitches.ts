@@ -19,7 +19,7 @@ export async function postStitches(
 
     try {
         const data = await createStitch(shorthand, name, origin);
-        res.status(200).json({ message: "Stitch succesfully created!", data });
+        res.status(201).json({ message: "Stitch succesfully created!", data });
     }
     catch (err: unknown) {
         if (err instanceof Error) {

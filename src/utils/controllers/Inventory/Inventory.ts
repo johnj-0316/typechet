@@ -119,7 +119,7 @@ async function deleteItem(
     id: string
 ): Promise<void> {
     const user = await getUser();
-    const { data, error } = await supabase
+    const { error } = await supabase
     .from("inventory")
     .delete()
     .eq("id", +id)

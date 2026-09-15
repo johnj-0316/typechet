@@ -32,7 +32,7 @@ export async function getMaterials(
             return;
         }
 
-        res.status(200).json({ message: "Found all items!", data });
+        res.status(201).json({ message: "Found all items!", data });
     }
     catch (err: unknown) {
         if (err instanceof Error) {
