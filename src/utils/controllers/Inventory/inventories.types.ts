@@ -3,7 +3,7 @@ type InventoryGetRouteParams = {
 };
 
 type InventoryGetQueryParams = {
-    page?: string,
+    offset?: string,
     limit?: string
 };
 

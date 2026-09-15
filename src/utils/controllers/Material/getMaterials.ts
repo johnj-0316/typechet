@@ -18,11 +18,11 @@ export async function getMaterials(
     }
 
     const { pattern_id_material_id } = req.params;
-    const { page, limit } = req.query;
+    const { offset, limit } = req.query;
 
     try {
         const [pattern_id, material_id] = handleMaterialEndpoint(pattern_id_material_id);
-        const pq = handlePagination(page, limit);
+        const pq = handlePagination(offset, limit);
         const data = material_id ? 
             await getMaterial(material_id, pattern_id) 
             : await getAllMaterials(pattern_id, pq.offset, pq.limit);

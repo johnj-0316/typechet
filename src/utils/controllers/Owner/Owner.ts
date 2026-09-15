@@ -24,7 +24,7 @@ async function getAllOwners(
     .eq('patterns.author_id', user.id)
     .order("user_id")
     .limit(limit)
-    .range(offset, offset + limit);
+    .range(offset, offset + limit - 1);
 
     if (error)
         throw error;
@@ -51,7 +51,7 @@ async function getOwnerByPattern(
     .eq('patterns.author_id', user.id)
     .eq('patterns.id', +pattern_id)
     .limit(limit)
-    .range(offset, offset + limit);
+    .range(offset, offset + limit - 1);
 
     if (error)
         throw error;

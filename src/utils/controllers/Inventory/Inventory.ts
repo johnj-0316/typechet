@@ -17,7 +17,7 @@ async function getAllItems(
     .select()
     .eq("author_id", user.id)
     .limit(limit)
-    .range(offset, offset + limit);
+    .range(offset, offset + limit - 1);
 
     if (error)
         throw error;

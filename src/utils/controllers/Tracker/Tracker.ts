@@ -16,7 +16,7 @@ async function getUserTrackers(
     .select()
     .eq('user_id', user.id)
     .limit(limit)
-    .range(offset, offset + limit);
+    .range(offset, offset + limit - 1);
 
     if (error)
         throw error;

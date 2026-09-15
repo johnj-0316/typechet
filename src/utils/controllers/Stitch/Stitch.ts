@@ -17,7 +17,7 @@ async function getUserStitches(
     .select()
     .or(`custom.eq.FALSE, author_id.eq.${user.id}`)
     .limit(limit)
-    .range(offset, offset + limit);
+    .range(offset, offset + limit - 1);
 
     if (error)
         throw error;

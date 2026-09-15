@@ -9,11 +9,11 @@ export async function getPatterns(
     res: Response
 ): Promise<void> {
     const { id } = req.params;
-    const { page, limit } = req.query;
+    const { offset, limit } = req.query;
 
     try {
         //pq should throw error on faulty values
-        const pq = handlePagination(page, limit);
+        const pq = handlePagination(offset, limit);
         const data = id ? await getPattern(id) : await getAllPatterns(pq.offset, pq.limit);
         res.status(200).json({ message: "Found patterns!", data });
     }

@@ -17,10 +17,10 @@ export async function getStitches(
     }
 
     const { id } = req.params;
-    const { page, limit } = req.query;
+    const { offset, limit } = req.query;
 
     try {
-        const pq = handlePagination(page, limit);
+        const pq = handlePagination(offset, limit);
         const data = id ? 
             await getUserStitch(id) 
             : await getUserStitches(pq.offset, pq.limit);

@@ -21,7 +21,7 @@ patternRouter.post("/", [
     body("is_editing").escape().trim().isBoolean().withMessage("is_editing must be a valid boolean")
 ], postPatterns);
 
-patternRouter.put("/", [
+patternRouter.put("/:id", [
     param("id").escape().notEmpty().withMessage("id is required")
     .isNumeric().withMessage("id must be a number"),
     body("title").optional().escape().trim().isLength({ min: 3, max: 75 }).withMessage("title must be between 3 to 75 characters."),

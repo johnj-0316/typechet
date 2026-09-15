@@ -16,7 +16,7 @@ async function getAllMaterials(
     .select()
     .eq("pattern_id", +pattern_id)
     .limit(limit)
-    .range(offset, offset + limit);
+    .range(offset, offset + limit - 1);
 
     if (error)
         throw error;

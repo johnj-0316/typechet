@@ -17,10 +17,10 @@ export async function getInventories(
     }
 
     const { id } = req.params;
-    const { page, limit } = req.query;
+    const { offset, limit } = req.query;
 
     try {
-        const pq = handlePagination(page, limit);
+        const pq = handlePagination(offset, limit);
         const data = id ? 
             await getItem(id) 
             : await getAllItems(pq.offset, pq.limit);

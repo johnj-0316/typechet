@@ -3,7 +3,7 @@ type TrackersGetRouteParams = {
 };
 
 type TrackersGetQueryParams = {
-    page?: string,
+    offset?: string,
     limit?: string
 };
 

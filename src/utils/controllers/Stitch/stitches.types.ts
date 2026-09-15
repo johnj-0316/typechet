@@ -3,7 +3,7 @@ type StitchesGetRouteParams = {
 };
 
 type StitchesGetQueryParams = {
-    page?: string,
+    offset?: string,
     limit?: string
 };
 

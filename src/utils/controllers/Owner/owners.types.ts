@@ -3,7 +3,7 @@ type OwnerGetRouteParams = {
 };
 
 type OwnerGetQueryParams = {
-    page?: string,
+    offset?: string,
     limit?: string
 };
 

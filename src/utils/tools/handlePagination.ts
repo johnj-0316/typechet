@@ -8,6 +8,9 @@ export function handlePagination(
 } {
     const limit = Math.round(+limitQuery);
 
+    if (limit <= 0 || limit > 100)
+        throw new Error("Invalid limit query");
+
     // default value on no page specified
     if (!pageQuery) {
         return {
@@ -20,9 +23,6 @@ export function handlePagination(
 
     if (offset < 0)
         throw new Error("Invalid page query");
-
-    if (limit <= 0 || limit > 100)
-        throw new Error("Invalid limit query");
 
     return { offset, limit };
 }

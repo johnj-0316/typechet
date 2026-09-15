@@ -3,7 +3,7 @@ type MaterialsGetRouteParams = {
 };
 
 type MaterialsGetQueryParams = {
-    page?: string,
+    offset?: string,
     limit?: string
 };
 

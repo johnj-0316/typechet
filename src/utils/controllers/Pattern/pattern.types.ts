@@ -3,7 +3,7 @@ type PatternGetRouteParams = {
 };
 
 type PatternGetQueryParams = {
-    page?: string,
+    offset?: string,
     limit?: string
 };
 
