@@ -12,7 +12,7 @@ export async function registerUser(
     const result = validationResult(req);
 
     if (!result.isEmpty())
-        throw new ClientError("Something went wrong with logging in.", 400, result.array());
+        throw new ClientError("Something went wrong with registering.", 400, result.array());
 
     //supabase autohashes, otherwise use bcrypt
     const { username, email } = req.body;

@@ -6,7 +6,7 @@ import { ClientError } from "../errors/Error";
 
 export function handleOwnerEndpoint(compositeEndpoint: string) {
     if (typeof compositeEndpoint !== "string")
-        throw new Error("path parameter is not a string.");
+        throw new ClientError("path parameter is not a string.", 400);
 
     const params = compositeEndpoint.split(",");
 

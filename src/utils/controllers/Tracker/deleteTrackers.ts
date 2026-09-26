@@ -4,6 +4,7 @@ import { validationResult } from "express-validator";
 import { sessionUser } from "../User/sessionUser";
 import { deleteTracker } from "./Tracker";
 import { TrackersDeleteRouteParams } from "./trackers.types";
+import { ClientError } from "../../errors/Error";
 
 export async function deleteTrackers(
     req: Request<TrackersDeleteRouteParams>, 
@@ -11,29 +12,15 @@ export async function deleteTrackers(
 ): Promise<void> {
     const result = validationResult(req);
 
-    if (!result.isEmpty()) {
-        res.status(400).json({ message: "Something went wrong with deleting the tracker.", error: result.array() });
-        return;
-    }
+    if (!result.isEmpty())
+        throw new ClientError("Something went wrong with the request.", 400, result.array());
 
     const { id } = req.params;
     const session = sessionUser(res);
 
-    try {
-        if (id === "") {
-            res.status(400).json({ message: "Something went wrong with deleting the tracker.", error: "id field is missing or invalid." });
-            return;
-        }
+    if (!id)
+        throw new ClientError("Missing id parameter.", 400);
 
-        await deleteTracker(session, id);
-        res.sendStatus(204);
-    }
-    catch (err: unknown) {
-        if (err instanceof Error) {
-            res.status(500).json({ message: "Something went wrong with deleting the tracker.", err: err.message });
-        } 
-        else {
-            res.status(500).json({ message: "An unexpected error has occured.", err });
-        }
-    }
+    await deleteTracker(session, id);
+    res.sendStatus(204);
 }
