@@ -4,6 +4,7 @@ import { validationResult } from "express-validator";
 import { sessionUser } from "../User/sessionUser";
 import { editPattern } from "./Pattern";
 import { PatternPutRouteParams, PatternPutBodyParams } from "./pattern.types";
+import { ClientError } from "../../errors/Error";
 
 // finish frontend form first
 
@@ -13,25 +14,13 @@ export async function putPatterns(
 ) {
     const result = validationResult(req);
 
-    if (!result.isEmpty()) {
-        res.status(400).json({ message: "Something went wrong with editing the pattern.", err: result.array() });
-        return;
-    }
+    if (!result.isEmpty())
+        throw new ClientError("Something went wrong with the patterns request.", 400, result.array());
 
     const { id } = req.params;
     const { title, rows, is_editing } = req.body;
     const session = sessionUser(res);
-
-    try {
-        const data = await editPattern(session, id, title, rows, is_editing);
-        res.status(201).json({ message: "Pattern successfully edited!", data });
-    }
-    catch (err: unknown) {
-        if (err instanceof Error) {
-            res.status(500).json({ message: "Something went wrong with editing the pattern.", err: err.message });
-        } 
-        else {
-            res.status(500).json({ message: "An unexpected error has occured.", err });
-        }
-    }
+    const data = await editPattern(session, id, title, rows, is_editing);
+        
+    res.status(201).json({ message: "Pattern successfully edited!", data });
 }

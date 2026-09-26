@@ -4,6 +4,7 @@ import { validationResult } from "express-validator";
 import { sessionUser } from "../User/sessionUser";
 import { createPattern } from "./Pattern";
 import { PatternPostBodyParams } from "./pattern.types";
+import { ClientError } from "../../errors/Error";
 
 export async function postPatterns(
     req: Request<any, unknown, PatternPostBodyParams>, 
@@ -11,24 +12,12 @@ export async function postPatterns(
 ): Promise<void> {
     const result = validationResult(req);
 
-    if (!result.isEmpty()) {
-        res.status(400).json({ message: "Something went wrong with saving the pattern.", err: result.array() });
-        return;
-    }
+    if (!result.isEmpty())
+        throw new ClientError("Something went wrong with the patterns request.", 400, result.array());
 
     const { title, rows, is_editing } = req.body;
     const session = sessionUser(res);
+    const data = await createPattern(session, title, rows, is_editing);
 
-    try {
-        const data = await createPattern(session, title, rows, is_editing);
-        res.status(201).json({ message: "Pattern successfully saved!", data });
-    }
-    catch (err: unknown) {
-        if (err instanceof Error) {
-            res.status(500).json({ message: "Something went wrong with saving the pattern.", err: err.message });
-        } 
-        else {
-            res.status(500).json({ message: "An unexpected error has occured.", err });
-        }
-    }
+    res.status(201).json({ message: "Pattern successfully saved!", data });
 }
