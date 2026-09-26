@@ -13,7 +13,7 @@ export async function deleteInventories(
     const session = sessionUser(res);
 
     if (id === "")
-        throw new ClientError("Missing pattern or material id parameter.", 400);
+        throw new ClientError("Missing id parameter.", 400);
 
     await deleteItem(session, id);
     res.sendStatus(204);

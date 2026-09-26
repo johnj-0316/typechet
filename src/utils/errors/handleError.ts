@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { ClientError, ServerError } from "./Error";
+import { APIError, ClientError, ServerError } from "./Error";
 import { AuthError, PostgrestError } from "@supabase/supabase-js";
 
 export function handleError(
@@ -9,13 +9,22 @@ export function handleError(
     next: NextFunction
 ) {
     if (error instanceof ClientError) {
-        res.status(error.statusCode).json({ type: "Client Error", error });
+        const { message, details } = error;
+        res.status(error.statusCode).json({ type: "Client Error", error: { message, details } });
+        return;
+    }
+
+    if (error instanceof APIError) {
+        // add middleware to log these types of errors to us.
+        const { message, details } = error;
+        res.status(error.statusCode).json({ type: "API Error", error: { message, details } });
         return;
     }
 
     if (error instanceof ServerError) {
         // add middleware to log these types of errors to us.
-        res.status(error.statusCode).json({ type: "Server Error", error });
+        const { message } = error;
+        res.status(error.statusCode).json({ type: "Server Error", error: { message } });
         return;
     }
 

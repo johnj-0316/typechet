@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { validationResult } from "express-validator";
 
 import { sessionUser } from "../User/sessionUser";
 import { editMaterial } from "./Materials";

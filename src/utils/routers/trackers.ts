@@ -1,54 +1,20 @@
 import { Router } from "express";
-import { body, param, query } from "express-validator";
 
-import { validate } from "./validate";
+import { validate } from "../validators/validate";
+import { trackersGetValidator, trackersPostValidator, trackersPutValidator, trackersDeleteValidator } from "../validators/route/trackersValidator";
+
 import { getTrackers } from "../controllers/Tracker/getTrackers";
 import { postTrackers } from "../controllers/Tracker/postTrackers";
 import { putTrackers } from "../controllers/Tracker/putTrackers";
 import { deleteTrackers } from "../controllers/Tracker/deleteTrackers";
-import { currentStitchValidator } from "../tools/currentStitchValidator";
 
 export const trackerRouter = Router();
+const errorMsg = "Something went wrong with the trackers request.";
 
-trackerRouter.get(["/", "/:id"], [
-    param("id").optional().isUUID().withMessage("uuid must be valid"),
-    query("offset").optional().isNumeric().withMessage("offset must be a number"),
-    query("limit").optional().isNumeric().withMessage("limit must be a number")
-], 
-validate("Something went wrong with the trackers request."), 
-getTrackers);
+trackerRouter.get(["/", "/:id"], trackersGetValidator, validate(errorMsg), getTrackers);
 
-trackerRouter.post("/", [
-    body("pattern_id").trim().notEmpty().withMessage("pattern id is required")
-    .isNumeric().withMessage("pattern id must be a number"),
-    body("title").optional().trim().isLength({ min: 3, max: 75 }).withMessage("title must be between 3 to 75 characters."),
-    body("current_row").notEmpty().withMessage("current_row is required")
-    .isNumeric().withMessage("current_row must be a number"),
-    //body("current_stitch").optional().custom(currentStitchValidator).withMessage("current_stitch must be a valid in the pattern"),
-    body("current_index").notEmpty().withMessage("current_index is required")
-    .isNumeric().withMessage("current_index must be a number"),
-    body("is_finished").trim().notEmpty().withMessage("is_finished boolean is required").toBoolean()
-],
-validate("Something went wrong with the trackers request."),
-postTrackers);
+trackerRouter.post("/", trackersPostValidator,validate(errorMsg),postTrackers);
 
-trackerRouter.put("/:id", [
-    param("id").notEmpty().withMessage("uuid is required")
-    .isUUID().withMessage("valid uuid is required"),
-    body("title").optional().trim().isLength({ min: 3, max: 75 }).withMessage("title must be between 3 to 75 characters."),
-    body("current_row").notEmpty().withMessage("current_row is required")
-    .isNumeric().withMessage("current_row must be a number"),
-    //body("current_stitch").optional().custom(currentStitchValidator).withMessage("current_stitch must be a valid in the pattern"),
-    body("current_index").notEmpty().withMessage("current_index is required")
-    .isNumeric().withMessage("current_index must be a number"),
-    body("is_finished").trim().notEmpty().withMessage("is_finished boolean is required").toBoolean()
-], 
-validate("Something went wrong with the trackers request."), 
-putTrackers);
+trackerRouter.put("/:id", trackersPutValidator, validate(errorMsg), putTrackers);
 
-trackerRouter.delete("/:id", [
-    param("id").notEmpty().withMessage("uuid is required")
-    .isUUID().withMessage("valid uuid is required")
-],
-validate("Something went wrong with the trackers request."),
-deleteTrackers);
+trackerRouter.delete("/:id", trackersDeleteValidator, validate(errorMsg),deleteTrackers);

@@ -1,55 +1,20 @@
 import { Router } from "express";
-import { body, param, query } from "express-validator";
 
-import { validate } from "./validate";
+import { validate } from "../validators/validate";
+import { inventoriesGetValidator, inventoriesPostValidator, inventoriesPutValidator, inventoriesDeleteValidator } from "../validators/route/inventoriesValidator";
+
 import { getInventories } from "../controllers/Inventory/getInventories";
 import { postInventories } from "../controllers/Inventory/postInventories";
 import { putInventories } from "../controllers/Inventory/putInventories";
 import { deleteInventories } from "../controllers/Inventory/deleteInventories";
-import { categoryValidator } from "../tools/categoryValidator";
-import { currencySymbolCodeValidator } from "../tools/currencySymbolCodeValidator";
 
 export const inventoryRouter = Router();
+const errorMsg = "Something went wrong with the inventories request.";
 
-inventoryRouter.get(["/", "/:id"], [
-    param("id").optional().isNumeric().withMessage("id must be a number"),
-    query("offset").optional().isNumeric().withMessage("offset must be a number"),
-    query("limit").optional().isNumeric().withMessage("limit must be a number")
-],
-validate("Something went wrong with the inventories request."),
-getInventories);
+inventoryRouter.get(["/", "/:id"], inventoriesGetValidator, validate(errorMsg), getInventories);
 
-inventoryRouter.post("/", [
-    body("item").trim().isLength({ min: 3, max: 75 }).withMessage("item name must be between 3 to 75 characters."),
-    body("amount").optional().trim().isNumeric().withMessage("amount must be a number"),
-    body("amount_unit").optional().trim().isLength({ min: 1, max: 20 }).withMessage("amount unit must be between 1 to 5 characters."),
-    body("category").optional().trim().toLowerCase().custom(categoryValidator).withMessage("category must be a valid type."),
-    body("color").optional().trim().isLength({ min: 2, max: 30 }).withMessage("color must be between 2 to 30 characters."),
-    body("color_hex").optional().trim().isLength({ max: 7 }).isHexColor().withMessage("color_hex must be a valid hex"),
-    body("cost").optional().trim().isNumeric().withMessage("cost must be a number"),
-    body("cost_unit").optional().trim().custom(currencySymbolCodeValidator).withMessage("cost unit must be valid"),
-],
-validate("Something went wrong with the inventories request."),
-postInventories);
+inventoryRouter.post("/", inventoriesPostValidator, validate(errorMsg), postInventories);
 
-inventoryRouter.put("/:id", [
-    param("id").escape().notEmpty().withMessage("id is required")
-    .isNumeric().withMessage("id must be a number"),
-    body("item").trim().isLength({ min: 3, max: 75 }).withMessage("title must be between 3 to 75 characters."),
-    body("amount").optional().trim().isNumeric().withMessage("amount must be a number"),
-    body("amount_unit").optional().trim().isLength({ min: 1, max: 20 }).withMessage("amount unit must be between 1 to 5 characters."),
-    body("category").optional().trim().toLowerCase().custom(categoryValidator).withMessage("category must be a valid type."),
-    body("color").optional().trim().isLength({ min: 2, max: 30 }).withMessage("color must be between 2 to 30 characters."),
-    body("color_hex").optional().trim().isLength({ max: 7 }).isHexColor().withMessage("color_hex must be a valid hex"),
-    body("cost").optional().trim().isNumeric().withMessage("cost must be a number"),
-    body("cost_unit").optional().trim().custom(currencySymbolCodeValidator).withMessage("cost unit must be a valid"),
-],
-validate("Something went wrong with the inventories request."),
-putInventories);
+inventoryRouter.put("/:id", inventoriesPutValidator, validate(errorMsg), putInventories);
 
-inventoryRouter.delete("/:id", [
-    param("id").notEmpty().withMessage("id is required")
-    .isNumeric().withMessage("id must be a number"),
-],
-validate("Something went wrong with the inventories request."),
-deleteInventories);
+inventoryRouter.delete("/:id", inventoriesDeleteValidator, validate(errorMsg), deleteInventories);

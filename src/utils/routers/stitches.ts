@@ -1,44 +1,20 @@
 import { Router } from "express";
-import { body, param, query } from "express-validator";
 
-import { validate } from "./validate";
+import { validate } from "../validators/validate";
+import { stitchesGetValidator, stitchesPostValidator, stitchesPutValidator, stitchesDeleteValidator } from "../validators/route/stitchesValidator";
+
 import { getStitches } from "../controllers/Stitch/getStitches";
 import { postStitches } from "../controllers/Stitch/postStitches";
 import { putStitches } from "../controllers/Stitch/putStitches";
 import { deleteStitches } from "../controllers/Stitch/deleteStitches";
-import { countryCodeValidator } from "../tools/countryCodeValidator";
 
 export const stitchRouter = Router();
+const errorMsg = "Something went wrong with the stitches request.";
 
-stitchRouter.get(["/", "/:id"], [
-    param("id").optional().isNumeric().withMessage("id must be a number"),
-    query("offset").optional().isNumeric().withMessage("offset must be a number"),
-    query("limit").optional().isNumeric().withMessage("limit must be a number")
-],
-validate("Something went wrong with the stitches request."),
-getStitches);
+stitchRouter.get(["/", "/:id"], stitchesGetValidator, validate(errorMsg), getStitches);
 
-stitchRouter.post("/", [
-    body("shorthand").trim().notEmpty().withMessage("shorthand is required"),
-    body("name").trim().notEmpty().withMessage("name is required"),
-    body("origin").optional().trim()
-    .custom(countryCodeValidator).withMessage("Invalid origin country code")
-],
-validate("Something went wrong with the stitches request."),
-postStitches);
+stitchRouter.post("/", stitchesPostValidator, validate(errorMsg), postStitches);
 
-stitchRouter.put("/:id", [
-    param("id").isNumeric().notEmpty().withMessage("numeric id is required"),
-    body("shorthand").trim().notEmpty().withMessage("shorthand is required"),
-    body("name").trim().notEmpty().withMessage("name is required"),
-    body("origin").optional().trim()
-    .custom(countryCodeValidator).withMessage("Invalid origin country code")
-],
-validate("Something went wrong with the stitches request."),
-putStitches);
+stitchRouter.put("/:id", stitchesPutValidator, validate(errorMsg), putStitches);
 
-stitchRouter.delete("/:id", [
-    param("id").isNumeric().notEmpty().withMessage("numeric id is required")
-],
-validate("Something went wrong with the stitches request."),
-deleteStitches);
+stitchRouter.delete("/:id", stitchesDeleteValidator, validate(errorMsg), deleteStitches);

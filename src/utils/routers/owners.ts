@@ -1,46 +1,20 @@
 import { Router } from "express";
-import { body, param, query } from "express-validator";
 
-import { validate } from "./validate";
+import { validate } from "../validators/validate";
+import { ownersGetValidator, ownersPostValidator, ownersPutValidator, ownersDeleteValidator } from "../validators/route/ownersValidator";
+
 import { getOwners } from "../controllers/Owner/getOwners";
 import { postOwners } from "../controllers/Owner/postOwners";
 import { putOwners } from "../controllers/Owner/putOwners";
 import { deleteOwners } from "../controllers/Owner/deleteOwners";
-import { ownerEndpointValidator } from "../tools/ownerEndpointValidator";
 
 export const ownerRouter = Router();
+const errorMsg = "Something went wrong with the owners request.";
 
-ownerRouter.get(["/", "/:pattern_id"], [
-    param("pattern_id").optional().isNumeric().withMessage("pattern id must be a number"),
-    query("offset").optional().isNumeric().withMessage("offset must be a number"),
-    query("limit").optional().isNumeric().withMessage("limit must be a number")
-],
-validate("Something went wrong with the owners request."),
-getOwners);
+ownerRouter.get(["/", "/:pattern_id"], ownersGetValidator, validate(errorMsg), getOwners);
 
-ownerRouter.post("/", [
-    body("message").optional().trim(),
-    body("pattern_id").trim().notEmpty().withMessage("pattern id is required")
-    .isNumeric().withMessage("pattern id must be a number"),
-    body("user_id").trim().notEmpty().withMessage("user uuid is required")
-    .isUUID().withMessage("valid user uuid is required")
-],
-validate("Something went wrong with the owners request."),
-postOwners);
+ownerRouter.post("/", ownersPostValidator, validate(errorMsg), postOwners);
 
-ownerRouter.put("/:user_pattern_id", [
-    param("user_pattern_id").notEmpty().custom(ownerEndpointValidator).withMessage("not a valid user or pattern id"),
-    body("message").optional().trim(),
-    body("pattern_id").trim().notEmpty().withMessage("pattern id is required")
-    .isNumeric().withMessage("pattern id must be a number"),
-    body("user_id").trim().notEmpty().withMessage("uuid id is required")
-    .isUUID().withMessage("valid user uuid is required")
-],
-validate("Something went wrong with the owners request."),
-putOwners);
+ownerRouter.put("/:user_pattern_id", ownersPutValidator, validate(errorMsg), putOwners);
 
-ownerRouter.delete("/:user_pattern_id", [
-    param("user_pattern_id").notEmpty().custom(ownerEndpointValidator).withMessage("not a valid user or pattern id")
-],
-validate("Something went wrong with the owners request."),
-deleteOwners);
+ownerRouter.delete("/:user_pattern_id", ownersDeleteValidator, validate(errorMsg), deleteOwners);
