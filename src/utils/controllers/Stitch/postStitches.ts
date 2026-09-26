@@ -4,6 +4,7 @@ import { validationResult } from "express-validator";
 import { sessionUser } from "../User/sessionUser";
 import { createStitch } from "./Stitch";
 import { StitchesPostBodyParams } from "./stitches.types";
+import { ClientError } from "../../errors/Error";
 
 export async function postStitches(
     req: Request<any, unknown, StitchesPostBodyParams>, 
@@ -11,24 +12,12 @@ export async function postStitches(
 ): Promise<void> {
     const result = validationResult(req);
 
-    if (!result.isEmpty()) {
-        res.status(400).json({ message: "Something went wrong with creating the stitch.", error: result.array() });
-        return;
-    }
+    if (!result.isEmpty())
+        throw new ClientError("Something went wrong with the stitches request.", 400, result.array());
 
     const { shorthand, name, origin } = req.body;
     const session = sessionUser(res);
+    const data = await createStitch(session, shorthand, name, origin);
 
-    try {
-        const data = await createStitch(session, shorthand, name, origin);
-        res.status(201).json({ message: "Stitch succesfully created!", data });
-    }
-    catch (err: unknown) {
-        if (err instanceof Error) {
-            res.status(500).json({ message: "Something went wrong with creating the stitch.", err: err.message });
-        } 
-        else {
-            res.status(500).json({ message: "An unexpected error has occured.", err });
-        }
-    }
+    res.status(201).json({ message: "Stitch succesfully created!", data });
 }

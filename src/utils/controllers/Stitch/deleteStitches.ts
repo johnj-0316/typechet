@@ -4,6 +4,7 @@ import { validationResult } from "express-validator";
 import { sessionUser } from "../User/sessionUser";
 import { deleteStitch } from "./Stitch";
 import { StitchesDeleteRouteParams } from "./stitches.types";
+import { ClientError } from "../../errors/Error";
 
 export async function deleteStitches(
     req: Request<StitchesDeleteRouteParams>, 
@@ -11,29 +12,15 @@ export async function deleteStitches(
 ): Promise<void> {
     const result = validationResult(req);
 
-    if (!result.isEmpty()) {
-        res.status(400).json({ message: "Something went wrong with deleting the stitch.", error: result.array() });
-        return;
-    }
+    if (!result.isEmpty())
+        throw new ClientError("Something went wrong with the stitches request.", 400, result.array());
 
     const { id } = req.params;
     const session = sessionUser(res);
 
-    try {
-        if (id === "") {
-            res.status(400).json({ message: "Something went wrong with deleting the stitch.", error: "stitch_id field is required." });
-            return;
-        }
+    if (!id)
+        throw new ClientError("Missing id parameter.", 400);
 
-        await deleteStitch(session, id);
-        res.sendStatus(204);
-    }
-    catch (err: unknown) {
-        if (err instanceof Error) {
-            res.status(500).json({ message: "Something went wrong with deleting the stitch.", err: err.message });
-        } 
-        else {
-            res.status(500).json({ message: "An unexpected error has occured.", err });
-        }
-    }
+    await deleteStitch(session, id);
+    res.sendStatus(204);
 }

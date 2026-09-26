@@ -5,6 +5,7 @@ import { sessionUser } from "../User/sessionUser";
 import { getUserStitches, getUserStitch } from "./Stitch";
 import { StitchesGetRouteParams, StitchesGetQueryParams } from "./stitches.types";
 import { handlePagination } from "../../tools/handlePagination";
+import { ClientError } from "../../errors/Error";
 
 export async function getStitches(
     req: Request<StitchesGetRouteParams, unknown, unknown, StitchesGetQueryParams>, 
@@ -12,29 +13,17 @@ export async function getStitches(
 ): Promise<void> {
     const result = validationResult(req);
 
-    if (!result.isEmpty()) {
-        res.status(400).json({ message: "Something went wrong with getting the stitches.", error: result.array() });
-        return;
-    }
+    if (!result.isEmpty())
+        throw new ClientError("Something went wrong with the stitches request.", 400, result.array());
 
     const { id } = req.params;
     const { offset, limit } = req.query;
     const session = sessionUser(res);
 
-    try {
-        const pq = handlePagination(offset, limit);
-        const data = id ? 
-            await getUserStitch(session, id) 
-            : await getUserStitches(session, pq.offset, pq.limit);
-        
-        res.status(200).json({ message: "Found stitches!", data });
-    }
-    catch (err: unknown) {
-        if (err instanceof Error) {
-            res.status(500).json({ message: "Something went wrong with getting the stitches.", err: err.message });
-        } 
-        else {
-            res.status(500).json({ message: "An unexpected error has occured.", err });
-        }
-    }
+    const pq = handlePagination(offset, limit);
+    const data = id ? 
+        await getUserStitch(session, id) 
+        : await getUserStitches(session, pq.offset, pq.limit);
+    
+    res.status(200).json({ message: "Found stitches!", data });
 }

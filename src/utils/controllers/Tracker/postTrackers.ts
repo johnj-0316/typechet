@@ -13,7 +13,7 @@ export async function postTrackers(
     const result = validationResult(req);
 
     if (!result.isEmpty())
-        throw new ClientError("Something went wrong with the request.", 400, result.array());
+        throw new ClientError("Something went wrong with the trackers request.", 400, result.array());
 
     const { pattern_id, title, current_row, current_stitch, current_index, is_finished } = req.body;
     const session = sessionUser(res);

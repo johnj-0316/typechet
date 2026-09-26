@@ -14,7 +14,7 @@ export async function getTrackers(
     const result = validationResult(req);
 
     if (!result.isEmpty())
-        throw new ClientError("Something went wrong with the request.", 400, result.array());
+        throw new ClientError("Something went wrong with the trackers request.", 400, result.array());
 
     const { id } = req.params;
     const { offset, limit } = req.query;
