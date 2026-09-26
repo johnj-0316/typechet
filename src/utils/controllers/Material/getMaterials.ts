@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { sessionUser } from "../User/sessionUser";
 import { getAllMaterials, getMaterial } from "./Materials";
 import { MaterialsGetRouteParams, MaterialsGetQueryParams } from "./materials.types";
 import { handlePagination } from "../../tools/handlePagination";
@@ -19,18 +20,14 @@ export async function getMaterials(
 
     const { pattern_id_material_id } = req.params;
     const { offset, limit } = req.query;
+    const session = sessionUser(res);
 
     try {
         const [pattern_id, material_id] = handleMaterialEndpoint(pattern_id_material_id);
         const pq = handlePagination(offset, limit);
         const data = material_id ? 
-            await getMaterial(material_id, pattern_id) 
-            : await getAllMaterials(pattern_id, pq.offset, pq.limit);
-
-        if (!data || (Array.isArray(data) && !data.length)) {
-            res.sendStatus(404);
-            return;
-        }
+            await getMaterial(session, material_id, pattern_id) 
+            : await getAllMaterials(session, pattern_id, pq.offset, pq.limit);
 
         res.status(201).json({ message: "Found all items!", data });
     }

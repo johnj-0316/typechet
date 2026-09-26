@@ -34,5 +34,5 @@ ownerRouter.put("/:user_pattern_id", [
 
 ownerRouter.delete("/:user_pattern_id", [
     param("user_pattern_id").notEmpty().custom(ownerEndpointValidator).withMessage("not a valid user or pattern id")
-],deleteOwners);
+], deleteOwners);
 

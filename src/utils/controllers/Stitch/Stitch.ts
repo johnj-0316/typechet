@@ -1,21 +1,18 @@
-import supabase from "../../../db/supabase_client";
-
 import { Tables, TablesInsert, TablesUpdate } from "../../../db/database.types";
-
-import { getUser } from "../User/User";
+import { UserAuthContext } from "../User/users.types";
 
 export { getUserStitches, getUserStitch, createStitch, editStitch, deleteStitch };
 
 // get all stitches paginated
 async function getUserStitches(
+    session: UserAuthContext,
     offset: number,
     limit: number
 ): Promise<Tables<"stitches">[]> {
-    const user = await getUser();
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from('stitches')
     .select()
-    .or(`custom.eq.FALSE, author_id.eq.${user.id}`)
+    .or(`custom.eq.FALSE, author_id.eq.${session.userId}`)
     .limit(limit)
     .range(offset, offset + limit - 1);
 
@@ -27,14 +24,14 @@ async function getUserStitches(
 
 // get all stitches by id
 async function getUserStitch(
+    session: UserAuthContext,
     id: string
 ): Promise<Tables<"stitches">> {
-    const user = await getUser();
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from('stitches')
     .select()
     .eq("id", +id)
-    .or(`custom.eq.FALSE, author_id.eq.${user.id}`)
+    .or(`custom.eq.FALSE, author_id.eq.${session.userId}`)
     .single();
 
     if (error)
@@ -44,18 +41,18 @@ async function getUserStitch(
 }
 
 async function createStitch(
+    session: UserAuthContext,
     shorthand: string,
     name: string,
     origin?: string
 ): Promise<TablesInsert<"stitches">> {
-    const user = await getUser();
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from("stitches")
     .insert({ 
         shorthand, 
         name, 
         origin: origin || "US", 
-        author_id: user.id 
+        author_id: session.userId 
     })
     .select()
     .single();
@@ -67,20 +64,20 @@ async function createStitch(
 }
 
 async function editStitch(
+    session: UserAuthContext,
     id: string,
     shorthand: string,
     name: string,
     origin?: string
 ): Promise<TablesUpdate<"stitches">> {
-    const user = await getUser();
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from("stitches")
     .update({ 
         shorthand, 
         name, 
         origin: origin || "US"
     })
-    .eq("author_id", user.id)
+    .eq("author_id", session.userId)
     .eq("id", +id)
     .select()
     .single();
@@ -92,13 +89,13 @@ async function editStitch(
 }
 
 async function deleteStitch(
+    session: UserAuthContext,
     id: string
 ): Promise<void> {
-    const user = await getUser();
-    const { error } = await supabase
+    const { error } = await session.supabase
     .from("stitches")
     .delete()
-    .eq("author_id", user.id)
+    .eq("author_id", session.userId)
     .eq("id", +id)
     .select()
     .single();

@@ -1,21 +1,19 @@
-import supabase from "../../../db/supabase_client";
 import { Tables, TablesInsert, TablesUpdate } from "../../../db/database.types";
-
-import { getUser } from "../User/User";
 import { handleInventoryCategory } from "../../tools/handleInventoryCategory";
 import { handleHexCodeConversion } from "../../tools/handleHexCodeConversion";
+import { UserAuthContext } from "../User/users.types";
 
 export { getAllItems, getItem, createItem, editItem, deleteItem };
 
 async function getAllItems(
+    session: UserAuthContext,
     offset: number,
     limit: number
 ): Promise<Tables<"inventory">[]> {
-    const user = await getUser();
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from("inventory")
     .select()
-    .eq("author_id", user.id)
+    .eq("author_id", session.userId)
     .limit(limit)
     .range(offset, offset + limit - 1);
 
@@ -26,14 +24,14 @@ async function getAllItems(
 }
 
 async function getItem(
+    session: UserAuthContext,
     id: string
 ): Promise<Tables<"inventory">> {
-    const user = await getUser();
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from("inventory")
     .select()
     .eq("id", +id)
-    .eq("author_id", user.id)
+    .eq("author_id", session.userId)
     .single();
 
     if (error)
@@ -48,6 +46,7 @@ async function getItem(
 
 //refactor table and then create new types
 async function createItem(
+    session: UserAuthContext,
     item: string,
     category: string,
     amount?: string,
@@ -57,8 +56,7 @@ async function createItem(
     cost?: string,
     cost_unit?: string
 ): Promise<TablesInsert<"inventory">> {
-    const user = await getUser();
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from("inventory")
     .insert({ 
         item, 
@@ -69,7 +67,7 @@ async function createItem(
         color_hex,
         cost: cost ? +cost : null,
         cost_unit,
-        author_id: user.id 
+        author_id: session.userId 
     })
     .select()
     .single();
@@ -81,6 +79,7 @@ async function createItem(
 }
 
 async function editItem(
+    session: UserAuthContext,
     id: string,
     item: string,
     category: string,
@@ -91,8 +90,7 @@ async function editItem(
     cost?: string,
     cost_unit?: string
 ): Promise<TablesUpdate<"inventory">> {
-    const user = await getUser();
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from("inventory")
     .update({ 
         item, 
@@ -105,7 +103,7 @@ async function editItem(
         cost_unit
     })
     .eq("id", +id)
-    .eq("author_id", user.id)
+    .eq("author_id", session.userId)
     .select()
     .single();
 
@@ -116,14 +114,14 @@ async function editItem(
 }
 
 async function deleteItem(
+    session: UserAuthContext,
     id: string
 ): Promise<void> {
-    const user = await getUser();
-    const { error } = await supabase
+    const { error } = await session.supabase
     .from("inventory")
     .delete()
     .eq("id", +id)
-    .eq("author_id", user.id)
+    .eq("author_id", session.userId)
     .select()
     .single();
 

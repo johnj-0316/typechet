@@ -1,17 +1,17 @@
-import supabase from "../../../db/supabase_client";
 import { Tables, TablesInsert, TablesUpdate } from "../../../db/database.types";
-
 import { handleInventoryCategory } from "../../tools/handleInventoryCategory";
 import { handleHexCodeConversion } from "../../tools/handleHexCodeConversion";
+import { UserAuthContext } from "../User/users.types";
 
 export { getAllMaterials, getMaterial, createMaterial, editMaterial, deleteMaterial };
 
 async function getAllMaterials(
+    session: UserAuthContext,
     pattern_id: string,
     offset: number,
     limit: number
 ): Promise<Tables<"materials">[]> {
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from("materials")
     .select()
     .eq("pattern_id", +pattern_id)
@@ -25,10 +25,11 @@ async function getAllMaterials(
 }
 
 async function getMaterial(
+    session: UserAuthContext,
     id: string,
     pattern_id: string
 ): Promise<Tables<"materials">> {
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from("materials")
     .select()
     .eq("id", +id)
@@ -45,6 +46,7 @@ async function getMaterial(
 // color should be hex
 // cost can be null
 async function createMaterial(
+    session: UserAuthContext,
     pattern_id: string,
     item: string,
     category: string,
@@ -55,7 +57,7 @@ async function createMaterial(
     cost?: string,
     cost_unit?: string
 ): Promise<TablesInsert<"materials">> {
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from("materials")
     .insert({ 
         item, 
@@ -78,6 +80,7 @@ async function createMaterial(
 }
 
 async function editMaterial(
+    session: UserAuthContext,
     id: string,
     pattern_id: string,
     item: string,
@@ -89,7 +92,7 @@ async function editMaterial(
     cost?: string,
     cost_unit?: string
 ): Promise<TablesUpdate<"materials">> {
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from("materials")
     .update({ 
         item, 
@@ -113,10 +116,11 @@ async function editMaterial(
 }
 
 async function deleteMaterial(
+    session: UserAuthContext,
     id: string,
     pattern_id: string
 ): Promise<void> {
-    const { error } = await supabase
+    const { error } = await session.supabase
     .from("materials")
     .delete()
     .eq("id", +id)

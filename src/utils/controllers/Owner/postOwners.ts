@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { sessionUser } from "../User/sessionUser";
 import { postOwner } from "./Owner";
 import { OwnerPostBodyParams } from "./owners.types";
 
@@ -16,9 +17,10 @@ export async function postOwners(
     }
 
     const { pattern_id, user_id, message } = req.body;
+    const session = sessionUser(res);
 
     try {
-        const data = await postOwner(pattern_id, user_id, message);
+        const data = await postOwner(session, pattern_id, user_id, message);
         res.status(201).json({ message: "Owner succesfully added!", data });
     }
     catch (err: unknown) {

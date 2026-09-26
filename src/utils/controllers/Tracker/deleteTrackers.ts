@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { sessionUser } from "../User/sessionUser";
 import { deleteTracker } from "./Tracker";
 import { TrackersDeleteRouteParams } from "./trackers.types";
 
@@ -16,6 +17,7 @@ export async function deleteTrackers(
     }
 
     const { id } = req.params;
+    const session = sessionUser(res);
 
     try {
         if (id === "") {
@@ -23,7 +25,7 @@ export async function deleteTrackers(
             return;
         }
 
-        await deleteTracker(id);
+        await deleteTracker(session, id);
         res.sendStatus(204);
     }
     catch (err: unknown) {

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { sessionUser } from "../User/sessionUser";
 import { createStitch } from "./Stitch";
 import { StitchesPostBodyParams } from "./stitches.types";
 
@@ -16,9 +17,10 @@ export async function postStitches(
     }
 
     const { shorthand, name, origin } = req.body;
+    const session = sessionUser(res);
 
     try {
-        const data = await createStitch(shorthand, name, origin);
+        const data = await createStitch(session, shorthand, name, origin);
         res.status(201).json({ message: "Stitch succesfully created!", data });
     }
     catch (err: unknown) {

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { sessionUser } from "../User/sessionUser";
 import { editStitch } from "./Stitch";
 import { StitchesPutRouteParams, StitchesPutBodyParams } from "./stitches.types";
 
@@ -17,9 +18,10 @@ export async function putStitches(
 
     const { id } = req.params;
     const { shorthand, name, origin } = req.body;
+    const session = sessionUser(res);
 
     try {
-        const data = await editStitch(id, shorthand, name, origin);
+        const data = await editStitch(session, id, shorthand, name, origin);
         res.status(200).json({ message: "Successfully edited stitch!", data });
     }
     catch (err: unknown) {

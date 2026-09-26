@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { sessionUser } from "../User/sessionUser";
 import { deleteItem } from "./Inventory";
 import { InventoryDeleteRouteParams } from "./inventories.types";
 
@@ -16,6 +17,7 @@ export async function deleteInventories(
     }
 
     const { id } = req.params;
+    const session = sessionUser(res);
 
     try {
         if (id === "") {
@@ -23,7 +25,7 @@ export async function deleteInventories(
             return;
         }
 
-        await deleteItem(id);
+        await deleteItem(session, id);
         res.sendStatus(204);
     }
     catch (err: unknown) {

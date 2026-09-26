@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { sessionUser } from "../User/sessionUser";
 import { getUserStitches, getUserStitch } from "./Stitch";
 import { StitchesGetRouteParams, StitchesGetQueryParams } from "./stitches.types";
 import { handlePagination } from "../../tools/handlePagination";
@@ -18,18 +19,14 @@ export async function getStitches(
 
     const { id } = req.params;
     const { offset, limit } = req.query;
+    const session = sessionUser(res);
 
     try {
         const pq = handlePagination(offset, limit);
         const data = id ? 
-            await getUserStitch(id) 
-            : await getUserStitches(pq.offset, pq.limit);
-
-        if (!data || (Array.isArray(data) && !data.length)) {
-            res.sendStatus(404);
-            return;
-        }
-
+            await getUserStitch(session, id) 
+            : await getUserStitches(session, pq.offset, pq.limit);
+        
         res.status(200).json({ message: "Found stitches!", data });
     }
     catch (err: unknown) {

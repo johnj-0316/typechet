@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { sessionUser } from "../User/sessionUser";
 import { getAllItems, getItem } from "./Inventory";
 import { InventoryGetRouteParams, InventoryGetQueryParams } from "./inventories.types";
 import { handlePagination } from "../../tools/handlePagination";
@@ -18,17 +19,13 @@ export async function getInventories(
 
     const { id } = req.params;
     const { offset, limit } = req.query;
+    const session = sessionUser(res);
 
     try {
         const pq = handlePagination(offset, limit);
         const data = id ? 
-            await getItem(id) 
-            : await getAllItems(pq.offset, pq.limit);
-
-        if (!data || (Array.isArray(data) && !data.length)) {
-            res.sendStatus(404);
-            return;
-        }
+            await getItem(session, id) 
+            : await getAllItems(session, pq.offset, pq.limit);
 
         res.status(200).json({ message: "Found all items!", data });
     }

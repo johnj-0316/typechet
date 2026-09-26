@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { sessionUser } from "../User/sessionUser";
 import { PatternDeleteRouteParams } from "./pattern.types";
 import { deletePattern } from "./Pattern";
 
@@ -16,6 +17,7 @@ export async function deletePatterns(
     }
 
     const { id } = req.params;
+    const session = sessionUser(res);
 
     try {
         if (id === "") {
@@ -23,7 +25,7 @@ export async function deletePatterns(
             return;
         }
 
-        await deletePattern(id);
+        await deletePattern(session, id);
         res.sendStatus(204);
     }
     catch (err: unknown) {

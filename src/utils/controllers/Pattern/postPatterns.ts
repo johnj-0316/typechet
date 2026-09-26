@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { sessionUser } from "../User/sessionUser";
 import { createPattern } from "./Pattern";
 import { PatternPostBodyParams } from "./pattern.types";
 
@@ -16,9 +17,10 @@ export async function postPatterns(
     }
 
     const { title, rows, is_editing } = req.body;
+    const session = sessionUser(res);
 
     try {
-        const data = await createPattern(title, rows, is_editing);
+        const data = await createPattern(session, title, rows, is_editing);
         res.status(201).json({ message: "Pattern successfully saved!", data });
     }
     catch (err: unknown) {

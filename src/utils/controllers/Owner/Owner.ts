@@ -1,19 +1,17 @@
-import supabase from "../../../db/supabase_client";
 import { Tables, TablesInsert, TablesUpdate } from "../../../db/database.types";
-
-import { getUser } from "../User/User";
 import { handleOwnerEndpoint } from "../../tools/handleOwnerEndpoint";
+import { UserAuthContext } from "../User/users.types";
 
 export { getAllOwners, getOwnerByPattern, postOwner, editOwner, deleteOwner };
 
 // returns all owner ids of patterns that belong to user
 // i.e. will return all people who saved any of your patterns
 async function getAllOwners(
+    session: UserAuthContext,
     offset: number,
     limit: number
 ): Promise<Pick<Tables<"owners">, "user_id">[]> {
-    const user = await getUser();
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from('owners')
     .select(
         `
@@ -21,7 +19,7 @@ async function getAllOwners(
         ...patterns!inner()
         `,
     )
-    .eq('patterns.author_id', user.id)
+    .eq('patterns.author_id', session.userId)
     .order("user_id")
     .limit(limit)
     .range(offset, offset + limit - 1);
@@ -35,12 +33,12 @@ async function getAllOwners(
 // return all owner ids given a pattern id
 // i.e. will return all people who saved a specific pattern
 async function getOwnerByPattern(
+    session: UserAuthContext,
     pattern_id: string,
     offset: number,
     limit: number
 ): Promise<Pick<Tables<"owners">, "user_id">[]> {
-    const user = await getUser();
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from('owners')
     .select(
         `
@@ -48,7 +46,7 @@ async function getOwnerByPattern(
         ...patterns!inner()
         `,
     )
-    .eq('patterns.author_id', user.id)
+    .eq('patterns.author_id', session.userId)
     .eq('patterns.id', +pattern_id)
     .limit(limit)
     .range(offset, offset + limit - 1);
@@ -63,11 +61,12 @@ async function getOwnerByPattern(
 // policy requires that inserted row's pattern_id belongs to curr user first (prevent bad access)
 // and requires that added user exists in table
 async function postOwner(
+    session: UserAuthContext,
     pattern_id: string,
     user_id: string,
     message?: string | null
  ): Promise<TablesInsert<"owners">> {
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from("owners")
     .insert({
         pattern_id: +pattern_id, 
@@ -89,14 +88,14 @@ async function postOwner(
 // and requires that added user exists in table
 // uses composite endpoint w comma delim
 async function editOwner(
+    session: UserAuthContext,
     compositeEndpoint: string,
     pattern_id: string,
     user_id: string,
     message?: string | null
 ): Promise<TablesUpdate<"owners">> {
-    const user = await getUser();
     const [userId, patternId] = handleOwnerEndpoint(compositeEndpoint);
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from("owners")
     .update({
         user_id,
@@ -105,7 +104,7 @@ async function editOwner(
     })
     .eq("user_id", userId)
     .eq("pattern_id", +patternId)
-    .neq("user_id", user.id)
+    .neq("user_id", session.userId)
     .select()
     .single();
 
@@ -117,16 +116,16 @@ async function editOwner(
 
 // remove owner given composite endpoint w comma delim
 async function deleteOwner(
+    session: UserAuthContext,
     compositeEndpoint: string
 ): Promise<void> {
-    const user = await getUser();
     const [userId, patternId] = handleOwnerEndpoint(compositeEndpoint);
-    const { error } = await supabase
+    const { error } = await session.supabase
     .from("owners")
     .delete()
     .eq("user_id", userId)
     .eq("pattern_id", +patternId)
-    .neq("user_id", user.id)
+    .neq("user_id", session.userId)
     .select()
     .single();
 

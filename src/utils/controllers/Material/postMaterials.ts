@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { sessionUser } from "../User/sessionUser";
 import { createMaterial } from "./Materials";
 import { MaterialsPostBodyParams } from "./materials.types";
 
@@ -16,9 +17,10 @@ export async function postMaterials(
     }
 
     const { pattern_id, item, amount, amount_unit, category, color, color_hex, cost, cost_unit } = req.body;
+    const session = sessionUser(res);
 
     try {
-        const data = await createMaterial(pattern_id, item, category, amount, amount_unit, color, color_hex, cost, cost_unit);
+        const data = await createMaterial(session, pattern_id, item, category, amount, amount_unit, color, color_hex, cost, cost_unit);
         res.status(200).json({ message: "Item succesfully added!", data });
     }
     catch (err: unknown) {

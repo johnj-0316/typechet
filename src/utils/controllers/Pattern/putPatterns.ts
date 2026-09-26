@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { sessionUser } from "../User/sessionUser";
 import { editPattern } from "./Pattern";
 import { PatternPutRouteParams, PatternPutBodyParams } from "./pattern.types";
 
@@ -19,9 +20,10 @@ export async function putPatterns(
 
     const { id } = req.params;
     const { title, rows, is_editing } = req.body;
+    const session = sessionUser(res);
 
     try {
-        const data = await editPattern(id, title, rows, is_editing);
+        const data = await editPattern(session, id, title, rows, is_editing);
         res.status(201).json({ message: "Pattern successfully edited!", data });
     }
     catch (err: unknown) {

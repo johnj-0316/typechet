@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { sessionUser } from "../User/sessionUser";
 import { deleteStitch } from "./Stitch";
 import { StitchesDeleteRouteParams } from "./stitches.types";
 
@@ -16,6 +17,7 @@ export async function deleteStitches(
     }
 
     const { id } = req.params;
+    const session = sessionUser(res);
 
     try {
         if (id === "") {
@@ -23,7 +25,7 @@ export async function deleteStitches(
             return;
         }
 
-        await deleteStitch(id);
+        await deleteStitch(session, id);
         res.sendStatus(204);
     }
     catch (err: unknown) {

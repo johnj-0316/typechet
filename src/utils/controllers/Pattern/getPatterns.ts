@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 
+import { sessionUser } from "../User/sessionUser";
 import { getAllPatterns, getPattern } from "./Pattern";
 import { PatternGetRouteParams, PatternGetQueryParams } from "./pattern.types";
 import { handlePagination } from "../../tools/handlePagination";
@@ -10,11 +11,15 @@ export async function getPatterns(
 ): Promise<void> {
     const { id } = req.params;
     const { offset, limit } = req.query;
+    const session = sessionUser(res);
 
     try {
         //pq should throw error on faulty values
         const pq = handlePagination(offset, limit);
-        const data = id ? await getPattern(id) : await getAllPatterns(pq.offset, pq.limit);
+        const data = id ?
+        await getPattern(session, id)
+        : await getAllPatterns(session, pq.offset, pq.limit);
+        
         res.status(200).json({ message: "Found patterns!", data });
     }
     catch (err: unknown) {

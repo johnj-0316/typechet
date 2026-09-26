@@ -1,20 +1,18 @@
-import supabase from "../../../db/supabase_client";
 import { Tables, TablesInsert, TablesUpdate } from "../../../db/database.types";
-
-import { getUser } from "../User/User";
+import { UserAuthContext } from "../User/users.types";
 
 export { getUserTrackers, getUserTracker, createTracker, editTracker, deleteTracker };
 
 // get all trackers by id
 async function getUserTrackers(
+    session: UserAuthContext,
     offset: number,
     limit: number
 ): Promise<Tables<"trackers">[]> {
-    const user = await getUser();
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from('trackers')
     .select()
-    .eq('user_id', user.id)
+    .eq('user_id', session.userId)
     .limit(limit)
     .range(offset, offset + limit - 1);
 
@@ -26,14 +24,14 @@ async function getUserTrackers(
 
 // get tracker by id
 async function getUserTracker(
+    session: UserAuthContext,
     id: string
 ): Promise<Tables<"trackers">> {
-    const user = await getUser();
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from('trackers')
     .select()
     .eq("id", id)
-    .eq('user_id', user.id)
+    .eq('user_id', session.userId)
     .select()
     .single();
 
@@ -47,6 +45,7 @@ async function getUserTracker(
 // one for insert and crud respectively
 // row and index default to 0, title defaults, and stitch can be null
 async function createTracker(
+    session: UserAuthContext,
     pattern_id: string,
     current_row: string,
     current_index: string,
@@ -54,15 +53,14 @@ async function createTracker(
     title?: string,
     current_stitch?: string,
 ): Promise<TablesInsert<"trackers">> {
-    const user = await getUser();
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from("trackers")
     .insert({
         current_stitch,
         current_row: +current_row || 0, 
         current_index: +current_index || 0,
         title: title || "My Tracker",
-        user_id: user.id,
+        user_id: session.userId,
         pattern_id: +pattern_id,
         is_finished
     })
@@ -78,6 +76,7 @@ async function createTracker(
 // update tracker by id
 // would not make sense to edit the pattern_id after creation
 async function editTracker(
+    session: UserAuthContext,
     id: string,
     current_row: string,
     current_index: string,
@@ -85,8 +84,7 @@ async function editTracker(
     title?: string,
     current_stitch?: string
 ): Promise<TablesUpdate<"trackers">> {
-    const user = await getUser();
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from("trackers")
     .update({
         current_stitch,
@@ -95,7 +93,7 @@ async function editTracker(
         title: title || "My Tracker",
         is_finished
     })
-    .eq("user_id", user.id)
+    .eq("user_id", session.userId)
     .eq("id", id)
     .select()
     .single();
@@ -108,14 +106,14 @@ async function editTracker(
 
 // delete tracker by id
 async function deleteTracker(
+    session: UserAuthContext,
     id: string
 ): Promise<void> {
-    const user = await getUser();
-    const { error } = await supabase
+    const { error } = await session.supabase
     .from('trackers')
     .delete()
     .eq("id", id)
-    .eq('user_id', user.id)
+    .eq('user_id', session.userId)
     .select()
     .single();
 

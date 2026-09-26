@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { sessionUser } from "../User/sessionUser";
 import { createItem } from "./Inventory";
 import { InventoryPostBodyParams } from "./inventories.types";
 
@@ -16,9 +17,10 @@ export async function postInventories(
     }
 
     const { item, amount, amount_unit, category, color, color_hex, cost, cost_unit } = req.body;
+    const session = sessionUser(res);
 
     try {
-        const data = await createItem(item, category, amount, amount_unit, color, color_hex, cost, cost_unit);
+        const data = await createItem(session, item, category, amount, amount_unit, color, color_hex, cost, cost_unit);
         res.status(201).json({ message: "Item succesfully added!", data });
     }
     catch (err: unknown) {

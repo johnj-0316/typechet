@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { sessionUser } from "../User/sessionUser";
 import { deleteMaterial } from "./Materials";
 import { MaterialsDeleteRouteParams } from "./materials.types";
 import { handleMaterialEndpoint } from "../../tools/handleMaterialEndpoint";
@@ -17,6 +18,7 @@ export async function deleteMaterials(
     }
 
     const { pattern_id_material_id } = req.params;
+    const session = sessionUser(res);
 
     try {
         const [pattern_id, material_id] = handleMaterialEndpoint(pattern_id_material_id);
@@ -26,7 +28,7 @@ export async function deleteMaterials(
             return;
         }
 
-        await deleteMaterial(material_id, pattern_id);
+        await deleteMaterial(session, material_id, pattern_id);
         res.sendStatus(204);
     }
     catch (err: unknown) {

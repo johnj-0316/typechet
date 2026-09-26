@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { sessionUser } from "../User/sessionUser";
 import { editOwner } from "./Owner";
 import { OwnerPutRouteParams, OwnerPutBodyParams } from "./owners.types";
 
@@ -17,9 +18,10 @@ export async function putOwners(
 
     const { user_pattern_id } = req.params;
     const { user_id, pattern_id, message } = req.body;
+    const session = sessionUser(res);
 
     try {
-        const data = await editOwner(user_pattern_id, pattern_id, user_id, message);
+        const data = await editOwner(session, user_pattern_id, pattern_id, user_id, message);
         res.status(200).json({ message: "Successfully edited ownership!", data });
     }
     catch (err: unknown) {

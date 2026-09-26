@@ -1,7 +1,5 @@
-import supabase from "../../../db/supabase_client";
-
-import { getUser } from "../User/User";
 import { Tables, TablesInsert } from "../../../db/database.types";
+import { UserAuthContext } from "../User/users.types";
 
 export { getAllPatterns, getPattern, createPattern, editPattern, deletePattern };
 
@@ -18,15 +16,15 @@ export { getAllPatterns, getPattern, createPattern, editPattern, deletePattern }
 // page and limit safe as numbers because of handlePagination
 // returns all patterns that match session id
 async function getAllPatterns(
+    session: UserAuthContext,
     offset: number,
     limit: number
 ): Promise<Tables<'patterns'>[]> {
-    const user = await getUser();
     // range is inclusive
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from('owners')
     .select('...patterns!inner(*)')
-    .eq('user_id', user.id)
+    .eq('user_id', session.userId)
     .limit(limit)
     .range(offset, offset + limit - 1);
 
@@ -39,13 +37,13 @@ async function getAllPatterns(
 // returns all patterns that match id param AND session id
 // only returns < 1 row, does not need pagination
 async function getPattern(
+    session: UserAuthContext,
     id: string
 ): Promise<Tables<'patterns'>> {
-    const user = await getUser();
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from('owners')
     .select('...patterns!inner(*)')
-    .eq('user_id', user.id)
+    .eq('user_id', session.userId)
     .eq('pattern_id', +id)
     .single();
 
@@ -57,18 +55,18 @@ async function getPattern(
 
 // insert pattern
 async function createPattern(
+    session: UserAuthContext,
     title: string,
     rows: string[],
     is_editing: boolean
 ): Promise<TablesInsert<'patterns'>> {
-    const user = await getUser();
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from("patterns")
     .insert({
         title: title || "Untitled Pattern", 
         rows, 
         is_editing,
-        author_id: user.id
+        author_id: session.userId
     })
     .select()
     .single();
@@ -81,20 +79,20 @@ async function createPattern(
 
 // edit patten
 async function editPattern(
+    session: UserAuthContext,
     id: string,
     title: string,
     rows: string[],
     is_editing: boolean
 ): Promise<TablesInsert<'patterns'>> {
-    const user = await getUser();
-    const { data, error } = await supabase
+    const { data, error } = await session.supabase
     .from("patterns")
     .update({
         title: title || "Untitled Pattern", 
         rows, 
         is_editing,
     })
-    .eq("author_id", user.id)
+    .eq("author_id", session.userId)
     .eq("id", +id)
     .select()
     .single();
@@ -107,13 +105,13 @@ async function editPattern(
 
 // delete pattern that belongs to user
 async function deletePattern(
+    session: UserAuthContext,
     id: string
 ): Promise<void> {
-    const user = await getUser();
-    const { error } = await supabase
+    const { error } = await session.supabase
     .from("patterns")
     .delete()
-    .eq("author_id", user.id)
+    .eq("author_id", session.userId)
     .eq("id", +id)
     .select()
     .single();

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { sessionUser } from "../User/sessionUser";
 import { deleteOwner } from "./Owner";
 import { OwnerDeleteRouteParams } from "./owners.types";
 
@@ -16,6 +17,7 @@ export async function deleteOwners(
     }
 
     const { user_pattern_id } = req.params;
+    const session = sessionUser(res);
 
     try {
         if (user_pattern_id === "") {
@@ -23,7 +25,7 @@ export async function deleteOwners(
             return;
         }
 
-        await deleteOwner(user_pattern_id);
+        await deleteOwner(session, user_pattern_id);
         res.sendStatus(204);
     }
     catch (err: unknown) {

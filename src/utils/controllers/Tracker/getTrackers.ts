@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 
+import { sessionUser } from "../User/sessionUser";
 import { getUserTrackers, getUserTracker } from "./Tracker";
 import { TrackersGetRouteParams, TrackersGetQueryParams } from "./trackers.types";
 import { handlePagination } from "../../tools/handlePagination";
@@ -18,18 +19,14 @@ export async function getTrackers(
 
     const { id } = req.params;
     const { offset, limit } = req.query;
+    const session = sessionUser(res);
 
     try {
         const pq = handlePagination(offset, limit);
         const data = id ? 
-            await getUserTracker(id) 
-            : await getUserTrackers(pq.offset, pq.limit);
-
-        if (!data || (Array.isArray(data) && !data.length)) {
-            res.sendStatus(404);
-            return;
-        }
-
+            await getUserTracker(session, id) 
+            : await getUserTrackers(session, pq.offset, pq.limit);
+        
         res.status(200).json({ message: "Found all trackers!", data });
     }
     catch (err: unknown) {
