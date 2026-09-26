@@ -20,5 +20,5 @@ export async function getMaterials(
         await getMaterial(session, material_id, pattern_id) 
         : await getAllMaterials(session, pattern_id, pq.offset, pq.limit);
 
-    res.status(201).json({ message: "Found all items!", data });
+    res.status(200).json({ message: "Found all items!", data });
 }

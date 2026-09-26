@@ -13,6 +13,7 @@ export async function getOwners(
     const { offset, limit } = req.query;
     const session = sessionUser(res);
     const pq = handlePagination(offset, limit);
+    
     const data = pattern_id ? 
         await getOwnerByPattern(session, pattern_id, pq.offset, pq.limit) 
         : await getAllOwners(session, pq.offset, pq.limit);

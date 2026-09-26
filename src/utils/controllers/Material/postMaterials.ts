@@ -12,5 +12,5 @@ export async function postMaterials(
     const session = sessionUser(res);
     
     const data = await createMaterial(session, pattern_id, item, category, amount, amount_unit, color, color_hex, cost, cost_unit);
-    res.status(200).json({ message: "Item succesfully added!", data });
+    res.status(201).json({ message: "Item succesfully added!", data });
 }
