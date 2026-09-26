@@ -3,10 +3,10 @@ import { Router } from "express";
 import { validate } from "../validators/validate";
 import { ownersGetValidator, ownersPostValidator, ownersPutValidator, ownersDeleteValidator } from "../validators/route/ownersValidator";
 
-import { getOwners } from "../controllers/Owner/getOwners";
-import { postOwners } from "../controllers/Owner/postOwners";
-import { putOwners } from "../controllers/Owner/putOwners";
-import { deleteOwners } from "../controllers/Owner/deleteOwners";
+import { getOwners } from "../services/Owner/getOwners";
+import { postOwners } from "../services/Owner/postOwners";
+import { putOwners } from "../services/Owner/putOwners";
+import { deleteOwners } from "../services/Owner/deleteOwners";
 
 export const ownerRouter = Router();
 const errorMsg = "Something went wrong with the owners request.";

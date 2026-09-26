@@ -3,10 +3,10 @@ import { Router } from "express";
 import { validate } from "../validators/validate";
 import { stitchesGetValidator, stitchesPostValidator, stitchesPutValidator, stitchesDeleteValidator } from "../validators/route/stitchesValidator";
 
-import { getStitches } from "../controllers/Stitch/getStitches";
-import { postStitches } from "../controllers/Stitch/postStitches";
-import { putStitches } from "../controllers/Stitch/putStitches";
-import { deleteStitches } from "../controllers/Stitch/deleteStitches";
+import { getStitches } from "../services/Stitch/getStitches";
+import { postStitches } from "../services/Stitch/postStitches";
+import { putStitches } from "../services/Stitch/putStitches";
+import { deleteStitches } from "../services/Stitch/deleteStitches";
 
 export const stitchRouter = Router();
 const errorMsg = "Something went wrong with the stitches request.";

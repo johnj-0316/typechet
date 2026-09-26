@@ -3,10 +3,10 @@ import { Router } from "express";
 import { validate } from "../validators/validate";
 import { inventoriesGetValidator, inventoriesPostValidator, inventoriesPutValidator, inventoriesDeleteValidator } from "../validators/route/inventoriesValidator";
 
-import { getInventories } from "../controllers/Inventory/getInventories";
-import { postInventories } from "../controllers/Inventory/postInventories";
-import { putInventories } from "../controllers/Inventory/putInventories";
-import { deleteInventories } from "../controllers/Inventory/deleteInventories";
+import { getInventories } from "../services/Inventory/getInventories";
+import { postInventories } from "../services/Inventory/postInventories";
+import { putInventories } from "../services/Inventory/putInventories";
+import { deleteInventories } from "../services/Inventory/deleteInventories";
 
 export const inventoryRouter = Router();
 const errorMsg = "Something went wrong with the inventories request.";

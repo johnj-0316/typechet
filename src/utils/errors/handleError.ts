@@ -34,6 +34,6 @@ export function handleError(
         return;
     }
 
-    res.status(500).json({ type: "Unknown Error", error });
+    res.status(500).json({ type: "Unknown Error", error: { message: "An unknown error occurred." } });
     return;
 }
