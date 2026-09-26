@@ -19,8 +19,8 @@ export async function loginUser(
     const { email } = req.body;
 
     try {
-        const user = await signIn(email, req.body?.password);
-        res.status(200).json({ message: "User logged in!", user });
+        const auth = await signIn(email, req.body?.password);
+        res.status(200).json({ message: "User logged in!", auth });
     }
     catch (err: unknown) {
         if (err instanceof Error) {

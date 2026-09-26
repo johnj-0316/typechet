@@ -32,7 +32,7 @@ export type Database = {
         Insert: {
           amount?: number | null
           amount_unit?: string | null
-          author_id?: string
+          author_id: string
           category?: string
           color?: string | null
           color_hex?: string | null
@@ -145,7 +145,7 @@ export type Database = {
           created_at?: string
           message?: string | null
           pattern_id: number
-          user_id?: string
+          user_id: string
         }
         Update: {
           created_at?: string
@@ -274,7 +274,7 @@ export type Database = {
           is_finished?: boolean
           pattern_id: number
           title?: string | null
-          user_id?: string
+          user_id: string
         }
         Update: {
           created_at?: string
@@ -327,7 +327,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
-          id?: string
+          id: string
           name?: string | null
           profile_url?: string | null
         }

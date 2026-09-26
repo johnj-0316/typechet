@@ -8,6 +8,7 @@ import express from 'express';
 import { join } from 'node:path';
 import helmet from "helmet";
 
+import { authUser } from './utils/controllers/User/authUser';
 import { authRouter } from './utils/routers/auth';
 import { patternRouter } from './utils/routers/patterns';
 import { ownerRouter } from './utils/routers/owners';
@@ -54,17 +55,17 @@ app.use(express.json());
 
 app.use(api("auth"), authRouter);
 
-app.use(api("patterns"), patternRouter);
+app.use(api("patterns"), authUser, patternRouter);
 
-app.use(api("owners"), ownerRouter);
+app.use(api("owners"), authUser, ownerRouter);
 
-app.use(api("stitches"), stitchRouter);
+app.use(api("stitches"), authUser, stitchRouter);
 
-app.use(api("inventories"), inventoryRouter);
+app.use(api("inventories"), authUser, inventoryRouter);
 
-app.use(api("trackers"), trackerRouter);
+app.use(api("trackers"), authUser, trackerRouter);
 
-app.use(api("materials"), materialRouter);
+app.use(api("materials"), authUser, materialRouter);
 
 /**
  * Handle all other requests by rendering the Angular application.
