@@ -5,7 +5,7 @@ import { createItem } from "./Inventory";
 import { InventoryPostBodyParams } from "./inventories.types";
 
 export async function postInventories(
-    req: Request<any, unknown, InventoryPostBodyParams>, 
+    req: Request<unknown, unknown, InventoryPostBodyParams>, 
     res: Response
 ): Promise<void> {
     const { item, amount, amount_unit, category, color, color_hex, cost, cost_unit } = req.body;

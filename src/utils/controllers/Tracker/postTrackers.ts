@@ -5,7 +5,7 @@ import { createTracker } from "./Tracker";
 import { TrackersPostBodyParams } from "./trackers.types";
 
 export async function postTrackers(
-    req: Request<any, unknown, TrackersPostBodyParams>, 
+    req: Request<unknown, unknown, TrackersPostBodyParams>, 
     res: Response
 ): Promise<void> {
     const { pattern_id, title, current_row, current_stitch, current_index, is_finished } = req.body;

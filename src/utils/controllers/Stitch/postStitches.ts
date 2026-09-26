@@ -5,7 +5,7 @@ import { createStitch } from "./Stitch";
 import { StitchesPostBodyParams } from "./stitches.types";
 
 export async function postStitches(
-    req: Request<any, unknown, StitchesPostBodyParams>, 
+    req: Request<unknown, unknown, StitchesPostBodyParams>, 
     res: Response
 ): Promise<void> {
     const { shorthand, name, origin } = req.body;

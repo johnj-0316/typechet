@@ -5,7 +5,7 @@ import { createMaterial } from "./Materials";
 import { MaterialsPostBodyParams } from "./materials.types";
 
 export async function postMaterials(
-    req: Request<any, unknown, MaterialsPostBodyParams>, 
+    req: Request<unknown, unknown, MaterialsPostBodyParams>, 
     res: Response
 ): Promise<void> {
     const { pattern_id, item, amount, amount_unit, category, color, color_hex, cost, cost_unit } = req.body;

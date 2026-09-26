@@ -5,7 +5,7 @@ import { createPattern } from "./Pattern";
 import { PatternPostBodyParams } from "./pattern.types";
 
 export async function postPatterns(
-    req: Request<any, unknown, PatternPostBodyParams>, 
+    req: Request<unknown, unknown, PatternPostBodyParams>, 
     res: Response
 ): Promise<void> {
     const { title, rows, is_editing } = req.body;

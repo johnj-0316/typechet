@@ -5,7 +5,7 @@ import { postOwner } from "./Owner";
 import { OwnerPostBodyParams } from "./owners.types";
 
 export async function postOwners(
-    req: Request<any, unknown, OwnerPostBodyParams>, 
+    req: Request<unknown, unknown, OwnerPostBodyParams>, 
     res: Response
 ): Promise<void> {
     const { pattern_id, user_id, message } = req.body;
