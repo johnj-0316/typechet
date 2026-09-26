@@ -1,39 +1,20 @@
 import { Request, Response } from "express";
-import { validationResult } from "express-validator";
 
 import { sessionUser } from "../User/sessionUser";
 import { deleteOwner } from "./Owner";
 import { OwnerDeleteRouteParams } from "./owners.types";
+import { ClientError } from "../../errors/Error";
 
 export async function deleteOwners(
     req: Request<OwnerDeleteRouteParams>, 
     res: Response
 ): Promise<void> {
-    const result = validationResult(req);
-
-    if (!result.isEmpty()) {
-        res.status(400).json({ message: "Something went wrong with removing ownership.", error: result.array() });
-        return;
-    }
-
     const { user_pattern_id } = req.params;
     const session = sessionUser(res);
 
-    try {
-        if (user_pattern_id === "") {
-            res.status(400).json({ message: "Something went wrong with removing ownership.", error: "id field is missing or invalid." });
-            return;
-        }
+    if (!user_pattern_id)
+        throw new ClientError("Missing id parameter.", 400);
 
-        await deleteOwner(session, user_pattern_id);
-        res.sendStatus(204);
-    }
-    catch (err: unknown) {
-        if (err instanceof Error) {
-            res.status(500).json({ message: "Something went wrong with removing ownership.", err: err.message });
-        } 
-        else {
-            res.status(500).json({ message: "An unexpected error has occured.", err });
-        }
-    }
+    await deleteOwner(session, user_pattern_id);
+    res.sendStatus(204);
 }

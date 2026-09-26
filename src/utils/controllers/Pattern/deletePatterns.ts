@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { validationResult } from "express-validator";
 
 import { sessionUser } from "../User/sessionUser";
 import { PatternDeleteRouteParams } from "./pattern.types";
@@ -10,11 +9,6 @@ export async function deletePatterns(
     req: Request<PatternDeleteRouteParams>, 
     res: Response
 ): Promise<void> {
-    const result = validationResult(req);
-
-    if (!result.isEmpty())
-        throw new ClientError("Something went wrong with the patterns request.", 400, result.array());
-
     const { id } = req.params;
     const session = sessionUser(res);
 
