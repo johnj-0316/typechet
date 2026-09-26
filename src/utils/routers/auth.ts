@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { body } from "express-validator";
 
+import { validate } from "./validate";
 import { registerUser } from "../controllers/User/registerUser";
 import { loginUser } from "../controllers/User/loginUser";
 import { findUser } from "../controllers/User/findUser";
@@ -18,9 +19,13 @@ authRouter.post("/register", [
     body("username").trim().isLength({ min: 5, max: 15 }).withMessage("username must be between 3 to 75 characters."),
     body("email").trim().isEmail().withMessage("not a valid email format."),
     body("password").isLength({ min: 8 }).withMessage("password must be at least 8 characters.")
-], registerUser);
+],
+validate("Something went wrong with registering."),
+registerUser);
 
 authRouter.post("/login", [
     body("email").trim().isEmail().withMessage("invalid format"),
     body("password").isLength({ min: 8 }).withMessage("password must be at least 8 characters.")
-], loginUser);
+],
+validate("Something went wrong with logging in."),
+loginUser);

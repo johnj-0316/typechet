@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { body, param, query } from "express-validator";
 
+import { validate } from "./validate";
 import { getStitches } from "../controllers/Stitch/getStitches";
 import { postStitches } from "../controllers/Stitch/postStitches";
 import { putStitches } from "../controllers/Stitch/putStitches";
@@ -13,14 +14,18 @@ stitchRouter.get(["/", "/:id"], [
     param("id").optional().isNumeric().withMessage("id must be a number"),
     query("offset").optional().isNumeric().withMessage("offset must be a number"),
     query("limit").optional().isNumeric().withMessage("limit must be a number")
-], getStitches);
+],
+validate("Something went wrong with the stitches request."),
+getStitches);
 
 stitchRouter.post("/", [
     body("shorthand").trim().notEmpty().withMessage("shorthand is required"),
     body("name").trim().notEmpty().withMessage("name is required"),
     body("origin").optional().trim()
     .custom(countryCodeValidator).withMessage("Invalid origin country code")
-], postStitches);
+],
+validate("Something went wrong with the stitches request."),
+postStitches);
 
 stitchRouter.put("/:id", [
     param("id").isNumeric().notEmpty().withMessage("numeric id is required"),
@@ -28,8 +33,12 @@ stitchRouter.put("/:id", [
     body("name").trim().notEmpty().withMessage("name is required"),
     body("origin").optional().trim()
     .custom(countryCodeValidator).withMessage("Invalid origin country code")
-], putStitches);
+],
+validate("Something went wrong with the stitches request."),
+putStitches);
 
 stitchRouter.delete("/:id", [
     param("id").isNumeric().notEmpty().withMessage("numeric id is required")
-], deleteStitches);
+],
+validate("Something went wrong with the stitches request."),
+deleteStitches);

@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { body, param, query } from "express-validator";
 
+import { validate } from "./validate";
 import { getInventories } from "../controllers/Inventory/getInventories";
 import { postInventories } from "../controllers/Inventory/postInventories";
 import { putInventories } from "../controllers/Inventory/putInventories";
@@ -14,7 +15,9 @@ inventoryRouter.get(["/", "/:id"], [
     param("id").optional().isNumeric().withMessage("id must be a number"),
     query("offset").optional().isNumeric().withMessage("offset must be a number"),
     query("limit").optional().isNumeric().withMessage("limit must be a number")
-], getInventories);
+],
+validate("Something went wrong with the inventories request."),
+getInventories);
 
 inventoryRouter.post("/", [
     body("item").trim().isLength({ min: 3, max: 75 }).withMessage("item name must be between 3 to 75 characters."),
@@ -25,7 +28,9 @@ inventoryRouter.post("/", [
     body("color_hex").optional().trim().isLength({ max: 7 }).isHexColor().withMessage("color_hex must be a valid hex"),
     body("cost").optional().trim().isNumeric().withMessage("cost must be a number"),
     body("cost_unit").optional().trim().custom(currencySymbolCodeValidator).withMessage("cost unit must be valid"),
-], postInventories);
+],
+validate("Something went wrong with the inventories request."),
+postInventories);
 
 inventoryRouter.put("/:id", [
     param("id").escape().notEmpty().withMessage("id is required")
@@ -38,9 +43,13 @@ inventoryRouter.put("/:id", [
     body("color_hex").optional().trim().isLength({ max: 7 }).isHexColor().withMessage("color_hex must be a valid hex"),
     body("cost").optional().trim().isNumeric().withMessage("cost must be a number"),
     body("cost_unit").optional().trim().custom(currencySymbolCodeValidator).withMessage("cost unit must be a valid"),
-], putInventories);
+],
+validate("Something went wrong with the inventories request."),
+putInventories);
 
 inventoryRouter.delete("/:id", [
     param("id").notEmpty().withMessage("id is required")
     .isNumeric().withMessage("id must be a number"),
-], deleteInventories);
+],
+validate("Something went wrong with the inventories request."),
+deleteInventories);

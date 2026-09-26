@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { body, param, query } from "express-validator";
 
+import { validate } from "./validate";
 import { getTrackers } from "../controllers/Tracker/getTrackers";
 import { postTrackers } from "../controllers/Tracker/postTrackers";
 import { putTrackers } from "../controllers/Tracker/putTrackers";
@@ -13,7 +14,9 @@ trackerRouter.get(["/", "/:id"], [
     param("id").optional().isUUID().withMessage("uuid must be valid"),
     query("offset").optional().isNumeric().withMessage("offset must be a number"),
     query("limit").optional().isNumeric().withMessage("limit must be a number")
-], getTrackers);
+], 
+validate("Something went wrong with the trackers request."), 
+getTrackers);
 
 trackerRouter.post("/", [
     body("pattern_id").trim().notEmpty().withMessage("pattern id is required")
@@ -25,7 +28,9 @@ trackerRouter.post("/", [
     body("current_index").notEmpty().withMessage("current_index is required")
     .isNumeric().withMessage("current_index must be a number"),
     body("is_finished").trim().notEmpty().withMessage("is_finished boolean is required").toBoolean()
-], postTrackers);
+],
+validate("Something went wrong with the trackers request."),
+postTrackers);
 
 trackerRouter.put("/:id", [
     param("id").notEmpty().withMessage("uuid is required")
@@ -37,9 +42,13 @@ trackerRouter.put("/:id", [
     body("current_index").notEmpty().withMessage("current_index is required")
     .isNumeric().withMessage("current_index must be a number"),
     body("is_finished").trim().notEmpty().withMessage("is_finished boolean is required").toBoolean()
-], putTrackers);
+], 
+validate("Something went wrong with the trackers request."), 
+putTrackers);
 
 trackerRouter.delete("/:id", [
     param("id").notEmpty().withMessage("uuid is required")
     .isUUID().withMessage("valid uuid is required")
-], deleteTrackers);
+],
+validate("Something went wrong with the trackers request."),
+deleteTrackers);

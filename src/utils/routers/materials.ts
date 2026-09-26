@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { body, param, query } from "express-validator";
 
+import { validate } from "./validate";
 import { getMaterials } from "../controllers/Material/getMaterials";
 import { postMaterials } from "../controllers/Material/postMaterials";
 import { putMaterials } from "../controllers/Material/putMaterials";
@@ -15,7 +16,9 @@ materialRouter.get(["/", "/:pattern_id_material_id"], [
     param("pattern_id_material_id").optional().custom(materialEndpointValidator).withMessage("pattern and material id must be a valid"),
     query("offset").optional().isNumeric().withMessage("offset must be a number"),
     query("limit").optional().isNumeric().withMessage("limit must be a number")
-], getMaterials);
+],
+validate("Something went wrong with the materials request."),
+getMaterials);
 
 materialRouter.post("/", [
     body("pattern_id").trim().notEmpty().withMessage("pattern id is required")
@@ -28,7 +31,9 @@ materialRouter.post("/", [
     body("color_hex").optional().trim().isLength({ max: 7 }).isHexColor().withMessage("color_hex must be a valid hex"),
     body("cost").optional().trim().isNumeric().withMessage("cost must be a number"),
     body("cost_unit").optional().trim().custom(currencySymbolCodeValidator).withMessage("cost unit must be valid"),
-], postMaterials);
+],
+validate("Something went wrong with the materials request."),
+postMaterials);
 
 materialRouter.put("/:id", [
     param("id").notEmpty().withMessage("material id is required")
@@ -43,8 +48,12 @@ materialRouter.put("/:id", [
     body("color_hex").optional().trim().isLength({ max: 7 }).isHexColor().withMessage("color_hex must be a valid hex"),
     body("cost").optional().trim().isNumeric().withMessage("cost must be a number"),
     body("cost_unit").optional().trim().custom(currencySymbolCodeValidator).withMessage("cost unit must be a valid"),
-], putMaterials);
+],
+validate("Something went wrong with the materials request."),
+putMaterials);
 
 materialRouter.delete("/:pattern_id_material_id", [
     param("pattern_id_material_id").notEmpty().custom(materialEndpointValidator).withMessage("pattern and material id must be a valid"),
-], deleteMaterials);
+],
+validate("Something went wrong with the materials request."),
+deleteMaterials);
