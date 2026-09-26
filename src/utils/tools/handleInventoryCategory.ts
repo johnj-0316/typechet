@@ -1,3 +1,5 @@
+import { ClientError } from "../errors/Error";
+
 export const categories = ["material", "hook", "tool", "ami", "other"] as const;
 export type categoryTypes = typeof categories[number];
 
@@ -6,6 +8,9 @@ const TOOLS = ["scissor", "needle", "marker", "pin"];
 const AMI = ["eye", "stuffing"];
 
 export function handleInventoryCategory(category: string = "", item: string): categoryTypes {
+    if (typeof category !== "string" || typeof item !== "string")
+        throw new ClientError(`Invalid inventory input: ${item} | ${category}`, 400)
+    
     const i = item.trim().toLowerCase();
     const c = category.trim().toLowerCase() as categoryTypes;
 

@@ -5,7 +5,7 @@ import { getPatterns } from "../controllers/Pattern/getPatterns";
 import { postPatterns } from "../controllers/Pattern/postPatterns";
 import { putPatterns } from "../controllers/Pattern/putPatterns";
 import { deletePatterns } from "../controllers/Pattern/deletePatterns";
-import { rowValidator } from "../tools/rowValidator";
+//import { rowValidator } from "../tools/rowValidator";
 
 export const patternRouter = Router();
 

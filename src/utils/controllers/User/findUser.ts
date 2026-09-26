@@ -1,27 +1,18 @@
 import { Request, Response } from "express";
 
+import { sessionUser } from "./sessionUser";
 import { getUser } from "./User";
+import { APIError } from "../../errors/Error";
 
 export async function findUser(
     req: Request, 
     res: Response
 ): Promise<void> {
-    try {
-        const user = await getUser();
+    const session = sessionUser(res);
+    const user = await getUser(session.supabase, session.userId);
 
-        if (!user) {
-            res.sendStatus(404);
-            return;
-        }
+    if (!user)
+        throw new APIError("User was not found!", 404);
 
-        res.status(200).json({message: "Found user profile", user});
-    }
-    catch (err: unknown) {
-        if (err instanceof Error) {
-            res.status(500).json({ message: "Something went wrong with logging in.", error: err.message });
-        }
-        else {
-            res.status(500).json({ message: "An unexpected error occured", error: err });
-        }
-    }
+    res.status(200).json({ message: "Found user profile!", user });
 }

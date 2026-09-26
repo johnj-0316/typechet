@@ -4,6 +4,7 @@ import { body } from "express-validator";
 import { registerUser } from "../controllers/User/registerUser";
 import { loginUser } from "../controllers/User/loginUser";
 import { findUser } from "../controllers/User/findUser";
+import { authUser } from "../controllers/User/authUser";
 
 export const authRouter = Router();
 
@@ -11,7 +12,7 @@ export const authRouter = Router();
 // email must be email, otherwise err msg
 // password must be length of 8+
 
-authRouter.get("/profile", findUser);
+authRouter.get("/profile", authUser, findUser);
 
 authRouter.post("/register", [
     body("username").trim().isLength({ min: 5, max: 15 }).withMessage("username must be between 3 to 75 characters."),

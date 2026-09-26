@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { createSupabaseClient } from "../../../db/createSupabaseClient";
 
 import { UsersReqHeaderParams } from "./users.types";
+import { APIError } from "../../errors/Error";
 
 // each request on protected routes needs an auth header with the jwt
 
@@ -13,18 +14,14 @@ export async function authUser(
     const { authorization } = req.headers as UsersReqHeaderParams;
     const token = getToken(authorization);
 
-    if (!token) {
-        res.status(401).json({ message: "Missing session token." });
-        return;
-    }
+    if (!token)
+        throw new APIError("Missing session token.", 401);
 
     const supabase = createSupabaseClient(token);
     const { data, error } = await supabase.auth.getUser();
 
-    if (error || !data.user) {
-        res.status(401).json({ message: "Invalid or expired token." });
-        return;
-    }
+    if (error || !data.user)
+        throw new APIError("Invalid or expired token.", 401);
 
     res.locals["supabase"] = supabase;
     res.locals["auth"] = data;
@@ -33,5 +30,8 @@ export async function authUser(
 }
 
 function getToken(authorizationHeader: string) {
+    if (!authorizationHeader.startsWith("Bearer "))
+        return null;
+
     return authorizationHeader.split(" ")[1];
 }

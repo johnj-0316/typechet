@@ -16,6 +16,7 @@ import { stitchRouter } from './utils/routers/stitches';
 import { inventoryRouter } from './utils/routers/inventories';
 import { trackerRouter } from './utils/routers/trackers';
 import { materialRouter } from './utils/routers/materials';
+import { handleError } from './utils/errors/handleError';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -66,6 +67,8 @@ app.use(api("inventories"), authUser, inventoryRouter);
 app.use(api("trackers"), authUser, trackerRouter);
 
 app.use(api("materials"), authUser, materialRouter);
+
+app.use(handleError);
 
 /**
  * Handle all other requests by rendering the Angular application.

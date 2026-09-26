@@ -1,3 +1,5 @@
+import { ClientError } from "../errors/Error";
+
 // pages are 1 indexed
 export function handlePagination(
     pageQuery: string | void, 
@@ -9,7 +11,7 @@ export function handlePagination(
     const limit = Math.round(+limitQuery);
 
     if (limit <= 0 || limit > 100)
-        throw new Error("Invalid limit query");
+        throw new ClientError("Invalid limit query.", 400);
 
     // default value on no page specified
     if (!pageQuery) {
@@ -22,7 +24,7 @@ export function handlePagination(
     const offset = limit * (Math.round(+pageQuery) - 1);
 
     if (offset < 0)
-        throw new Error("Invalid page query");
+        throw new ClientError("Invalid page query.", 400);
 
     return { offset, limit };
 }
