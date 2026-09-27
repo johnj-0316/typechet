@@ -174,6 +174,7 @@ export type Database = {
         Row: {
           author_id: string | null
           created_at: string
+          description: string | null
           id: number
           is_editing: boolean
           rows: Json
@@ -183,6 +184,7 @@ export type Database = {
         Insert: {
           author_id?: string | null
           created_at?: string
+          description?: string | null
           id?: number
           is_editing?: boolean
           rows: Json
@@ -192,6 +194,7 @@ export type Database = {
         Update: {
           author_id?: string | null
           created_at?: string
+          description?: string | null
           id?: number
           is_editing?: boolean
           rows?: Json

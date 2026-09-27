@@ -11,9 +11,9 @@ export async function putPatterns(
     res: Response
 ) {
     const { id } = req.params;
-    const { title, rows, is_editing } = req.body;
+    const { title, rows, is_editing, description } = req.body;
     const session = sessionUser(res);
     
-    const data = await editPattern(session, id, title, rows, is_editing);
+    const data = await editPattern(session, id, title, rows, is_editing, description);
     res.status(200).json({ message: "Pattern successfully edited!", data });
 }

@@ -10,7 +10,8 @@ type PatternGetQueryParams = {
 type PatternPostBodyParams = {
     title: string,
     rows: string[],
-    is_editing: boolean
+    is_editing: boolean,
+    description?: string
 };
 
 type PatternDeleteRouteParams = {

@@ -62,7 +62,8 @@ async function createPattern(
     session: UserAuthContext,
     title: string,
     rows: string[],
-    is_editing: boolean
+    is_editing: boolean,
+    description?: string
 ): Promise<TablesInsert<'patterns'>> {
     const { data, error } = await session.supabase
     .from("patterns")
@@ -70,7 +71,8 @@ async function createPattern(
         title: title || "Untitled Pattern", 
         rows, 
         is_editing,
-        author_id: session.userId
+        author_id: session.userId,
+        description
     })
     .select()
     .single();
@@ -87,7 +89,8 @@ async function editPattern(
     id: string,
     title: string,
     rows: string[],
-    is_editing: boolean
+    is_editing: boolean,
+    description?: string
 ): Promise<TablesInsert<'patterns'>> {
     const { data, error } = await session.supabase
     .from("patterns")
@@ -95,6 +98,7 @@ async function editPattern(
         title: title || "Untitled Pattern", 
         rows, 
         is_editing,
+        description
     })
     .eq("author_id", session.userId)
     .eq("id", +id)
