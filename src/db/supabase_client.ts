@@ -4,15 +4,19 @@ import { Database } from "./database.types";
 // npm i supabase --save-dev (might have to do -g), npx supabase login
 /*
 npx supabase gen types typescript --project-id "ecdbtfvywgzyoexkpgkj" --schema public > ./src/db/database.types.ts
+
+NOTE: this creates a global anon client that is shared by all services. For prod, 
+create a function that returns a unique client using jwt header from and for each req,
+as middleware for protected routes.
 */
 
 // for angular .env, use ng add @ng-env/builder
 // add to angular.json: "build": "@ngx-env/builder:application"
 // define variables starting with NG_APP
 // add types in env.d.ts
-const supabase = createClient<Database>(
+const anonSupabase = createClient<Database>(
     import.meta.env["NG_APP_SUPABASE_URL"],
     import.meta.env["NG_APP_SUPABASE_KEY"]
 );
 
-export default supabase;
+export default anonSupabase;

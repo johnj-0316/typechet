@@ -3,10 +3,10 @@ import { Router } from "express";
 import { validate } from "../validators/validate";
 import { loginValidator, registerValidator } from "../validators/route/authValidators";
 
-import { registerUser } from "../services/User/registerUser";
-import { loginUser } from "../services/User/loginUser";
-import { findUser } from "../services/User/findUser";
-import { authUser } from "../services/User/authUser";
+import { registerUser } from "../controllers/User/registerUser";
+import { loginUser } from "../controllers/User/loginUser";
+import { findUser } from "../controllers/User/findUser";
+import { authUser } from "../controllers/User/authUser";
 
 export const authRouter = Router();
 

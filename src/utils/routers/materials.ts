@@ -3,10 +3,10 @@ import { Router } from "express";
 import { validate } from "../validators/validate";
 import { materialsGetValidator, materialsPostValidator, materialsPutValidator, materialsDeleteValidator } from "../validators/route/materialsValidator";
 
-import { getMaterials } from "../services/Material/getMaterials";
-import { postMaterials } from "../services/Material/postMaterials";
-import { putMaterials } from "../services/Material/putMaterials";
-import { deleteMaterials } from "../services/Material/deleteMaterials";
+import { getMaterials } from "../controllers/Material/getMaterials";
+import { postMaterials } from "../controllers/Material/postMaterials";
+import { putMaterials } from "../controllers/Material/putMaterials";
+import { deleteMaterials } from "../controllers/Material/deleteMaterials";
 
 export const materialRouter = Router();
 const errorMsg = "Something went wrong with the materials request.";

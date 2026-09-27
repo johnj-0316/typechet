@@ -8,7 +8,7 @@ import express from 'express';
 import { join } from 'node:path';
 import helmet from "helmet";
 
-import { authUser } from './utils/services/User/authUser';
+import { authUser } from './utils/controllers/User/authUser';
 import { authRouter } from './utils/routers/auth';
 import { patternRouter } from './utils/routers/patterns';
 import { ownerRouter } from './utils/routers/owners';
