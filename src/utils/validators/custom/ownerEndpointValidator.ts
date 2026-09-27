@@ -1,6 +1,6 @@
 import validator from "validator";
 import { CustomValidator } from "express-validator";
-import { ClientError } from "../errors/Error";
+import { ClientError } from "../../errors/Error";
 
 export const ownerEndpointValidator: CustomValidator = (value: string): boolean => {
     const params = value.split(",");

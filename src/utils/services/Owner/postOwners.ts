@@ -12,5 +12,5 @@ export async function postOwners(
     const session = sessionUser(res);
 
     const data = await postOwner(session, pattern_id, user_id, message);
-    res.status(201).json({ message: "Owner succesfully added!", data });
+    res.status(201).json({ message: "Owner successfully added!", data });
 }

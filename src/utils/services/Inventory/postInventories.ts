@@ -12,5 +12,5 @@ export async function postInventories(
     const session = sessionUser(res);
 
     const data = await createItem(session, item, category, amount, amount_unit, color, color_hex, cost, cost_unit);
-    res.status(201).json({ message: "Item succesfully added!", data });
+    res.status(201).json({ message: "Item successfully added!", data });
 }

@@ -18,8 +18,12 @@ async function getAllMaterials(
     .limit(limit)
     .range(offset, offset + limit - 1);
 
-    if (error)
+    if (error) {
+        if (error.code.includes("116"))
+            return [];
+        
         throw error;
+    }
 
     return data;
 }

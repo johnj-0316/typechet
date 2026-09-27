@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { createSupabaseClient } from "../../../db/createSupabaseClient";
 
 import { UsersReqHeaderParams } from "./users.types";
-import { APIError, ClientError } from "../../errors/Error";
+import { APIError } from "../../errors/Error";
 
 // each request on protected routes needs an auth header with the jwt
 
@@ -31,7 +31,7 @@ export async function authUser(
 
 function getToken(authorizationHeader: string | undefined) {
     if (!authorizationHeader)
-        throw new APIError("Request does not contain an authorization header", 403);
+        throw new APIError("Request does not contain an authorization header", 401);
 
     if (!authorizationHeader.startsWith("Bearer "))
         return null;

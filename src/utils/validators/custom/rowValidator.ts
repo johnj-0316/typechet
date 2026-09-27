@@ -1,6 +1,6 @@
 import { CustomValidator } from "express-validator";
 
-import { getUserStitches } from "../controllers/Stitch/Stitch";
+import { getUserStitches } from "../../services/Stitch/stitchServices";
 
 // async validators do not count false returns as reject
 // must throw error to invalidate input

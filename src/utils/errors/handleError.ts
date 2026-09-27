@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { APIError, ClientError, ServerError } from "./Error";
-import { AuthError, PostgrestError } from "@supabase/supabase-js";
+import { isAuthError } from "@supabase/supabase-js";
+import { isPostgrestError } from "./checkError";
 
 export function handleError(
     error: unknown,
@@ -28,7 +29,11 @@ export function handleError(
         return;
     }
 
-    if (error instanceof AuthError || error instanceof PostgrestError) {
+    if (isAuthError(error) || isPostgrestError(error)) {
+        if (error?.code?.includes("116")) {
+            res.status(404).json({ type: "Supabase Error", error: { message: "The resource does not exist." }});
+            return;
+        }
         // add middleware to log these types of errors to us.
         res.status(403).json({ type: "Supabase Error", error: { message: "Something went wrong fetching the data." }});
         return;

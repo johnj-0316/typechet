@@ -1,5 +1,5 @@
 import { CustomValidator } from "express-validator";
-import { ClientError } from "../errors/Error";
+import { ClientError } from "../../errors/Error";
 
 export const materialEndpointValidator: CustomValidator = (value: string): boolean => {
     if (typeof value !== "string")

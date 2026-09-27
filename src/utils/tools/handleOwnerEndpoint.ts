@@ -5,6 +5,9 @@
 import { ClientError } from "../errors/Error";
 
 export function handleOwnerEndpoint(compositeEndpoint: string) {
+    if (!compositeEndpoint)
+        throw new ClientError("path parameter is missing.", 400);
+    
     if (typeof compositeEndpoint !== "string")
         throw new ClientError("path parameter is not a string.", 400);
 
