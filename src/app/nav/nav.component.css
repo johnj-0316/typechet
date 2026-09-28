@@ -1,0 +1,30 @@
+nav {
+    display: flex;
+    padding: 1em 5em;
+    box-shadow: 0px 0px 10px lightgray;
+}
+
+.nav-bar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 2em;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.logo {
+    margin-right: auto;
+    padding-right: 3em;
+    font-family: 'Fredoka', cursive;
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+.nav-item {
+    min-width: 100px;
+    font-size: 0.9rem;
+    text-align: center;
+    cursor: pointer;
+}

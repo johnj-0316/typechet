@@ -38,7 +38,8 @@ const api = (endpoint: string) => `/api/v${VERSION}/${endpoint}`;
  * ```
  */
 
-app.use(helmet());
+// deactivate until prod
+// app.use(helmet());
 
 /**
  * Serve static files from /browser
