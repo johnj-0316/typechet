@@ -1,4 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --white: #F5F5F5;
+    --light-black: #414a4c;
+    --primary-color: #b56576;
+}
+
 * {
     font-family: 'Inter', Arial, Helvetica, sans-serif;
     box-sizing: border-box;
@@ -6,4 +12,12 @@
 
 body {
     margin: 0;
+    background: var(--white);
+}
+
+.button-pill {
+    background: var(--primary-color);
+    padding: 0.75em 1.3em;
+    border-radius: 20px;
+    color: var(--white);
 }

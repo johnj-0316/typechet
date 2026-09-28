@@ -1,0 +1,33 @@
+.hero-section {
+    width: fit-content;
+    padding-block: 9em;
+}
+
+.headline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+    font-size: 3rem;
+    font-weight: 500;
+    margin: 0 0 0.5em;
+    line-height: 0.9;
+}
+
+.about {
+    max-width: 550px;
+    margin: 0 0 1.5em;
+    letter-spacing: 0.25px;
+    word-spacing: 0.4px;
+    line-height: 1.5;
+    color: var(--light-black);
+}
+
+.start-button {
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.special {
+    color: var(--primary-color);
+}

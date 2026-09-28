@@ -11,7 +11,7 @@
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "tc",
       "architect": {
         "build": {
           "builder": "@ngx-env/builder:application",

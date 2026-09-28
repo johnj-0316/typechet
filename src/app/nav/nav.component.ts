@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   imports: [],
-  selector: 'app-nav',
+  selector: 'tc-nav',
   styleUrl: './nav.component.css',
   templateUrl: './nav.component.html',
 })
