@@ -7,7 +7,7 @@
     display: flex;
     flex-direction: column;
     gap: 0.25em;
-    font-size: 3rem;
+    font-size: 2.75rem;
     font-weight: 500;
     margin: 0 0 0.5em;
     line-height: 0.9;
@@ -17,7 +17,7 @@
     max-width: 550px;
     margin: 0 0 1.5em;
     letter-spacing: 0.25px;
-    word-spacing: 0.4px;
+    word-spacing: 0.20px;
     line-height: 1.5;
     color: var(--light-black);
 }
@@ -25,7 +25,6 @@
 .start-button {
     border: none;
     font-size: 0.9rem;
-    cursor: pointer;
 }
 
 .special {

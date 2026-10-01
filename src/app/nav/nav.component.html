@@ -3,17 +3,12 @@
         <li class="logo">
             <a>typechet</a>
         </li>
-        <li class="nav-item">
-            <a>About</a>
-        </li>
-        <li class="nav-item">
-            <a>Features</a>
-        </li>
-        <li class="nav-item">
-            <a>Sign In</a>
-        </li>
-        <li class="nav-item get-started button-pill">
-            <a>Get Started</a>
-        </li>
+        @for (item of landingItems; track item.label) {
+            @if ("path" in item) {
+                <li [class]="'nav-item ' + (item.class ?? '')">
+                    <a [routerLink]="item.path">{{ item.label }}</a>
+                </li>
+            }
+        }
     </ul>
 </nav>

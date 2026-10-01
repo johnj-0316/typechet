@@ -1,0 +1,6 @@
+<button class="dropdown-btn">Menu</button>
+<div class="dropdown-panel">
+    @for (item of items(); track item.label) {
+        <tc-dropdown-item [data]="item"/>
+    }
+</div>
