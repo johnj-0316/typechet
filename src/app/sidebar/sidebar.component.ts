@@ -1,17 +1,21 @@
 import { Component } from '@angular/core';
 import { 
   LucideLayoutDashboard, 
-  LucideNotebook,
-  LucideSpotlight,
+  LucideBookDashed,
+  LucideCompass,
+  LucideSpool,
+  LucideShelvingUnit,
   LucideMusic,
-  LucideSettings
+  LucideSettings,
 } from '@lucide/angular';
 
 @Component({
   imports: [
     LucideLayoutDashboard, 
-    LucideNotebook, 
-    LucideSpotlight,
+    LucideBookDashed, 
+    LucideCompass,
+    LucideSpool,
+    LucideShelvingUnit,
     LucideMusic,
     LucideSettings
   ],

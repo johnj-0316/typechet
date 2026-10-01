@@ -1,7 +1,7 @@
 export type NavItem = {
     kind: 'link';
     label: string;
-    path?: string;
+    path: string;
     class?: string;
 }
 | {

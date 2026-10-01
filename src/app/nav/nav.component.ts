@@ -33,4 +33,8 @@ export class NavComponent {
       class: "get-started button-pill"
     }
   ];
+
+  dashboardItems: NavItem[] = [
+    
+  ]
 }

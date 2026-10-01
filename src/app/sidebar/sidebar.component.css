@@ -1,8 +1,51 @@
+:host {
+    --sidebar-link-margin: 0.65rem;
+    --sidebar-link-padding: 0.4rem;
+    --sidebar-icon-size: 1.25rem;
+
+    --sidebar-collapsed-width: calc(
+        (var(--sidebar-link-margin) * 2) +
+        (var(--sidebar-link-padding) * 2) +
+        var(--sidebar-icon-size)
+    );
+}
+
 .sidebar-list {
+    width: var(--sidebar-collapsed-width);
+    height: 100vh;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 1em 0;
+    box-shadow: 0px 1px 3px lightgray;
     list-style: none;
-    padding: 0;
+    transition: width 0.2s ease-out;
+}
+
+.sidebar-list:hover {
+    width: 15rem;
+}
+
+.sidebar-item a {
+    display: flex;
+    gap: 1em;
+    align-items: center;
+    margin: var(--sidebar-link-margin);
+    padding: var(--sidebar-link-padding);
+    border-radius: 10px;
+    color: var(--light-black);
+    opacity: 0.9;
+}
+
+.sidebar-item a span {
+    font-size: 0.9rem;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .dashboard-icon {
+    width: var(--sidebar-icon-size);
     color: var(--primary-color);
+    flex-shrink: 0;
 }

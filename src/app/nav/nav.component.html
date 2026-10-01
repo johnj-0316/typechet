@@ -3,11 +3,13 @@
         <li class="logo">
             <a>typechet</a>
         </li>
-        @for (item of landingItems; track item.label) {
-            @if ("path" in item) {
-                <li [class]="'nav-item ' + (item.class ?? '')">
-                    <a [routerLink]="item.path">{{ item.label }}</a>
-                </li>
+        @if (mode() == "landing") {
+            @for (item of landingItems; track item.label) {
+                @if (item.kind == "link") {
+                    <li [class]="'nav-item ' + (item.class ?? '')">
+                        <a [routerLink]="item.path">{{ item.label }}</a>
+                    </li>
+                }
             }
         }
     </ul>
