@@ -19,8 +19,8 @@
     flex-direction: column;
     margin: 0;
     padding: 1em 0;
-    box-shadow: 0px 1px 3px lightgray;
     list-style: none;
+    box-shadow: 0px 1px 3px lightgray;
     transition: width 0.2s ease-out;
 }
 

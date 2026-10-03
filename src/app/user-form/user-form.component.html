@@ -1,4 +1,27 @@
 <form [formGroup]="userForm">
+    <div class="oauth">
+        <button type="button" class="oauth-btn button-pill">
+            <svg class="auth-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                fill="currentColor"
+                d="M21.6 12.23c0-.74-.07-1.45-.19-2.13H12v4.03h5.38a4.6 4.6 0 0 1-1.99 3.02v2.51h3.22c1.89-1.74 2.99-4.3 2.99-7.43zM12 22c2.7 0 4.96-.89 6.61-2.34l-3.22-2.51c-.89.6-2.03.95-3.39.95-2.6 0-4.8-1.76-5.59-4.12H3.08v2.59A9.99 9.99 0 0 0 12 22zM6.41 13.98A6.01 6.01 0 0 1 6.1 12c0-.69.11-1.35.31-1.98V7.43H3.08A9.99 9.99 0 0 0 2 12c0 1.61.39 3.13 1.08 4.57l3.33-2.59zM12 5.9c1.47 0 2.8.51 3.84 1.5l2.87-2.87C16.96 2.9 14.7 2 12 2a9.99 9.99 0 0 0-8.92 5.43l3.33 2.59C7.2 7.66 9.4 5.9 12 5.9z"
+                />
+            </svg>
+            <span>Continue with Google</span>
+        </button>
+        <button type="button" class="oauth-btn button-pill">
+            <svg class="auth-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                fill="currentColor"
+                d="M14.5 8.25V6.6c0-.79.18-1.35 1.34-1.35h1.66V2.13C16.7 2.04 15.92 2 15.13 2c-2.46 0-4.14 1.5-4.14 4.25v2H8.25v3.5h2.74V22h3.51V11.75h2.74l.44-3.5H14.5z"
+                />
+            </svg>
+            <span>Continue with Facebook</span>
+        </button>
+    </div>
+    <div class="break-line">
+        <hr>or<hr>
+    </div>
     <div class="email-field">
         <label for="email">Email</label>
         <input 
@@ -17,5 +40,5 @@
             placeholder="●●●●●●●●●●"
         />
     </div>
-    <button class="submit-form-btn button-pill">{{ buttonLabel() }}</button>
+    <button class="submit-form-btn button-pill" disabled>{{ buttonLabel() }}</button>
 </form>

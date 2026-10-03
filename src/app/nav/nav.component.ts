@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NavItem } from './nav.type';
 import { LucideDynamicIcon } from '@lucide/angular';
@@ -12,4 +12,5 @@ import { LucideDynamicIcon } from '@lucide/angular';
 export class NavComponent {
   mode = input.required<string>();
   data = input<NavItem[]>();
+  shadow = computed(() => this.data()?.length ? " shadow" : "");
 }

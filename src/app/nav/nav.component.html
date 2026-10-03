@@ -1,7 +1,7 @@
-<nav [class]="mode()">
+<nav [class]="mode() + shadow()">
     <ul class="nav-bar">
         <li class="logo">
-            <a>typechet</a>
+            <a href="">typechet</a>
         </li>
         @for (item of data(); track item.label) {
             @if (item.kind == "link") {

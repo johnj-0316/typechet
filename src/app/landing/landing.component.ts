@@ -29,8 +29,8 @@ export class LandingComponent {
     {
       label: "Get Started",
       kind: "link",
-      path: "",
-      class: "get-started button-pill"
+      path: "/sign-up",
+      class: "get-started"
     }
   ];
 }

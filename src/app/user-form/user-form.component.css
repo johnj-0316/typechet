@@ -4,6 +4,7 @@
     height: 75%;
     min-height: 300px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -15,23 +16,47 @@ form {
     gap: 1.25em;
 }
 
+/* OAuth Btn */
+.oauth-btn {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.7em;
+    margin-top: 1em;
+    padding: 0.8rem 1.2rem;
+    border: none;
+}
+
+.oauth-btn span {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.auth-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+    color: whitesmoke;
+    flex-shrink: 0;
+}
+
 /* Email + Password Layout */
 .email-field, .password-field {
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
+    gap: 0.65em;
 }
 
 /* Email + Password Fields */
 label {
     margin-left: 0.5em;
     color: var(--light-black);
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 input {
     width: 250px;
-    padding: 0.75em 1.25em;
+    padding: 0.7em 1.25em;
     border: 1px solid lightgray;
     border-radius: 20px;
     font-size: 0.8rem;
@@ -44,8 +69,32 @@ input:focus {
 
 /* Submit Btn */
 .submit-form-btn {
-    margin-top: 0.75em;
-    padding: 1em 2em;
+    margin-top: 0.25em;
+    padding: 1.1em 2em;
     border: none;
     font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.submit-form-btn:disabled {
+    opacity: 0.75;
+    cursor: not-allowed;
+}
+
+/* Horizontal Break */
+.break-line {
+    display: flex;
+    align-items: center;
+    gap: 0.25em;
+    color: var(--light-black);
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+hr {
+    flex-grow: 0;
+    width: 43%;
+    height: 1px;
+    background: lightgray;
+    border: 0.1px solid lightgray;
 }
