@@ -40,8 +40,8 @@ form {
     flex-shrink: 0;
 }
 
-/* Email + Password Layout */
-.email-field, .password-field {
+/* Text Field Layout */
+.username-field, .email-field, .password-field {
     display: flex;
     flex-direction: column;
     gap: 0.65em;

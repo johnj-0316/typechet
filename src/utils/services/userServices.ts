@@ -27,7 +27,7 @@ async function signUp(
     if (error)
         throw error;
 
-    return data?.user;
+    return data;
 }
 
 // sign up with email/password

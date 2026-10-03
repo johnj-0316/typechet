@@ -1,4 +1,4 @@
-<form [formGroup]="userForm">
+<form [formGroup]="userForm" (ngSubmit)="handleSubmit()">
     <div class="oauth">
         <button type="button" class="oauth-btn button-pill">
             <svg class="auth-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -22,6 +22,17 @@
     <div class="break-line">
         <hr>or<hr>
     </div>
+    @if (mode() === "signup") {
+        <div class="username-field">
+            <label for="username">Username</label>
+            <input
+                id="username"
+                formControlName="username"
+                type="text"
+                placeholder="janedoe_1024"
+            />
+        </div>
+    }
     <div class="email-field">
         <label for="email">Email</label>
         <input 
@@ -37,8 +48,8 @@
             id="password" 
             formControlName="password" 
             type="password"
-            placeholder="●●●●●●●●●●"
+            placeholder="●●●●●●●●"
         />
     </div>
-    <button class="submit-form-btn button-pill" disabled>{{ buttonLabel() }}</button>
+    <button class="submit-form-btn button-pill" [disabled]="!userForm.valid">{{ buttonLabel() }}</button>
 </form>
