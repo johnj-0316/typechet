@@ -1,3 +1,5 @@
+import { LucideIconData } from "@lucide/angular";
+
 export type NavItem = {
     kind: 'link';
     label: string;
@@ -7,6 +9,7 @@ export type NavItem = {
 | {
     kind: 'button';
     label: string;
+    icon: LucideIconData;
     action: string;
     class?: string;
 }

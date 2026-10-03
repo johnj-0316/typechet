@@ -1,1 +1,21 @@
-<p>user-form works!</p>
+<form [formGroup]="userForm">
+    <div class="email-field">
+        <label for="email">Email</label>
+        <input 
+            id="email" 
+            formControlName="email" 
+            type="email"
+            placeholder="jane.doe@example.com"
+        />
+    </div>
+    <div class="password-field">
+        <label for="password">Password</label>
+        <input 
+            id="password" 
+            formControlName="password" 
+            type="password"
+            placeholder="●●●●●●●●●●"
+        />
+    </div>
+    <button class="submit-form-btn button-pill">{{ buttonLabel() }}</button>
+</form>

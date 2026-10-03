@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HeroComponent } from '../hero/hero.component';
 import { NavComponent } from '../nav/nav.component';
+import { NavItem } from '../nav/nav.type';
 
 @Component({
   imports: [HeroComponent, NavComponent],
@@ -8,4 +9,28 @@ import { NavComponent } from '../nav/nav.component';
   styleUrl: './landing.component.css',
   templateUrl: './landing.component.html',
 })
-export class LandingComponent {}
+export class LandingComponent {
+    landingItems: NavItem[] = [
+    {
+      label: "About",
+      kind: "link",
+      path: ""
+    },
+    {
+      label: "Features",
+      kind: "link",
+      path: ""
+    },
+    {
+      label: "Sign In",
+      kind: "link",
+      path: ""
+    },
+    {
+      label: "Get Started",
+      kind: "link",
+      path: "",
+      class: "get-started button-pill"
+    }
+  ];
+}

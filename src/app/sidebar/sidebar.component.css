@@ -10,9 +10,10 @@
     );
 }
 
+/* Layout */
 .sidebar-list {
     width: var(--sidebar-collapsed-width);
-    height: 100vh;
+    min-height: 100vh;
     position: absolute;
     display: flex;
     flex-direction: column;
@@ -23,10 +24,7 @@
     transition: width 0.2s ease-out;
 }
 
-.sidebar-list:hover {
-    width: 15rem;
-}
-
+/* Links */
 .sidebar-item a {
     display: flex;
     gap: 1em;
@@ -44,8 +42,14 @@
     white-space: nowrap;
 }
 
+/* Icons */
 .dashboard-icon {
     width: var(--sidebar-icon-size);
     color: var(--primary-color);
     flex-shrink: 0;
+}
+
+/* Animations */
+.sidebar-list:hover {
+    width: 13.5rem;
 }

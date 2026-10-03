@@ -1,7 +1,5 @@
+/* Layout */
 nav {
-    height: 6vh;
-    max-height: 100px;
-    min-height: 70px;
     display: flex;
     padding: 0 1.5em;
     box-shadow: 0px 0px 5px lightgray;
@@ -18,15 +16,28 @@ nav {
     list-style: none;
 }
 
+/* Modes */
+nav.landing {
+    height: 6vh;
+    max-height: 100px;
+    min-height: 70px;
+}
+
+nav.dashboard {
+    height: 3.5vh;
+    max-height: 75px;
+    min-height: 55px;
+}
+
+/* Links */
 .logo {
     margin-right: auto;
-    padding-right: 3em;
     font-family: 'Fredoka', cursive;
     font-size: 1.6rem;
     cursor: pointer;
 }
 
-.nav-item {
+.nav-link {
     display: flex;
     align-items: center;
     min-width: 100px;
@@ -37,13 +48,45 @@ nav {
     cursor: pointer;
 }
 
-.nav-item a {
+.nav-link a {
     display: inline-block;
     width: 100%;
 }
 
+/* Buttons */
+.nav-button {
+    width: 2.25em;
+    height: 2.25em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0.25em;
+    border: 1.5px solid rgb(from var(--primary-color) r g b / 35%);
+    border-radius: 100%;
+    cursor: pointer;
+}
+
+.nav-button svg {
+    stroke-width: 1.75px;
+    width: 1.15em;
+    color: var(--primary-color);
+    opacity: 0.9;
+}
+
+/* Variants */
 .get-started {
     max-height: 35px;
     margin-left: 1em;
     font-size: 0.8em;
+}
+
+/* Dashboard Override */
+nav.dashboard .logo {
+    font-size: 1.4rem;
+}
+
+nav.dashboard .nav-link {
+    min-width: 80px;
+    font-size: 0.8em;
+    opacity: 0.7;
 }
