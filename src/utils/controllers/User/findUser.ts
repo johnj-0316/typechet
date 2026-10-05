@@ -10,7 +10,7 @@ export async function findUser(
 ): Promise<void> {
     const session = sessionUser(res);
     const user = await getUser(session.supabase, session.userId);
-
+    
     if (!user)
         throw new APIError("User was not found!", 404);
 

@@ -1,19 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { LucideUsersRound, LucidePalette, LucideUserRound } from '@lucide/angular';
+
 import { NavComponent } from '../nav/nav.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
-import { DropdownComponent } from '../dropdown/dropdown.component';
-import { DropdownItemData } from '../dropdown/dropdown-item.type';
-import { LucideFileText, LucideUsersRound, LucidePalette, LucideUserRound } from '@lucide/angular';
 import { NavItem } from '../nav/nav.type';
+import { ProfileService } from '../profile.service';
+import { Observable } from 'rxjs';
+import { Tables } from '../../db/database.types';
 
 @Component({
-  imports: [SidebarComponent, DropdownComponent, NavComponent],
+  imports: [SidebarComponent, NavComponent],
   selector: 'tc-dashboard',
   styleUrl: './dashboard.component.css',
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent {
-  dropdownItems: DropdownItemData[] = [{ label: 'Lorem', icon: LucideFileText.icon }];
+  userProfile = inject(ProfileService);
+  user = signal<string | null>("");
+  username!: Observable<{message: string, user:Tables<"user_profile">}> | undefined;
   dashboardItems: NavItem[] = [
     {
       label: "Feedback",
@@ -39,4 +43,19 @@ export class DashboardComponent {
       icon: LucideUserRound.icon
     },
   ];
+
+  constructor() {
+    const profileObservable = this.userProfile.getUserProfile();
+    profileObservable?.subscribe({
+      next: res => {
+        this.user.set(res.user.name);
+      },
+      error: res => {
+        console.log(res);
+      }
+    })
+    // effect(() => {
+    //   this.username = this.userProfile.getUserProfile();
+    // });
+  }
 }

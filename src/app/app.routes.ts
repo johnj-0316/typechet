@@ -3,6 +3,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LandingComponent } from './landing/landing.component';
 import { SignupComponent } from './signup/signup.component';
 import { SigninComponent } from './signin/signin.component';
+import { authGuard, guestGuard } from './auth-guard';
 
 /*
 {
@@ -13,18 +14,21 @@ import { SigninComponent } from './signin/signin.component';
 export const routes: Routes = [
     {
         path: "",
-        component: LandingComponent
+        component: LandingComponent,
     },
     {
         path: "dashboard",
-        component: DashboardComponent
+        component: DashboardComponent,
+        canActivate: [authGuard]
     },
     {
         path: "sign-up",
-        component: SignupComponent
+        component: SignupComponent,
+        canActivate: [guestGuard]
     },
     {
         path: "sign-in",
-        component: SigninComponent
+        component: SigninComponent,
+        canActivate: [guestGuard]
     }
 ];

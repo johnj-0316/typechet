@@ -1,0 +1,14 @@
+/* Layout */
+main {
+    display: flex;
+}
+
+.dashboard-items {
+    padding-top: 1em;
+    padding-left: 6em;
+}
+
+/* Dashboard items */
+.welcome-title {
+    font-weight: 400;
+}

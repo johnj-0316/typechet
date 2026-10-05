@@ -1,2 +1,10 @@
 <tc-nav mode="dashboard" [data]="dashboardItems"/>
-<tc-sidebar />
+<main class="main">
+    <tc-sidebar />
+    <section class="dashboard-items">
+        <h1 class="welcome-title">Welcome {{ user() }}</h1>
+        <!-- @if (username | async; as user) {
+            <h1>Welcome {{ user.user.name }}</h1>
+        } -->
+    </section>
+</main>
