@@ -8,9 +8,12 @@ import {
   LucideMusic,
   LucideSettings,
 } from '@lucide/angular';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   imports: [
+    RouterLink,
+    RouterLinkActive,
     LucideLayoutDashboard, 
     LucideBookDashed, 
     LucideCompass,

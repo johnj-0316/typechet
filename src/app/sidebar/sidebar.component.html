@@ -1,43 +1,47 @@
 <aside class="sidebar">
     <ul class="sidebar-list">
         <li class="sidebar-item">
-            <a href="">
+            <a
+                routerLink="/dashboard"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+            >
                 <svg lucideLayoutDashboard class="dashboard-icon"></svg>
                 <span>Dashboard</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="">
+            <a routerLink="/dashboard/patterns" routerLinkActive="active">
                 <svg lucideBookDashed class="dashboard-icon"></svg>
                 <span>Patterns</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="">
+            <a routerLink="/dashboard/trackers" routerLinkActive="active">
                 <svg lucideCompass class="dashboard-icon"></svg>
                 <span>Trackers</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="">
+            <a routerLink="/dashboard/stitches" routerLinkActive="active">
                 <svg lucideSpool class="dashboard-icon"></svg>
                 <span>Stitches</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="">
+            <a routerLink="/dashboard/inventory" routerLinkActive="active">
                 <svg lucideShelvingUnit class="dashboard-icon"></svg>
                 <span>Inventory</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="">
+            <a>
                 <svg lucideMusic class="dashboard-icon"></svg>
                 <span>Music</span>
             </a>
         </li>
         <li class="sidebar-item">
-            <a href="">
+            <a>
                 <svg lucideSettings class="dashboard-icon"></svg>
                 <span>Settings</span>
             </a>
