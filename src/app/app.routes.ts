@@ -4,6 +4,11 @@ import { LandingComponent } from './landing/landing.component';
 import { SignupComponent } from './signup/signup.component';
 import { SigninComponent } from './signin/signin.component';
 import { authGuard, guestGuard } from './auth-guard';
+import { PatternsComponent } from './patterns/patterns.component';
+import { TrackersComponent } from './trackers/trackers.component';
+import { StitchesComponent } from './stitches/stitches.component';
+import { InventoryComponent } from './inventory/inventory.component';
+import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
 
 /*
 {
@@ -13,22 +18,44 @@ import { authGuard, guestGuard } from './auth-guard';
 */
 export const routes: Routes = [
     {
-        path: "",
+        path: '',
         component: LandingComponent,
     },
     {
-        path: "dashboard",
-        component: DashboardComponent,
-        canActivate: [authGuard]
+        path: 'dashboard',
+        component: DashboardLayoutComponent,
+        canActivate: [authGuard],
+        children: [
+            {
+                path: '',
+                component: DashboardComponent,
+            },
+            {
+                path: 'patterns',
+                component: PatternsComponent,
+            },
+            {
+                path: 'trackers',
+                component: TrackersComponent,
+            },
+            {
+                path: 'stitches',
+                component: StitchesComponent,
+            },
+            {
+                path: 'inventory',
+                component: InventoryComponent,
+            },
+        ],
     },
     {
-        path: "sign-up",
+        path: 'sign-up',
         component: SignupComponent,
-        canActivate: [guestGuard]
+        canActivate: [guestGuard],
     },
     {
-        path: "sign-in",
+        path: 'sign-in',
         component: SigninComponent,
-        canActivate: [guestGuard]
-    }
+        canActivate: [guestGuard],
+    },
 ];
