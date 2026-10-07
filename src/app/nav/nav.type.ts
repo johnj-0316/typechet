@@ -10,7 +10,7 @@ export type NavItem = {
     kind: 'button';
     label: string;
     icon: LucideIconData;
-    action: string;
+    action: (...args: any[]) => any;
     class?: string;
 }
 | {
