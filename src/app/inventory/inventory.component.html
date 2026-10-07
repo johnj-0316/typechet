@@ -1,0 +1,4 @@
+<h1>Inventory</h1>
+@if (inventory(); as response) {
+    <p>{{ response.data.length }} items loaded.</p>
+}
