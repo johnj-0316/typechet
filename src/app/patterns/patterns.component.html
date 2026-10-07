@@ -1,4 +1,16 @@
 <h1>Patterns</h1>
-@if (patterns(); as response) {
-    <p>{{ response.data[0].rows }}</p>
-}
+<!-- @if (patterns(); as response) {
+    <tc-pattern-item 
+        [title]="response.data[0].title"
+        [date]="response.data[0]"
+    ></tc-pattern-item>
+} -->
+
+<div class="pattern-grid">
+    @for (pattern of patterns()?.data; track pattern.id) {
+        <tc-pattern-item 
+            [title]="pattern.title"
+            [date]="pattern.created_at | date: 'MMMM d, yyyy'"
+        ></tc-pattern-item>
+    }
+</div>

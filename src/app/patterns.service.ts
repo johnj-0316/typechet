@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
-import { Tables } from '../db/database.types';
-import { ApiDataResponse } from './api.types';
+
+import { ApiDataResponse, Pattern } from './api.types';
+
+export type PatternResponse = ApiDataResponse<Pattern[]>;
 
 @Service()
 export class PatternsService {
     private readonly http = inject(HttpClient);
 
     getPatterns() {
-        return this.http.get<ApiDataResponse<Tables<'patterns'>[]>>('/api/v1/patterns');
+        return this.http.get<PatternResponse>('/api/v1/patterns');
     }
 }

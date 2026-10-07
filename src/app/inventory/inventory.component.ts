@@ -1,7 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
-import { Tables } from '../../db/database.types';
-import { ApiDataResponse } from '../api.types';
-import { InventoryService } from '../inventory.service';
+
+import { InventoryResponse, InventoryService } from '../inventory.service';
 
 @Component({
     imports: [],
@@ -11,7 +10,7 @@ import { InventoryService } from '../inventory.service';
 })
 export class InventoryComponent {
     private readonly inventoryService = inject(InventoryService);
-    readonly inventory = signal<ApiDataResponse<Tables<'inventory'>[]> | undefined>(undefined);
+    readonly inventory = signal<InventoryResponse | undefined>(undefined);
 
     constructor() {
         this.inventoryService.getInventory()?.subscribe({

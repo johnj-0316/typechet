@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
-import { Tables } from '../db/database.types';
-import { ApiDataResponse } from './api.types';
+
+import { ApiDataResponse, Stitches } from './api.types';
+
+export type StitchesResponse = ApiDataResponse<Stitches[]>;
 
 @Service()
 export class StitchesService {
     private readonly http = inject(HttpClient);
 
     getStitches() {
-        return this.http.get<ApiDataResponse<Tables<'stitches'>[]>>('/api/v1/stitches');
+        return this.http.get<StitchesResponse>('/api/v1/stitches');
     }
 }

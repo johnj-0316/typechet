@@ -1,7 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
-import { Tables } from '../../db/database.types';
-import { ApiDataResponse } from '../api.types';
-import { StitchesService } from '../stitches.service';
+
+import { StitchesResponse, StitchesService } from '../stitches.service';
 
 @Component({
     imports: [],
@@ -11,7 +10,7 @@ import { StitchesService } from '../stitches.service';
 })
 export class StitchesComponent {
     private readonly stitchesService = inject(StitchesService);
-    readonly stitches = signal<ApiDataResponse<Tables<'stitches'>[]> | undefined>(undefined);
+    readonly stitches = signal<StitchesResponse | undefined>(undefined);
 
     constructor() {
         this.stitchesService.getStitches()?.subscribe({

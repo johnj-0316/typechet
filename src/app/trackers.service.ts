@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
-import { Tables } from '../db/database.types';
-import { ApiDataResponse } from './api.types';
+
+import { ApiDataResponse, Trackers } from './api.types';
+
+export type TrackersResponse = ApiDataResponse<Trackers[]>;
 
 @Service()
 export class TrackersService {
     private readonly http = inject(HttpClient);
 
     getTrackers() {
-        return this.http.get<ApiDataResponse<Tables<'trackers'>[]>>('/api/v1/trackers');
+        return this.http.get<TrackersResponse>('/api/v1/trackers');
     }
 }

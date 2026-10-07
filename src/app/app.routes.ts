@@ -9,6 +9,7 @@ import { TrackersComponent } from './trackers/trackers.component';
 import { StitchesComponent } from './stitches/stitches.component';
 import { InventoryComponent } from './inventory/inventory.component';
 import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
+import { TestpageComponent } from './testpage/testpage.component';
 
 /*
 {
@@ -58,4 +59,8 @@ export const routes: Routes = [
         component: SigninComponent,
         canActivate: [guestGuard],
     },
+    {
+        path: 'testing',
+        component: TestpageComponent
+    }
 ];

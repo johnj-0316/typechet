@@ -3,7 +3,7 @@ import { inject, Service } from '@angular/core';
 
 import { Tables } from '../db/database.types';
 
-type UserProfileResponse = {
+export type UserProfileResponse = {
     message: string;
     user: Tables<'user_profile'>;
 };
