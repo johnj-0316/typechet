@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:ssr": "ng serve --configuration ssr",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "vitest --run",
@@ -43,7 +44,7 @@
     "@types/validator": "^13.15.10",
     "jsdom": "^28.0.0",
     "prettier": "^3.8.1",
-    "supabase": "^2.119.0",
+    "supabase": "^2.120.0",
     "typescript": "~6.0.2",
     "vitest": "^4.1.11"
   },
