@@ -11,6 +11,7 @@ export class CircleProgressComponent {
     max = input<number>(100);
     size = input<number>(50);
     strokeWidth = input<number>(5);
+    showText = input<boolean>(false);
 
     radius = computed(() => this.size() / 2 - this.strokeWidth());
     circumference = computed(() => 2 * Math.PI * this.radius());

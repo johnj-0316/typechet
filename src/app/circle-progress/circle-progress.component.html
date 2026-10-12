@@ -15,7 +15,9 @@
             [attr.stroke-dashoffset]="strokeDashoffset()"
         />
     </svg>
-    <div class="progress-text">
-        <span class="value">{{ value() }}%</span>
-    </div>
+    @if (showText()) {
+        <div class="progress-text">
+            <span class="value">{{ value() }}%</span>
+        </div>
+    }
 </div>
