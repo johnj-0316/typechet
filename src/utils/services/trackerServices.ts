@@ -4,7 +4,7 @@ import { UserAuthContext } from '../controllers/User/users.types';
 export { getUserTrackers, getUserTracker, createTracker, editTracker, deleteTracker };
 export type { TrackerWithOwnerPatternRows };
 
-type TrackerPatternRows = Pick<Tables<'patterns'>, 'rows'>;
+type TrackerPatternRows = Pick<Tables<'patterns'>, 'rows' | 'title'>;
 type TrackerWithOwnerPatternRows = Tables<'trackers'> & {
     owners: {
         patterns: TrackerPatternRows;
@@ -24,7 +24,8 @@ async function getUserTrackers(
                 *,
                 owners!inner(
                     patterns!inner(
-                        rows
+                        rows,
+                        title
                     )
                 )
             `,
@@ -54,7 +55,8 @@ async function getUserTracker(
                 *,
                 owners!inner(
                     patterns!inner(
-                        rows
+                        rows,
+                        title
                     )
                 )
             `,

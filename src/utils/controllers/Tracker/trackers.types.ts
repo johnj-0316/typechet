@@ -26,7 +26,7 @@ type TrackersPutBodyParams = Omit<TrackersPostBodyParams, "pattern_id">;
 
 type TrackersDeleteRouteParams = TrackersPutRouteParams;
 
-type TrackerWithPatternRows = Tables<'trackers'> & Pick<Tables<'patterns'>, 'rows'>;
+type TrackerWithPatternRows = Tables<'trackers'> & Pick<Tables<'patterns'>, 'rows' | 'title'>;
 
 export type {
     TrackersGetRouteParams,
