@@ -9,6 +9,6 @@ export function handlePatternRows(
     return {
         ...trackerData,
         rows: owners.patterns.rows,
-        title: owners.patterns.title
+        pattern_title: owners.patterns.title
     };
 }
