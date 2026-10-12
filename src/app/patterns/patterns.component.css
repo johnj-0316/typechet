@@ -2,5 +2,18 @@
 .pattern-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1em;
+    gap: 1.5em;
+}
+
+/* Typography */
+h1 {
+    font-weight: 400;
+}
+
+/* Loading */
+.loading-gif {
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    width: 100px;
 }

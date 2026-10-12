@@ -1,1 +1,65 @@
-<!-- <tc-pattern-item /> -->
+<section class="tracker-page">
+    <header class="tracker-header">
+        <div>
+            <p class="eyebrow">Prototype</p>
+            <h1>Trackers</h1>
+        </div>
+
+        <button class="new-tracker-button" type="button">New tracker</button>
+    </header>
+
+    <section class="tracker-summary" aria-label="Tracker summary">
+        <article>
+            <span>Active</span>
+            <strong>2</strong>
+        </article>
+
+        <article>
+            <span>Finished</span>
+            <strong>1</strong>
+        </article>
+
+        <article>
+            <span>Total rows</span>
+            <strong>84</strong>
+        </article>
+    </section>
+
+    <div class="tracker-grid">
+        @for (tracker of trackers; track tracker.id) {
+            <article class="tracker-card" [class.finished]="tracker.is_finished">
+                <div class="tracker-progress">
+                    <tc-circle-progress
+                        [value]="tracker.progress"
+                        [max]="100"
+                        [size]="72"
+                        [strokeWidth]="6"
+                    />
+                </div>
+
+                <div class="tracker-content">
+                    <div class="tracker-title-row">
+                        <h2>{{ tracker.title || 'Untitled tracker' }}</h2>
+                        <span class="status">{{
+                            tracker.is_finished ? 'Finished' : 'In progress'
+                        }}</span>
+                    </div>
+
+                    <p class="tracker-stitch">
+                        {{ tracker.current_stitch || 'No stitch selected' }}
+                    </p>
+
+                    <div class="tracker-meta">
+                        <span>Row {{ tracker.current_row }} of {{ tracker.maxRows }}</span>
+                        <span>Step {{ tracker.current_index }}</span>
+                        <span>{{ tracker.created_at | date: 'MMM d' }}</span>
+                    </div>
+
+                    <div class="progress-rail" aria-hidden="true">
+                        <span [style.width.%]="tracker.progress"></span>
+                    </div>
+                </div>
+            </article>
+        }
+    </div>
+</section>

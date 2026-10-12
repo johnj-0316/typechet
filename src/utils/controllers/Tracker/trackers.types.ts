@@ -1,3 +1,5 @@
+import { Tables } from '../../../db/database.types';
+
 type TrackersGetRouteParams = {
     id?: string
 };
@@ -24,11 +26,14 @@ type TrackersPutBodyParams = Omit<TrackersPostBodyParams, "pattern_id">;
 
 type TrackersDeleteRouteParams = TrackersPutRouteParams;
 
+type TrackerWithPatternRows = Tables<'trackers'> & Pick<Tables<'patterns'>, 'rows'>;
+
 export type {
     TrackersGetRouteParams,
     TrackersGetQueryParams,
     TrackersPostBodyParams,
     TrackersPutRouteParams,
     TrackersPutBodyParams,
-    TrackersDeleteRouteParams
+    TrackersDeleteRouteParams,
+    TrackerWithPatternRows
 };

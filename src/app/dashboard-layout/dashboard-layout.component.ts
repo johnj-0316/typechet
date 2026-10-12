@@ -10,7 +10,7 @@ import { NavItem } from '../nav/nav.type';
 @Component({
     imports: [NavComponent, RouterOutlet, SidebarComponent],
     selector: 'tc-dashboard-layout',
-    styleUrl: '../dashboard/dashboard.component.css',
+    styleUrl: './dashboard-layout.component.css',
     templateUrl: './dashboard-layout.component.html',
 })
 export class DashboardLayoutComponent {

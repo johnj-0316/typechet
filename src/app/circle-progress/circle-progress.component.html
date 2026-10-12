@@ -1,0 +1,21 @@
+<div class="progress-container" [style.width.px]="size()" [style.height.px]="size()">
+    <svg
+        [attr.width]="size()"
+        [attr.height]="size()"
+        [attr.viewBox]="'0 0 ' + size() + ' ' + size()"
+        class="progress-svg"
+    >
+        <circle
+            [attr.cx]="size() / 2"
+            [attr.cy]="size() / 2"
+            [attr.r]="radius()"
+            class="progress-bar"
+            [attr.stroke-width]="strokeWidth()"
+            [attr.stroke-dasharray]="circumference()"
+            [attr.stroke-dashoffset]="strokeDashoffset()"
+        />
+    </svg>
+    <div class="progress-text">
+        <span class="value">{{ value() }}%</span>
+    </div>
+</div>
