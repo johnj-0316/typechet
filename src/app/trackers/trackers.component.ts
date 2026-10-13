@@ -1,9 +1,10 @@
 import { Component, inject, signal } from '@angular/core';
 
 import { TrackersResponse, TrackersService } from '../trackers.service';
+import { TrackerItemComponent } from './tracker-item/tracker-item.component';
 
 @Component({
-    imports: [],
+    imports: [TrackerItemComponent],
     selector: 'tc-trackers',
     styleUrl: './trackers.component.css',
     templateUrl: './trackers.component.html',

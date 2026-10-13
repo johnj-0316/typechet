@@ -1,0 +1,63 @@
+p {
+    margin: 0;
+}
+
+/* Layout */
+.tracker-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 7em;
+    padding: 2em;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}
+
+/* Tracker Top Row */
+.tracker-upper {
+    display: flex;
+    align-items: center;
+    gap: 1.5em;
+}
+
+.tracker-title {
+    font-size: 1.5rem;
+}
+
+/* Tracker Bottom Row */
+.tracker-lower {
+    display: flex;
+    align-items: center;
+    gap: 2em;
+    margin-top: 0.75em;
+    font-size: 0.9rem;
+    font-weight: 300;
+    opacity: 0.6;
+}
+
+.tracker-pattern {
+    font-style: italic;
+}
+
+.tracker-pattern span {
+    font-style: normal;
+}
+
+/* Tracker Button + Icons */
+.tracker-icons {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.button-icon {
+    color: var(--primary-color);
+    cursor: pointer;
+}
+
+/* Variants */
+.transparent {
+    border: none;
+    background: none;
+    color: var(--light-black);
+}
