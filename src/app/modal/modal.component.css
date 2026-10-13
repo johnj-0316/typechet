@@ -1,0 +1,25 @@
+dialog::backdrop {
+    background-color: lightgray;
+}
+
+dialog {
+    position: absolute;
+    width: 27%;
+    height: 30%;
+    padding: 1em 2.25em;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+}
+
+.modal-exit {
+    position: relative;
+    top: 0;
+    left: 96%;
+    right: 0;
+    bottom: 0;
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}

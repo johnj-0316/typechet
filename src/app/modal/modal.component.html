@@ -1,1 +1,7 @@
-<p>modal works!</p>
+<button (click)="myDialog.showModal()">Modal appear!</button>
+
+<dialog #myDialog>
+    <button (click)="myDialog.close()" class="modal-exit">
+        <svg lucideX></svg>
+    </button>
+</dialog>

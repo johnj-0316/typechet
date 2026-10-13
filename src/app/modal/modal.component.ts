@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
+import { LucideX } from '@lucide/angular';
 
 @Component({
-  imports: [],
-  selector: 'app-modal',
+  imports: [LucideX],
+  selector: 'tc-modal',
   styleUrl: './modal.component.css',
   templateUrl: './modal.component.html',
 })
-export class ModalComponent {}
+export class ModalComponent {
+}
