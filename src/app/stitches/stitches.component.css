@@ -1,1 +1,20 @@
+/* Layout */
+.pattern-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25em 3em;
+}
 
+/* Typography */
+h1 {
+    font-weight: 400;
+}
+
+/* Loading */
+.loading-gif {
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    width: 100px;
+}

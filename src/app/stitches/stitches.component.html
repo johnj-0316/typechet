@@ -1,4 +1,22 @@
-<h1>Stitches</h1>
-@if (stitches(); as response) {
-    <p>{{ response.data.length }} stitches loaded.</p>
+<h1>Your Stitches</h1>
+@defer {
+    <div class="pattern-grid">
+        @for (stitch of stitches()?.data; track stitch.id) {
+            <tc-stitch-item 
+                [shorthand]="stitch.shorthand"
+                [name]="stitch.name"
+                [origin]="stitch.origin"
+                [custom]="stitch.custom"
+            ></tc-stitch-item>
+        }
+    </div>
+}
+@placeholder {
+    <div class="loading">
+        <img
+            class="loading-gif"
+            src="/assets/vectorby-web-5811.gif"
+            alt="Crochet animation"
+        />
+    </div>
 }

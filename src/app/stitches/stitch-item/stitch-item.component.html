@@ -1,0 +1,13 @@
+<div class="stitch-item">
+    <div class="stitch-left">
+        <p class="stitch-shorthand">
+            {{ shorthand() }}
+            
+            @if (!custom()) {
+                <svg class="stitch-icon" lucidePin></svg>
+            }
+        </p>
+    </div>
+    <p class="stitch-name">{{ name() }}</p>
+    <p class="stitch-origin">{{ origin() }}</p>
+</div>
