@@ -1,4 +1,12 @@
-<h1>Inventory</h1>
-@if (inventory(); as response) {
-    <p>{{ response.data.length }} items loaded.</p>
-}
+<h1>Your Inventory</h1>
+<div class="inventory-headers">
+  <span>Item</span>
+  <span>Category</span>
+  <span>Quantity</span>
+  <span>Unit cost</span>
+</div>
+<div class="inventory-list">
+  @for (item of inventory()?.data; track item.id) {
+    <tc-inventory-item class="inventory-item-wrapper" [inventoryItem]="item"></tc-inventory-item>
+  }
+</div>
