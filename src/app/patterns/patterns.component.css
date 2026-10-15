@@ -1,4 +1,9 @@
 /* Layout */
+:host {
+    display: block;
+    width: 50%;
+}
+
 .pattern-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
