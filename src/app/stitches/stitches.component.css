@@ -1,4 +1,9 @@
 /* Layout */
+:host {
+    display: block;
+    width: 80%;
+}
+
 .pattern-grid {
     width: 100%;
     display: grid;
