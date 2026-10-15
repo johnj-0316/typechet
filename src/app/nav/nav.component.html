@@ -12,7 +12,7 @@
             @else if (item.kind == "button") {
                 <li>
                     <button
-                        [class]="'nav-button ' + (item.class ?? '')"
+                        [class]="'button-icon ' + (item.class ?? '')"
                         (click)="item.action()"
                     >
                         <svg [lucideIcon]="item.icon"></svg>
