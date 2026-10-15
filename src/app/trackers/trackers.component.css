@@ -1,4 +1,9 @@
 /* Layout */
+:host {
+    display: block;
+    width: 65%;
+}
+
 .tracker-grid {
     display: grid;
     gap: 1.25em;

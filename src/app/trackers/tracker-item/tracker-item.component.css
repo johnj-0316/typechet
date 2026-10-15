@@ -4,6 +4,7 @@ p {
 
 /* Layout */
 .tracker-item {
+    min-width: 600px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -11,6 +12,7 @@ p {
     padding: 2em;
     border: 1px solid lightgray;
     border-radius: 10px;
+    white-space: nowrap;
 }
 
 /* Tracker Top Row */
