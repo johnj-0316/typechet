@@ -1,0 +1,68 @@
+/* Layout */
+.stitch-item {
+    width: 100%;
+    z-index: 1;
+    display: flex;
+    gap: 3em;
+    align-items: center;
+    padding: 1em 2.5em;
+    border: 1px solid lightgray;
+    border-left: 5px solid rgb(from var(--primary-color) r g b / 35%);
+    border-radius: 5px;
+}
+
+/* .stitch-item:last-child {
+    border-bottom: none;
+} */
+
+.stitch-left {
+    display: flex;
+    align-items: center;
+    gap: 1.25em;
+    text-align: center;
+}
+
+.stitch-icon {
+    position: absolute;
+    top: -55%;
+    left: 73.5%;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    color: var(--primary-color);
+    transform: rotate(25deg);
+}
+
+/* Typography */
+.stitch-shorthand {
+    min-width: 35px;
+    position: relative;
+    padding: 0.6em;
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    background: var(--primary-color);
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0.9;
+}
+
+.stitch-name {
+    text-transform: lowercase;
+    opacity: 0.7;
+}
+
+.stitch-origin {
+    margin-left: auto;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    opacity: 0.6;
+}
+
+/* Utility */
+.invert {
+    background: none;
+    color: var(--primary-color);
+}

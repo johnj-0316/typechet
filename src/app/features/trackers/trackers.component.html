@@ -1,0 +1,21 @@
+<h1>Your Trackers</h1>
+@defer {
+    <div class="tracker-grid">
+        @for (tracker of trackers()?.data; track tracker.id) {
+            <tc-tracker-item
+            [trackerTitle]="tracker.title"
+            [patternTitle]="tracker.patternTitle"
+            [date]="tracker.createdAt"
+            ></tc-tracker-item>
+        }
+    </div>
+}
+@placeholder {
+    <div class="loading">
+        <img
+            class="loading-gif"
+            src="/assets/vectorby-web-5811.gif"
+            alt="Crochet animation"
+        />
+    </div>
+}

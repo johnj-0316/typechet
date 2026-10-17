@@ -1,15 +1,15 @@
 import { Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { LandingComponent } from './landing/landing.component';
-import { SignupComponent } from './signup/signup.component';
-import { SigninComponent } from './signin/signin.component';
-import { authGuard, guestGuard } from './auth-guard';
-import { PatternsComponent } from './patterns/patterns.component';
-import { TrackersComponent } from './trackers/trackers.component';
-import { StitchesComponent } from './stitches/stitches.component';
-import { InventoryComponent } from './inventory/inventory.component';
-import { DashboardLayoutComponent } from './dashboard-layout/dashboard-layout.component';
-import { TestpageComponent } from './testpage/testpage.component';
+import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { LandingComponent } from './features/landing/landing.component';
+import { SignupComponent } from './features/users/signup/signup.component';
+import { SigninComponent } from './features/users/signin/signin.component';
+import { authGuard, guestGuard } from './core/auth/auth-guard';
+import { PatternsComponent } from './features/patterns/patterns.component';
+import { TrackersComponent } from './features/trackers/trackers.component';
+import { StitchesComponent } from './features/stitches/stitches.component';
+import { InventoryComponent } from './features/inventory/inventory.component';
+import { DashboardLayoutComponent } from './core/layout/dashboard-layout/dashboard-layout.component';
+import { TestpageComponent } from './features/testpage/testpage.component';
 
 /*
 {
