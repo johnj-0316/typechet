@@ -1,15 +1,13 @@
 import { Request, Response } from "express";
 
-import { sessionUser } from "./sessionUser";
-import { getUser } from "../../services/userServices";
 import { APIError } from "../../errors/Error";
+import { findUserProfileById } from "../../services/userServices";
 
 export async function findUser(
     req: Request, 
     res: Response
 ): Promise<void> {
-    const session = sessionUser(res);
-    const user = await getUser(session.supabase, session.userId);
+    const user = await findUserProfileById(req.user!.uid);
     
     if (!user)
         throw new APIError("User was not found!", 404);

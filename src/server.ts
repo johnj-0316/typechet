@@ -5,6 +5,8 @@ import {
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
 import express from 'express';
+import session from "express-session";
+import passport from "passport";
 import { join } from 'node:path';
 import helmet from "helmet";
 
@@ -17,6 +19,8 @@ import { inventoryRouter } from './utils/routers/inventories';
 import { trackerRouter } from './utils/routers/trackers';
 import { materialRouter } from './utils/routers/materials';
 import { handleError } from './utils/errors/handleError';
+import { verifyStrategy } from './utils/auth/strategies/verifyStrategy';
+import "./utils/auth/serialization";
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -24,7 +28,13 @@ const app = express();
 const angularApp = new AngularNodeAppEngine();
 
 const VERSION = 1;
+const isProd = process.env["NODE_ENV"] === "production";
+const sessionSecret = process.env["SESSION_SECRET"];
 const api = (endpoint: string) => `/api/v${VERSION}/${endpoint}`;
+
+if (!sessionSecret) {
+  throw new Error("SESSION_SECRET is not configured.");
+}
 
 /**
  * Example Express Rest API endpoints can be defined here.
@@ -38,13 +48,11 @@ const api = (endpoint: string) => `/api/v${VERSION}/${endpoint}`;
  * ```
  */
 
-// deactivate until prod
-// app.use(helmet());
+isProd && app.use(helmet());
 
 /**
  * Serve static files from /browser
  */
-
 app.use(
   express.static(browserDistFolder, {
     maxAge: '1y',
@@ -54,6 +62,25 @@ app.use(
 );
 
 app.use(express.json());
+
+app.use(
+  session({
+    secret: sessionSecret,
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: 'lax',
+      maxAge: 1000 * 60 * 60
+    }
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(verifyStrategy);
 
 app.use(api("auth"), authRouter);
 

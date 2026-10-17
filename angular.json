@@ -21,6 +21,7 @@
           "options": {
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
+            "externalDependencies": ["argon2"],
             "assets": [
               {
                 "glob": "**/*",

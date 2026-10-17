@@ -1,13 +1,24 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
-import { signUp } from "../../services/userServices"
+import { createUser } from "../../services/userServices";
 
 export async function registerUser(
     req: Request, 
-    res: Response
+    res: Response,
+    next: NextFunction
 ): Promise<void> {
-    //supabase autohashes, otherwise use bcrypt
-    const { username, email } = req.body;
-    const auth = await signUp(username, email, req.body?.password);
-    res.status(201).json({ message: "User registered!", auth });
+    const { username, email, password } = req.body;
+    const user = await createUser(username, email, password);
+
+    req.login(user, (error) => {
+        if (error) {
+            next(error);
+            return;
+        }
+
+        res.status(201).json({
+            message: "User registered!",
+            user,
+        });
+    });
 }

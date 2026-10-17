@@ -7,6 +7,8 @@ import { registerUser } from "../controllers/User/registerUser";
 import { loginUser } from "../controllers/User/loginUser";
 import { findUser } from "../controllers/User/findUser";
 import { authUser } from "../controllers/User/authUser";
+import passport from "passport";
+import { logoutUser } from "../controllers/User/logoutUser";
 
 export const authRouter = Router();
 
@@ -16,6 +18,17 @@ export const authRouter = Router();
 
 authRouter.get("/profile", authUser, findUser);
 
-authRouter.post("/register", registerValidator, validate("Something went wrong with registering."), registerUser);
+authRouter.post("/register",
+    registerValidator,
+    validate("Something went wrong with registering."),
+    registerUser);
 
-authRouter.post("/login", loginValidator, validate("Something went wrong with logging in."), loginUser);
+authRouter.post("/login",
+    loginValidator,
+    validate("Something went wrong with logging in."),
+    passport.authenticate("local"),
+    loginUser);
+
+authRouter.post("/logout",
+    authUser,
+    logoutUser);

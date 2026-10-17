@@ -1,66 +1,95 @@
-import anonSupabase from "../../db/supabase_client";
-import { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "../../db/database.types";
-import { Tables } from "../../db/database.types";
+import { hash, verify } from "argon2";
 
-export { signUp, signIn, getUser };
+import { db } from "../../db";
+import { eq } from "drizzle-orm";
+import { userProfiles, users } from "../../db/schema";
 
-// create session in storage after signup
-// save username in user_metadata
-async function signUp(
-    username: string, 
-    email: string, 
-    password: string
-): Promise<unknown> {
-    username = username.trim();
-    email = email.trim();
-    const { data, error } = await anonSupabase.auth.signUp({
-        email,
-        password,
-        options: {
-            data: {
-                username
-            }
-        }
-    });
+export {
+    findUserById,
+    findUserProfileById,
+    verifyCredentials,
+    createUser
+};
 
-    if (error)
-        throw error;
-
-    return data;
-}
-
-// sign up with email/password
-async function signIn(
-    email: string, 
-    password: string
-): Promise<unknown> {
-    email = email.trim();
-    const { data, error } = await anonSupabase.auth.signInWithPassword({
-        email,
-        password
-    });
-
-    if (error)
-        throw error;
-
-    return data;
-}
-
-//returns user_profile row according to user.id
-async function getUser(
-    supabase: SupabaseClient<Database>,
-    userId: string
-): Promise<Tables<'user_profile'>> {
-    // only works when policy allows for select (RLS)
-    const { data, error } = await supabase
-    .from('user_profile')
+async function findUserByEmail(
+    email: string
+) {
+    const cleanMail = email.trim().toLowerCase();
+    const [user] = await db
     .select()
-    .eq('id', userId)
-    .single();
+    .from(users)
+    .where(eq(users.email, cleanMail))
+    .limit(1);
+    return user;
+}
 
-    if (error)
-        throw error;
+async function findUserById(
+    uid: string
+) {
+  const [user] = await db
+    .select()
+    .from(users)
+    .where(eq(users.uid, uid))
+    .limit(1);
+    return cleanUser(user);
+}
 
-    return data;
-} 
+async function findUserProfileById(
+    uid: string
+) {
+  const [user] = await db
+    .select()
+    .from(userProfiles)
+    .where(eq(userProfiles.id, uid))
+    .limit(1);
+    return user;
+}
+
+async function verifyCredentials(
+    email: string,
+    password: string
+) {
+    const user = await findUserByEmail(email);
+
+    // check if user exists by email and password matches hash in db.
+    if (!user || !user.hashedPassword || (!await verify(user.hashedPassword, password)))
+        return null;
+
+    return cleanUser(user);
+}
+
+async function createUser(
+    username: string,
+    email: string,
+    password: string
+) {
+    const cleanName = username.trim();
+    const cleanMail = email.toLowerCase().trim();
+    const hashedPassword = await hash(password);
+
+    return db.transaction(async tx => {
+        const [user] = await tx
+        .insert(users)
+        .values({
+            email: cleanMail,
+            hashedPassword
+        })
+        .returning();
+
+        await tx
+        .insert(userProfiles)
+        .values({
+            id: user.uid,
+            name: cleanName
+        });
+
+        return cleanUser(user);
+    });
+}
+
+function cleanUser(
+    user: typeof users.$inferSelect
+): Omit<typeof users.$inferSelect, "hashedPassword"> {
+    const { hashedPassword, ...cleanUser } = user;
+    return cleanUser;
+}
