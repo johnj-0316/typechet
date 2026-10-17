@@ -25,8 +25,6 @@ export const users = pgTable('users', {
     .notNull()
     .defaultNow()
     .$onUpdate(() => new Date()),
-  displayName: text('display_name'),
-  phone: text('phone'),
   email: text('email').unique().notNull(),
   hashedPassword: text('hashed_password')
 });
@@ -47,7 +45,6 @@ export const oauth = pgTable('oauth', {
   },
   (table) => [
     uniqueIndex('oauth_provider_account_unique').on(
-      table.userId,
       table.provider,
       table.providerAccountId,
     ),
@@ -67,7 +64,9 @@ export const userProfiles = pgTable('user_profile', {
     .defaultNow()
     .$onUpdate(() => new Date()),
   name: text('name'),
+  displayName: text('display_name'),
   profileUrl: text('profile_url'),
+  phone: text('phone'),
 });
 
 export const urls = pgTable('url', {

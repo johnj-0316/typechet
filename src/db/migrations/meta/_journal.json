@@ -8,6 +8,41 @@
       "when": 1792127481767,
       "tag": "0000_giant_ben_urich",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792173538680,
+      "tag": "0001_complex_liz_osborn",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792209583394,
+      "tag": "0002_tiny_shadow_king",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1792216551886,
+      "tag": "0003_dapper_wong",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1792248184184,
+      "tag": "0004_plain_next_avengers",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792249058776,
+      "tag": "0005_add_basic_stitches",
+      "breakpoints": true
     }
   ]
 }
