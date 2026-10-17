@@ -10,11 +10,11 @@ export async function deleteTrackers(
     res: Response
 ): Promise<void> {
     const { id } = req.params;
-    const session = sessionUser(res);
+    const userId = sessionUser(req);
 
     if (!id)
         throw new ClientError("Missing id parameter.", 400);
 
-    await deleteTracker(session, id);
+    await deleteTracker(userId, id);
     res.sendStatus(204);
 }

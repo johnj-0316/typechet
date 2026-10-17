@@ -15,7 +15,7 @@ Valid format:
 // export const rowValidator: CustomValidator = async (
 //     rows: string[]
 // ) => {
-//     // queries are limited to 100 by supabase anyway
+//     // Keep the maximum row count bounded.
 //     const data = await getUserStitches(0, 100);
 
 //     // removes numbers from row

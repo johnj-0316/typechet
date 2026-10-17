@@ -1,109 +1,109 @@
-import { Tables, TablesInsert, TablesUpdate } from "../../db/database.types";
-import { UserAuthContext } from "../controllers/User/users.types";
+import { and, eq, ne, or } from "drizzle-orm";
+
+import { db } from "../../db";
+import { stitches } from "../../db/schema";
+import { APIError } from "../errors/Error";
 
 export { getUserStitches, getUserStitch, createStitch, editStitch, deleteStitch };
 
-// get all stitches paginated
+type Stitch = typeof stitches.$inferSelect;
+
 async function getUserStitches(
-    session: UserAuthContext,
+    userId: string,
     offset: number,
     limit: number
-): Promise<Tables<"stitches">[]> {
-    const { data, error } = await session.supabase
-    .from('stitches')
+): Promise<Stitch[]> {
+    return db
     .select()
-    .or(`custom.eq.FALSE, author_id.eq.${session.userId}`)
+    .from(stitches)
+    .where(or(
+        eq(stitches.custom, false),
+        eq(stitches.authorId, userId)
+    ))
     .limit(limit)
-    .range(offset, offset + limit - 1);
-
-    if (error) {
-        if (error.code.includes("116"))
-            return [];
-        
-        throw error;
-    }
-
-    return data;
+    .offset(offset);
 }
 
-// get all stitches by id
 async function getUserStitch(
-    session: UserAuthContext,
+    userId: string,
     id: string
-): Promise<Tables<"stitches">> {
-    const { data, error } = await session.supabase
-    .from('stitches')
+): Promise<Stitch> {
+    const [stitch] = await db
     .select()
-    .eq("id", +id)
-    .or(`custom.eq.FALSE, author_id.eq.${session.userId}`)
-    .single();
+    .from(stitches)
+    .where(and(
+        eq(stitches.id, +id),
+        or(
+            eq(stitches.custom, false),
+            eq(stitches.authorId, userId)
+        )
+    ))
+    .limit(1);
 
-    if (error)
-        throw error;
+    if (!stitch)
+        throw new APIError("Stitch was not found!", 404);
 
-    return data;
+    return stitch;
 }
 
 async function createStitch(
-    session: UserAuthContext,
+    userId: string,
     shorthand: string,
     name: string,
     origin?: string
-): Promise<TablesInsert<"stitches">> {
-    const { data, error } = await session.supabase
-    .from("stitches")
-    .insert({ 
-        shorthand, 
-        name, 
-        origin: origin || "US", 
-        author_id: session.userId 
+): Promise<Stitch> {
+    const [stitch] = await db
+    .insert(stitches)
+    .values({
+        shorthand,
+        name,
+        origin: origin || "US",
+        authorId: userId
     })
-    .select()
-    .single();
+    .returning();
 
-    if (error)
-        throw error;
-
-    return data;
+    return stitch;
 }
 
 async function editStitch(
-    session: UserAuthContext,
+    userId: string,
     id: string,
     shorthand: string,
     name: string,
     origin?: string
-): Promise<TablesUpdate<"stitches">> {
-    const { data, error } = await session.supabase
-    .from("stitches")
-    .update({ 
-        shorthand, 
-        name, 
+): Promise<Stitch> {
+    const [stitch] = await db
+    .update(stitches)
+    .set({
+        shorthand,
+        name,
         origin: origin || "US"
     })
-    .eq("author_id", session.userId)
-    .eq("id", +id)
-    .select()
-    .single();
+    .where(and(
+        eq(stitches.authorId, userId),
+        eq(stitches.id, +id)
+    ))
+    .returning();
 
-    if (error)
-        throw error;
+    if (!stitch)
+        throw new APIError("Stitch was not found!", 404);
 
-    return data;
+    return stitch;
 }
 
 async function deleteStitch(
-    session: UserAuthContext,
+    userId: string,
     id: string
 ): Promise<void> {
-    const { error } = await session.supabase
-    .from("stitches")
-    .delete()
-    .eq("author_id", session.userId)
-    .eq("id", +id)
-    .select()
-    .single();
+    const [stitch] = await db
+    .delete(stitches)
+    .where(and(
+        eq(stitches.authorId, userId),
+        eq(stitches.id, +id),
+        ne(stitches.custom, false)
+    ))
+    .returning({ id: stitches.id });
 
-    if (error)
-        throw error;
+    if (!stitch)
+        throw new APIError("Stitch was not found!", 404);
 }

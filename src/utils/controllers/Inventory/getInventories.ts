@@ -11,12 +11,12 @@ export async function getInventories(
 ): Promise<void> {
     const { id } = req.params;
     const { offset, limit } = req.query;
-    const session = sessionUser(res);
+    const userId = sessionUser(req);
 
     const pq = handlePagination(offset, limit);
     const data = id ? 
-        await getItem(session, id) 
-        : await getAllItems(session, pq.offset, pq.limit);
+        await getItem(userId, id)
+        : await getAllItems(userId, pq.offset, pq.limit);
 
     res.status(200).json({ message: "Found all items!", data });
 }

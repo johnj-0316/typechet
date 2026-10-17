@@ -1,4 +1,4 @@
-import { Tables } from '../../../db/database.types';
+import { patterns, trackers } from '../../../db/schema';
 
 type TrackersGetRouteParams = {
     id?: string
@@ -15,7 +15,6 @@ type TrackersPostBodyParams = {
     current_row: string,
     current_stitch?: string,
     current_index: string,
-    is_finished: boolean
 };
 
 type TrackersPutRouteParams = {
@@ -26,8 +25,8 @@ type TrackersPutBodyParams = Omit<TrackersPostBodyParams, "pattern_id">;
 
 type TrackersDeleteRouteParams = TrackersPutRouteParams;
 
-type TrackerWithPatternRows = Tables<'trackers'> & Pick<Tables<'patterns'>, 'rows'> & {
-    pattern_title: Tables<'patterns'>["title"];
+type TrackerWithPatternRows = typeof trackers.$inferSelect & Pick<typeof patterns.$inferSelect, 'rows'> & {
+    patternTitle: typeof patterns.$inferSelect["title"];
 };
 
 export type {

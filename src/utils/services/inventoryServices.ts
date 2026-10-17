@@ -1,134 +1,124 @@
-import { Tables, TablesInsert, TablesUpdate } from "../../db/database.types";
+import { and, eq } from "drizzle-orm";
+
+import { db } from "../../db";
+import { inventory } from "../../db/schema";
+import { APIError } from "../errors/Error";
 import { handleInventoryCategory } from "../tools/handleInventoryCategory";
 import { handleHexCodeConversion } from "../tools/handleHexCodeConversion";
-import { UserAuthContext } from "../controllers/User/users.types";
 
 export { getAllItems, getItem, createItem, editItem, deleteItem };
 
+type InventoryItem = typeof inventory.$inferSelect;
+
 async function getAllItems(
-    session: UserAuthContext,
+    userId: string,
     offset: number,
     limit: number
-): Promise<Tables<"inventory">[]> {
-    const { data, error } = await session.supabase
-    .from("inventory")
+): Promise<InventoryItem[]> {
+    return db
     .select()
-    .eq("author_id", session.userId)
+    .from(inventory)
+    .where(eq(inventory.authorId, userId))
     .limit(limit)
-    .range(offset, offset + limit - 1);
-
-    if (error) {
-        if (error.code.includes("116"))
-            return [];
-        
-        throw error;
-    }
-
-    return data;
+    .offset(offset);
 }
 
 async function getItem(
-    session: UserAuthContext,
+    userId: string,
     id: string
-): Promise<Tables<"inventory">> {
-    const { data, error } = await session.supabase
-    .from("inventory")
+): Promise<InventoryItem> {
+    const [item] = await db
     .select()
-    .eq("id", +id)
-    .eq("author_id", session.userId)
-    .single();
+    .from(inventory)
+    .where(and(
+        eq(inventory.id, +id),
+        eq(inventory.authorId, userId)
+    ))
+    .limit(1);
 
-    if (error)
-        throw error;
+    if (!item)
+        throw new APIError("Inventory item was not found!", 404);
 
-    return data;
+    return item;
 }
 
-// amount will default to 1
-// color should be hex
-// cost can be null
-
-//refactor table and then create new types
 async function createItem(
-    session: UserAuthContext,
+    userId: string,
     item: string,
     category: string,
     amount?: string,
-    amount_unit?: string,
+    amountUnit?: string,
     color?: string,
-    color_hex?: string,
+    colorHex?: string,
     cost?: string,
-    cost_unit?: string
-): Promise<TablesInsert<"inventory">> {
-    const { data, error } = await session.supabase
-    .from("inventory")
-    .insert({ 
-        item, 
+    costUnit?: string
+): Promise<InventoryItem> {
+    const [createdItem] = await db
+    .insert(inventory)
+    .values({
+        item,
         amount: amount ? +amount : 1,
-        amount_unit: amount_unit || "g",
-        category: handleInventoryCategory(category, item), 
-        color: color ? color : color_hex ? handleHexCodeConversion(color_hex) : "Unknown", 
-        color_hex,
+        amountUnit: amountUnit || "g",
+        category: handleInventoryCategory(category, item),
+        color: color || (colorHex ? handleHexCodeConversion(colorHex) : "Unknown"),
+        colorHex,
         cost: cost ? +cost : null,
-        cost_unit,
-        author_id: session.userId 
+        costUnit,
+        authorId: userId
     })
-    .select()
-    .single();
+    .returning();
 
-    if (error)
-        throw error;
-
-    return data;
+    return createdItem;
 }
 
 async function editItem(
-    session: UserAuthContext,
+    userId: string,
     id: string,
     item: string,
     category: string,
     amount?: string,
-    amount_unit?: string,
+    amountUnit?: string,
     color?: string,
-    color_hex?: string,
+    colorHex?: string,
     cost?: string,
-    cost_unit?: string
-): Promise<TablesUpdate<"inventory">> {
-    const { data, error } = await session.supabase
-    .from("inventory")
-    .update({ 
-        item, 
+    costUnit?: string
+): Promise<InventoryItem> {
+    const [updatedItem] = await db
+    .update(inventory)
+    .set({
+        item,
         amount: amount ? +amount : 1,
-        amount_unit: amount_unit || "g",
-        category: handleInventoryCategory(category, item), 
-        color: color ? color : color_hex ? handleHexCodeConversion(color_hex) : "Unknown", 
-        color_hex,
+        amountUnit: amountUnit || "g",
+        category: handleInventoryCategory(category, item),
+        color: color || (colorHex ? handleHexCodeConversion(colorHex) : "Unknown"),
+        colorHex,
         cost: cost ? +cost : null,
-        cost_unit
+        costUnit
     })
-    .eq("id", +id)
-    .eq("author_id", session.userId)
-    .select()
-    .single();
+    .where(and(
+        eq(inventory.id, +id),
+        eq(inventory.authorId, userId)
+    ))
+    .returning();
 
-    if (error)
-        throw error;
+    if (!updatedItem)
+        throw new APIError("Inventory item was not found!", 404);
 
-    return data;
+    return updatedItem;
 }
 
 async function deleteItem(
-    session: UserAuthContext,
+    userId: string,
     id: string
 ): Promise<void> {
-    const { error } = await session.supabase
-    .from("inventory")
-    .delete()
-    .eq("id", +id)
-    .eq("author_id", session.userId)
-    .select()
-    .single();
+    const [deletedItem] = await db
+    .delete(inventory)
+    .where(and(
+        eq(inventory.id, +id),
+        eq(inventory.authorId, userId)
+    ))
+    .returning({ id: inventory.id });
 
-    if (error)
-        throw error;
+    if (!deletedItem)
+        throw new APIError("Inventory item was not found!", 404);
 }

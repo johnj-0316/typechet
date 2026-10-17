@@ -11,13 +11,13 @@ export async function deleteMaterials(
     res: Response
 ): Promise<void> {
     const { pattern_id_material_id } = req.params;
-    const session = sessionUser(res);
+    const userId = sessionUser(req);
 
     const [pattern_id, material_id] = handleMaterialEndpoint(pattern_id_material_id);
 
     if (!pattern_id || !material_id)
         throw new ClientError("Missing pattern or material id parameter.", 400);
 
-    await deleteMaterial(session, material_id, pattern_id);
+    await deleteMaterial(userId, material_id, pattern_id);
     res.sendStatus(204);
 }

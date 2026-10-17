@@ -9,8 +9,8 @@ export async function postPatterns(
     res: Response
 ): Promise<void> {
     const { title, rows, is_editing, description } = req.body;
-    const session = sessionUser(res);
+    const userId = sessionUser(req);
     
-    const data = await createPattern(session, title, rows, is_editing, description);
+    const data = await createPattern(userId, title, rows, is_editing, description);
     res.status(201).json({ message: "Pattern successfully saved!", data });
 }

@@ -11,12 +11,12 @@ export async function getStitches(
 ): Promise<void> {
     const { id } = req.params;
     const { offset, limit } = req.query;
-    const session = sessionUser(res);
+    const userId = sessionUser(req);
 
     const pq = handlePagination(offset, limit);
     const data = id ? 
-        await getUserStitch(session, id) 
-        : await getUserStitches(session, pq.offset, pq.limit);
+        await getUserStitch(userId, id)
+        : await getUserStitches(userId, pq.offset, pq.limit);
     
     res.status(200).json({ message: "Found stitches!", data });
 }

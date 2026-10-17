@@ -12,13 +12,13 @@ export async function getMaterials(
 ): Promise<void> {
     const { pattern_id_material_id } = req.params;
     const { offset, limit } = req.query;
-    const session = sessionUser(res);
+    const userId = sessionUser(req);
     const [pattern_id, material_id] = handleMaterialEndpoint(pattern_id_material_id);
     
     const pq = handlePagination(offset, limit);
     const data = material_id ? 
-        await getMaterial(session, material_id, pattern_id) 
-        : await getAllMaterials(session, pattern_id, pq.offset, pq.limit);
+        await getMaterial(userId, material_id, pattern_id)
+        : await getAllMaterials(userId, pattern_id, pq.offset, pq.limit);
 
     res.status(200).json({ message: "Found all items!", data });
 }

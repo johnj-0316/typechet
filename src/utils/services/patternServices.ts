@@ -1,130 +1,149 @@
-import { Tables, TablesInsert } from "../../db/database.types";
-import { UserAuthContext } from "../controllers/User/users.types";
+import { and, count, eq, getTableColumns, ne } from "drizzle-orm";
+
+import { db } from "../../db";
+import { owners, patterns } from "../../db/schema";
+import { APIError } from "../errors/Error";
 
 export { getAllPatterns, getPattern, createPattern, editPattern, deletePattern };
 
-// rows are 0 indexed
-//  -index 0 should be color -> base
-//  -index 1 should be first row
-//  -on color change, index should be color -> row
+type Pattern = typeof patterns.$inferSelect;
+const MAX_DRAFTS = 9;
 
-// colors should be color: hex string
+async function enforceDraftLimit(
+    userId: string,
+    excludedPatternId?: number
+): Promise<void> {
+    const conditions = [
+        eq(patterns.authorId, userId),
+        eq(patterns.isEditing, true)
+    ];
 
-// find patterns by selecting owners and doing join with patterns,
-// where owners.user_id = supabase session id
+    if (excludedPatternId !== undefined)
+        conditions.push(ne(patterns.id, excludedPatternId));
 
-// page and limit safe as numbers because of handlePagination
-// returns all patterns that match session id
+    const [{ draftCount }] = await db
+    .select({ draftCount: count() })
+    .from(patterns)
+    .where(and(...conditions));
+
+    if (draftCount >= MAX_DRAFTS)
+        throw new APIError(`A user cannot have more than ${MAX_DRAFTS} drafts.`, 403);
+}
+
+// Returns patterns available to the user through the owners table.
 async function getAllPatterns(
-    session: UserAuthContext,
+    userId: string,
     offset: number,
     limit: number
-): Promise<Tables<'patterns'>[]> {
-    // range is inclusive
-    const { data, error } = await session.supabase
-    .from('owners')
-    .select('...patterns!inner(*)')
-    .eq('user_id', session.userId)
+): Promise<Pattern[]> {
+    return db
+    .select(getTableColumns(patterns))
+    .from(owners)
+    .innerJoin(patterns, eq(owners.patternId, patterns.id))
+    .where(eq(owners.userId, userId))
     .limit(limit)
-    .range(offset, offset + limit - 1);
-
-    if (error) {
-        if (error.code.includes("116"))
-            return [];
-        
-        throw error;
-    }
-
-    return data;
+    .offset(offset);
 }
 
-// returns all patterns that match id param AND session id
-// only returns < 1 row, does not need pagination
+// Returns one pattern only when it is available to the authenticated user.
 async function getPattern(
-    session: UserAuthContext,
+    userId: string,
     id: string
-): Promise<Tables<'patterns'>> {
-    const { data, error } = await session.supabase
-    .from('owners')
-    .select('...patterns!inner(*)')
-    .eq('user_id', session.userId)
-    .eq('pattern_id', +id)
-    .single();
+): Promise<Pattern> {
+    const [pattern] = await db
+    .select(getTableColumns(patterns))
+    .from(owners)
+    .innerJoin(patterns, eq(owners.patternId, patterns.id))
+    .where(and(
+        eq(owners.userId, userId),
+        eq(owners.patternId, +id)
+    ))
+    .limit(1);
 
-    if (error)
-        throw error;
+    if (!pattern)
+        throw new APIError("Pattern was not found!", 404);
 
-    return data;
+    return pattern;
 }
 
-// insert pattern
 async function createPattern(
-    session: UserAuthContext,
+    userId: string,
     title: string,
     rows: string[],
-    is_editing: boolean,
+    isEditing: boolean,
     description?: string
-): Promise<TablesInsert<'patterns'>> {
-    const { data, error } = await session.supabase
-    .from("patterns")
-    .insert({
-        title: title || "Untitled Pattern", 
-        rows, 
-        is_editing,
-        author_id: session.userId,
-        description
-    })
-    .select()
-    .single();
+): Promise<Pattern> {
+    return db.transaction(async tx => {
+        if (isEditing)
+            await enforceDraftLimit(userId);
 
-    if (error)
-        throw error;
+        const [pattern] = await tx
+        .insert(patterns)
+        .values({
+            title: title || "Untitled Pattern",
+            rows,
+            isEditing,
+            authorId: userId,
+            description
+        })
+        .returning();
 
-    return data;
+        const [owner] = await tx
+        .insert(owners)
+        .values({
+            userId: userId,
+            patternId: pattern.id
+        })
+        .returning();
+
+        return pattern;
+    });
 }
 
-// edit patten
 async function editPattern(
-    session: UserAuthContext,
+    userId: string,
     id: string,
     title: string,
     rows: string[],
-    is_editing: boolean,
+    isEditing: boolean,
     description?: string
-): Promise<TablesInsert<'patterns'>> {
-    const { data, error } = await session.supabase
-    .from("patterns")
-    .update({
-        title: title || "Untitled Pattern", 
-        rows, 
-        is_editing,
+): Promise<Pattern> {
+    if (isEditing)
+        await enforceDraftLimit(userId, +id);
+
+    const [pattern] = await db
+    .update(patterns)
+    .set({
+        title: title || "Untitled Pattern",
+        rows,
+        isEditing,
         description
     })
-    .eq("author_id", session.userId)
-    .eq("id", +id)
-    .select()
-    .single();
+    .where(and(
+        eq(patterns.authorId, userId),
+        eq(patterns.id, +id)
+    ))
+    .returning();
 
-    if (error)
-        throw error;
+    if (!pattern)
+        throw new APIError("Pattern was not found!", 404);
 
-    return data;
+    return pattern;
 }
 
-// delete pattern that belongs to user
 async function deletePattern(
-    session: UserAuthContext,
+    userId: string,
     id: string
 ): Promise<void> {
-    const { error } = await session.supabase
-    .from("patterns")
-    .delete()
-    .eq("author_id", session.userId)
-    .eq("id", +id)
-    .select()
-    .single();
+    const [pattern] = await db
+    .delete(patterns)
+    .where(and(
+        eq(patterns.authorId, userId),
+        eq(patterns.id, +id)
+    ))
+    .returning({ id: patterns.id });
 
-    if (error)
-        throw error;
+    if (!pattern)
+        throw new APIError("Pattern was not found!", 404);
 }
 

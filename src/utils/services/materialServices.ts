@@ -1,137 +1,158 @@
-import { Tables, TablesInsert, TablesUpdate } from "../../db/database.types";
+import { and, eq, getTableColumns, inArray } from "drizzle-orm";
+
+import { db } from "../../db";
+import { materials, owners, patterns } from "../../db/schema";
+import { APIError } from "../errors/Error";
 import { handleInventoryCategory } from "../tools/handleInventoryCategory";
 import { handleHexCodeConversion } from "../tools/handleHexCodeConversion";
-import { UserAuthContext } from "../controllers/User/users.types";
 
 export { getAllMaterials, getMaterial, createMaterial, editMaterial, deleteMaterial };
 
+type Material = typeof materials.$inferSelect;
+
+function authoredPatternIds(userId: string) {
+    return db
+    .select({ id: patterns.id })
+    .from(patterns)
+    .where(eq(patterns.authorId, userId));
+}
+
 async function getAllMaterials(
-    session: UserAuthContext,
-    pattern_id: string,
+    userId: string,
+    patternId: string,
     offset: number,
     limit: number
-): Promise<Tables<"materials">[]> {
-    const { data, error } = await session.supabase
-    .from("materials")
-    .select()
-    .eq("pattern_id", +pattern_id)
+): Promise<Material[]> {
+    return db
+    .select(getTableColumns(materials))
+    .from(materials)
+    .innerJoin(owners, eq(owners.patternId, materials.patternId))
+    .where(and(
+        eq(owners.userId, userId),
+        eq(materials.patternId, +patternId)
+    ))
     .limit(limit)
-    .range(offset, offset + limit - 1);
-
-    if (error) {
-        if (error.code.includes("116"))
-            return [];
-        
-        throw error;
-    }
-
-    return data;
+    .offset(offset);
 }
 
 async function getMaterial(
-    session: UserAuthContext,
+    userId: string,
     id: string,
-    pattern_id: string
-): Promise<Tables<"materials">> {
-    const { data, error } = await session.supabase
-    .from("materials")
-    .select()
-    .eq("id", +id)
-    .eq("pattern_id", +pattern_id)
-    .single();
+    patternId: string
+): Promise<Material> {
+    const [material] = await db
+    .select(getTableColumns(materials))
+    .from(materials)
+    .innerJoin(owners, eq(owners.patternId, materials.patternId))
+    .where(and(
+        eq(owners.userId, userId),
+        eq(materials.id, +id),
+        eq(materials.patternId, +patternId)
+    ))
+    .limit(1);
 
-    if (error)
-        throw error;
+    if (!material)
+        throw new APIError("Material was not found!", 404);
 
-    return data;
+    return material;
 }
 
-// amount will default to 1
-// color should be hex
-// cost can be null
 async function createMaterial(
-    session: UserAuthContext,
-    pattern_id: string,
+    userId: string,
+    patternId: string,
     item: string,
     category: string,
     amount?: string,
-    amount_unit?: string,
+    amountUnit?: string,
     color?: string,
-    color_hex?: string,
+    colorHex?: string,
     cost?: string,
-    cost_unit?: string
-): Promise<TablesInsert<"materials">> {
-    const { data, error } = await session.supabase
-    .from("materials")
-    .insert({ 
-        item, 
-        amount: amount ? +amount : 1,
-        amount_unit: amount_unit || "g",
-        category: handleInventoryCategory(category, item), 
-        color: color ? color : color_hex ? handleHexCodeConversion(color_hex) : "Unknown", 
-        color_hex,
-        cost: cost ? +cost : null,
-        cost_unit,
-        pattern_id: +pattern_id
-    })
-    .select()
-    .single();
+    costUnit?: string
+): Promise<Material> {
+    return db.transaction(async (tx) => {
+        const [pattern] = await tx
+        .select({ id: patterns.id })
+        .from(patterns)
+        .where(and(
+            eq(patterns.id, +patternId),
+            eq(patterns.authorId, userId)
+        ))
+        .limit(1);
 
-    if (error)
-        throw error;
+        if (!pattern)
+            throw new APIError("Pattern was not found!", 404);
 
-    return data;
+        const [material] = await tx
+        .insert(materials)
+        .values({
+            item,
+            amount: amount ? +amount : 1,
+            amountUnit: amountUnit || "g",
+            category: handleInventoryCategory(category, item),
+            color: color || (colorHex ? handleHexCodeConversion(colorHex) : "Unknown"),
+            colorHex,
+            cost: cost ? +cost : null,
+            costUnit,
+            patternId: pattern.id
+        })
+        .returning();
+
+        return material;
+    });
 }
 
 async function editMaterial(
-    session: UserAuthContext,
+    userId: string,
     id: string,
-    pattern_id: string,
+    patternId: string,
     item: string,
     category: string,
     amount?: string,
-    amount_unit?: string,
+    amountUnit?: string,
     color?: string,
-    color_hex?: string,
+    colorHex?: string,
     cost?: string,
-    cost_unit?: string
-): Promise<TablesUpdate<"materials">> {
-    const { data, error } = await session.supabase
-    .from("materials")
-    .update({ 
-        item, 
+    costUnit?: string
+): Promise<Material> {
+    const [material] = await db
+    .update(materials)
+    .set({
+        item,
         amount: amount ? +amount : 1,
-        amount_unit: amount_unit || "g",
-        category: handleInventoryCategory(category, item), 
-        color: color ? color : color_hex ? handleHexCodeConversion(color_hex) : "Unknown", 
-        color_hex,
+        amountUnit: amountUnit || "g",
+        category: handleInventoryCategory(category, item),
+        color: color || (colorHex ? handleHexCodeConversion(colorHex) : "Unknown"),
+        colorHex,
         cost: cost ? +cost : null,
-        cost_unit
+        costUnit
     })
-    .eq("id", +id)
-    .eq("pattern_id", +pattern_id)
-    .select()
-    .single();
+    .where(and(
+        eq(materials.id, +id),
+        eq(materials.patternId, +patternId),
+        inArray(materials.patternId, authoredPatternIds(userId))
+    ))
+    .returning();
 
-    if (error)
-        throw error;
+    if (!material)
+        throw new APIError("Material was not found!", 404);
 
-    return data;
+    return material;
 }
 
 async function deleteMaterial(
-    session: UserAuthContext,
+    userId: string,
     id: string,
-    pattern_id: string
+    patternId: string
 ): Promise<void> {
-    const { error } = await session.supabase
-    .from("materials")
-    .delete()
-    .eq("id", +id)
-    .eq("pattern_id", +pattern_id)
-    .select()
-    .single();
+    const [material] = await db
+    .delete(materials)
+    .where(and(
+        eq(materials.id, +id),
+        eq(materials.patternId, +patternId),
+        inArray(materials.patternId, authoredPatternIds(userId))
+    ))
+    .returning({ id: materials.id });
 
-    if (error)
-        throw error;
+    if (!material)
+        throw new APIError("Material was not found!", 404);
 }

@@ -10,11 +10,11 @@ export async function deleteStitches(
     res: Response
 ): Promise<void> {
     const { id } = req.params;
-    const session = sessionUser(res);
+    const userId = sessionUser(req);
 
     if (!id)
         throw new ClientError("Missing id parameter.", 400);
 
-    await deleteStitch(session, id);
+    await deleteStitch(userId, id);
     res.sendStatus(204);
 }

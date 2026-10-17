@@ -11,12 +11,12 @@ export async function getOwners(
 ): Promise<void> {
     const { pattern_id } = req.params;
     const { offset, limit } = req.query;
-    const session = sessionUser(res);
+    const userId = sessionUser(req);
     const pq = handlePagination(offset, limit);
     
     const data = pattern_id ? 
-        await getOwnerByPattern(session, pattern_id, pq.offset, pq.limit) 
-        : await getAllOwners(session, pq.offset, pq.limit);
+        await getOwnerByPattern(userId, pattern_id, pq.offset, pq.limit)
+        : await getAllOwners(userId, pq.offset, pq.limit);
 
     res.status(200).json({ message: "Found all owners!", data });
 }

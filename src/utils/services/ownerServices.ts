@@ -1,138 +1,156 @@
-import { Tables, TablesInsert, TablesUpdate } from "../../db/database.types";
+import { and, asc, eq, inArray, ne } from "drizzle-orm";
+
+import { db } from "../../db";
+import { owners, patterns } from "../../db/schema";
+import { APIError } from "../errors/Error";
 import { handleOwnerEndpoint } from "../tools/handleOwnerEndpoint";
-import { UserAuthContext } from "../controllers/User/users.types";
 
 export { getAllOwners, getOwnerByPattern, postOwner, editOwner, deleteOwner };
 
-// returns all owner ids of patterns that belong to user
-// i.e. will return all people who saved any of your patterns
+type Owner = typeof owners.$inferSelect;
+type OwnerId = Pick<Owner, "userId">;
+
 async function getAllOwners(
-    session: UserAuthContext,
+    userId: string,
     offset: number,
     limit: number
-): Promise<Pick<Tables<"owners">, "user_id">[]> {
-    const { data, error } = await session.supabase
-    .from('owners')
-    .select(
-        `
-        user_id,
-        ...patterns!inner()
-        `,
-    )
-    .eq('patterns.author_id', session.userId)
-    .order("user_id")
+): Promise<OwnerId[]> {
+    return db
+    .select({ userId: owners.userId })
+    .from(owners)
+    .innerJoin(patterns, eq(patterns.id, owners.patternId))
+    .where(eq(patterns.authorId, userId))
+    .orderBy(asc(owners.userId))
     .limit(limit)
-    .range(offset, offset + limit - 1);
-
-    if (error) {
-        if (error.code.includes("116"))
-            return [];
-        
-        throw error;
-    }
-
-    return data;
+    .offset(offset);
 }
 
-// return all owner ids given a pattern id
-// i.e. will return all people who saved a specific pattern
 async function getOwnerByPattern(
-    session: UserAuthContext,
-    pattern_id: string,
+    userId: string,
+    patternId: string,
     offset: number,
     limit: number
-): Promise<Pick<Tables<"owners">, "user_id">[]> {
-    const { data, error } = await session.supabase
-    .from('owners')
-    .select(
-        `
-        user_id,
-        ...patterns!inner()
-        `,
-    )
-    .eq('patterns.author_id', session.userId)
-    .eq('patterns.id', +pattern_id)
+): Promise<OwnerId[]> {
+    return db
+    .select({ userId: owners.userId })
+    .from(owners)
+    .innerJoin(patterns, eq(patterns.id, owners.patternId))
+    .where(and(
+        eq(patterns.authorId, userId),
+        eq(patterns.id, +patternId)
+    ))
     .limit(limit)
-    .range(offset, offset + limit - 1);
-
-    if (error)
-        throw error;
-
-    return data;
+    .offset(offset);
 }
 
-// add a new owner
-// policy requires that inserted row's pattern_id belongs to curr user first (prevent bad access)
-// and requires that added user exists in table
 async function postOwner(
-    session: UserAuthContext,
-    pattern_id: string,
-    user_id: string,
+    authenticatedUserId: string,
+    patternId: string,
+    userId: string,
     message?: string | null
- ): Promise<TablesInsert<"owners">> {
-    const { data, error } = await session.supabase
-    .from("owners")
-    .insert({
-        pattern_id: +pattern_id, 
-        user_id, 
-        message: message || null
-    })
-    .select()
-    .single();
+): Promise<Owner> {
+    return db.transaction(async (tx) => {
+        const [pattern] = await tx
+        .select({ id: patterns.id })
+        .from(patterns)
+        .where(and(
+            eq(patterns.id, +patternId),
+            eq(patterns.authorId, authenticatedUserId)
+        ))
+        .limit(1);
 
-    if (error)
-        throw error;
+        if (!pattern)
+            throw new APIError("Pattern was not found!", 404);
 
-    return data;
+        const [owner] = await tx
+        .insert(owners)
+        .values({
+            patternId: pattern.id,
+            userId,
+            message: message || null
+        })
+        .returning();
+
+        return owner;
+    });
 }
 
-// edit ownership/message
-// policy requires that edited row's user_id cannot be curr user
-// and new pattern_id must belong to curr user first
-// and requires that added user exists in table
-// uses composite endpoint w comma delim
 async function editOwner(
-    session: UserAuthContext,
+    authenticatedUserId: string,
     compositeEndpoint: string,
-    pattern_id: string,
-    user_id: string,
+    patternId: string,
+    userId: string,
     message?: string | null
-): Promise<TablesUpdate<"owners">> {
-    const [userId, patternId] = handleOwnerEndpoint(compositeEndpoint);
-    const { data, error } = await session.supabase
-    .from("owners")
-    .update({
-        user_id,
-        pattern_id: +pattern_id,
-        message: message || null
-    })
-    .eq("user_id", userId)
-    .eq("pattern_id", +patternId)
-    .neq("user_id", session.userId)
-    .select()
-    .single();
+): Promise<Owner> {
+    const [existingUserId, existingPatternId] = handleOwnerEndpoint(compositeEndpoint);
 
-    if (error)
-        throw error;
+    if (existingUserId === authenticatedUserId || userId === authenticatedUserId)
+        throw new APIError("The pattern author's ownership cannot be edited.", 403);
 
-    return data;
+    return db.transaction(async (tx) => {
+        const authorizedPatterns = await tx
+        .select({ id: patterns.id })
+        .from(patterns)
+        .where(and(
+            eq(patterns.authorId, authenticatedUserId),
+            eq(patterns.id, +patternId)
+        ))
+        .limit(1);
+
+        if (!authorizedPatterns.length)
+            throw new APIError("Pattern was not found!", 404);
+
+        const [owner] = await tx
+        .update(owners)
+        .set({
+            userId,
+            patternId: +patternId,
+            message: message || null
+        })
+        .where(and(
+            eq(owners.userId, existingUserId),
+            eq(owners.patternId, +existingPatternId),
+            ne(owners.userId, authenticatedUserId),
+            inArray(
+                owners.patternId,
+                tx.select({ id: patterns.id })
+                    .from(patterns)
+                    .where(eq(patterns.authorId, authenticatedUserId))
+            )
+        ))
+        .returning();
+
+        if (!owner)
+            throw new APIError("Owner was not found!", 404);
+
+        return owner;
+    });
 }
 
-// remove owner given composite endpoint w comma delim
 async function deleteOwner(
-    session: UserAuthContext,
+    authenticatedUserId: string,
     compositeEndpoint: string
 ): Promise<void> {
     const [userId, patternId] = handleOwnerEndpoint(compositeEndpoint);
-    const { error } = await session.supabase
-    .from("owners")
-    .delete()
-    .eq("user_id", userId)
-    .eq("pattern_id", +patternId)
-    .neq("user_id", session.userId)
-    .select()
-    .single();
 
-    if (error)
-        throw error;
+    const [owner] = await db
+    .delete(owners)
+    .where(and(
+        eq(owners.userId, userId),
+        eq(owners.patternId, +patternId),
+        ne(owners.userId, authenticatedUserId),
+        inArray(
+            owners.patternId,
+            db.select({ id: patterns.id })
+                .from(patterns)
+                .where(and(
+                    eq(patterns.id, +patternId),
+                    eq(patterns.authorId, authenticatedUserId)
+                ))
+        )
+    ))
+    .returning({ userId: owners.userId });
+
+    if (!owner)
+        throw new APIError("Owner was not found!", 404);
 }

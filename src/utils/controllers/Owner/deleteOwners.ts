@@ -10,11 +10,11 @@ export async function deleteOwners(
     res: Response
 ): Promise<void> {
     const { user_pattern_id } = req.params;
-    const session = sessionUser(res);
+    const userId = sessionUser(req);
 
     if (!user_pattern_id)
         throw new ClientError("Missing id parameter.", 400);
 
-    await deleteOwner(session, user_pattern_id);
+    await deleteOwner(userId, user_pattern_id);
     res.sendStatus(204);
 }
