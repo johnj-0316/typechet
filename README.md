@@ -98,11 +98,12 @@ Create a `.env` file in the project root:
 ```dotenv
 DATABASE_URL=postgresql://postgres:password@localhost:5432/crochet_counter
 SESSION_SECRET=replace-this-with-a-long-random-secret
+ALLOWED_ORIGINS=http://localhost:4200,https://crochet-counter.com
 NODE_ENV=development
 PORT=4000
 ```
 
-`DATABASE_URL` and `SESSION_SECRET` are required. `PORT` defaults to `4000` when the built server is run directly.
+`DATABASE_URL`, `SESSION_SECRET`, and `ALLOWED_ORIGINS` are required. Separate multiple allowed origins with commas. `PORT` defaults to `4000` when the built server is run directly.
 
 Do not commit the `.env` file or real credentials.
 
