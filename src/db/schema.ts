@@ -6,6 +6,7 @@ import {
   foreignKey,
   index,
   integer,
+  json,
   jsonb,
   pgTable,
   primaryKey,
@@ -28,6 +29,19 @@ export const users = pgTable('users', {
   email: text('email').unique().notNull(),
   hashedPassword: text('hashed_password')
 });
+
+export const user_sessions = pgTable('user_sessions', {
+    sid: text('sid').primaryKey(),
+    sess: json('sess').notNull(),
+    expire: timestamp("expire", {
+      precision: 6,
+      withTimezone: false,
+    }).notNull(),
+  },
+  table => [
+    index("IDX_user_sessions_expire").on(table.expire),
+  ],
+);
 
 export const oauth = pgTable('oauth', {
     id: uuid('id').defaultRandom().primaryKey(),

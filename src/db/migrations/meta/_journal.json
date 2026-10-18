@@ -43,6 +43,13 @@
       "when": 1792249058776,
       "tag": "0005_add_basic_stitches",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792345329298,
+      "tag": "0006_dazzling_proemial_gods",
+      "breakpoints": true
     }
   ]
 }
