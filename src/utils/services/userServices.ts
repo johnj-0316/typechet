@@ -31,7 +31,7 @@ async function findUserById(
     .from(users)
     .where(eq(users.uid, uid))
     .limit(1);
-    return cleanUser(user);
+    return user ? cleanUser(user) : undefined;
 }
 
 async function findUserProfileById(
@@ -89,7 +89,7 @@ async function createUser(
 
 function cleanUser(
     user: typeof users.$inferSelect
-): Omit<typeof users.$inferSelect, "hashedPassword"> {
+): Omit<typeof users.$inferSelect, "hashedPassword"> {    
     const { hashedPassword, ...cleanUser } = user;
     return cleanUser;
 }
