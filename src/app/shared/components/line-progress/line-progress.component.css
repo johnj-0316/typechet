@@ -1,0 +1,34 @@
+/* Layout */
+:host {
+    display: flex;
+    align-items: center;
+    gap: 0.8em;
+}
+
+.progress-container {
+    width: 100px;
+    position: relative;
+}
+
+/* Line Design */
+.progress-bg, .progress-line {
+    border-radius: 20px;
+    height: 100%;
+}
+
+.progress-line {
+    position: absolute;
+    z-index: 100;
+    background: rgb(from var(--primary-color) r g b / 90%);
+}
+
+.progress-bg {
+    background: lightgray;
+}
+
+/* Typography */
+:host span {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgb(from var(--primary-color) r g b / 90%);
+}

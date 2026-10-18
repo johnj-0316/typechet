@@ -19,7 +19,7 @@ p {
 .tracker-upper {
     display: flex;
     align-items: center;
-    gap: 1.5em;
+    gap: 2em;
 }
 
 .tracker-title {

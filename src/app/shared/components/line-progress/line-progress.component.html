@@ -1,0 +1,13 @@
+<div class="progress-container" [style.height]="strokeWidth() + 'px'">
+    <div 
+        class="progress-line"
+        [style.width]="value() + '%'"
+    ></div>
+    <div
+        class="progress-bg"
+        [style.width]="max() + '%'"
+    ></div>
+</div>
+@if (showText()) {
+    <span>{{ value() }}%</span>
+}
