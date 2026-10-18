@@ -1,6 +1,7 @@
 /* Layout */
 .stitch-item {
     width: 100%;
+    position: relative;
     z-index: 1;
     display: flex;
     gap: 3em;
@@ -24,8 +25,8 @@
 
 .stitch-icon {
     position: absolute;
-    top: -55%;
-    left: 73.5%;
+    top: -20%;
+    left: 98%;
     right: 0;
     bottom: 0;
     z-index: 100;
@@ -36,7 +37,6 @@
 /* Typography */
 .stitch-shorthand {
     min-width: 35px;
-    position: relative;
     padding: 0.6em;
     border: 1px solid var(--primary-color);
     border-radius: 10px;

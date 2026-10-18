@@ -1,11 +1,10 @@
 <div class="stitch-item">
     <div class="stitch-left">
-        <p class="stitch-shorthand">
+        @if (!custom()) {
+            <svg class="stitch-icon" lucidePin></svg>
+        }
+        <p [class]="customStyle()">
             {{ shorthand() }}
-            
-            @if (!custom()) {
-                <svg class="stitch-icon" lucidePin></svg>
-            }
         </p>
     </div>
     <p class="stitch-name">{{ name() }}</p>
