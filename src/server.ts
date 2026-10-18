@@ -7,8 +7,8 @@ import {
 import express from 'express';
 import session from "express-session";
 import passport from "passport";
-import { join } from 'node:path';
 import helmet from "helmet";
+import { join } from 'node:path';
 
 import { authUser } from './utils/controllers/User/authUser';
 import { authRouter } from './utils/routers/auth';
@@ -19,8 +19,11 @@ import { inventoryRouter } from './utils/routers/inventories';
 import { trackerRouter } from './utils/routers/trackers';
 import { materialRouter } from './utils/routers/materials';
 import { handleError } from './utils/errors/handleError';
-import { verifyStrategy } from './utils/auth/strategies/verifyStrategy';
+
 import "./utils/auth/serialization";
+import { verifyStrategy } from './utils/auth/strategies/verifyStrategy';
+import { validateOrigin } from './security/validateOrigin';
+import { DBStore } from './security/sessionStore';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -63,8 +66,11 @@ app.use(
 
 app.use(express.json());
 
+isProd && app.use("/api", validateOrigin);
+
 app.use(
   session({
+    store: DBStore,
     secret: sessionSecret,
     saveUninitialized: false,
     resave: false,
