@@ -4,9 +4,14 @@ import { db } from "../../db";
 import { eq } from "drizzle-orm";
 import { userProfiles, users } from "../../db/schema";
 
+import { APIError } from "../errors/Error";
+
+type userProfile = typeof userProfiles.$inferSelect;
+
 export {
     findUserById,
     findUserProfileById,
+    editUserProfile,
     verifyCredentials,
     createUser
 };
@@ -43,6 +48,30 @@ async function findUserProfileById(
     .where(eq(userProfiles.id, uid))
     .limit(1);
     return user;
+}
+
+async function editUserProfile(
+    id: string,
+    name: string,
+    displayName: string,
+    profileUrl?: string,
+    phone?: string,
+): Promise<userProfile> {
+    const [profile] = await db
+    .update(userProfiles)
+    .set({
+        name,
+        displayName,
+        profileUrl,
+        phone
+    })
+    .where(eq(userProfiles.id, id))
+    .returning();
+
+    if (!profile)
+        throw new APIError("Profile was not found!", 404);
+
+    return profile;
 }
 
 async function verifyCredentials(
