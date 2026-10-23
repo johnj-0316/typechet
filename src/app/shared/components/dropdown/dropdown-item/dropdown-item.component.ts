@@ -15,7 +15,7 @@ export class DropdownItemComponent {
   icon = computed(() => this.data().icon ?? null);
 
   select(): void {
-    if (!this.data().disabled) 
+    if (!this.data().disabled)
       this.selected.emit(this.data());
   }
 }

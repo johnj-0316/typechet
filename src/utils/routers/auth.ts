@@ -24,10 +24,10 @@ export const authRouter = Router();
 
 authRouter.get("/profile", authUser, findUser);
 
-authRouter.put("/profile", 
-    authUser, 
+authRouter.put("/profile",
+    authUser,
     profileLimit,
-    profileValidator, 
+    profileValidator,
     validate("Something went wrong with editing your profile."),
     editUser);
 
