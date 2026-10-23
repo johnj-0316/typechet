@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 
-import { ApiDataResponse, Stitches } from '../../shared/types/api.types';
+import { ApiDataResponse, Stitches } from '../shared/types/api.types';
 
 export type StitchesResponse = ApiDataResponse<Stitches[]>;
 

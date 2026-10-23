@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 
-import { ApiDataResponse, Inventory } from '../../shared/types/api.types';
+import { ApiDataResponse, Inventory } from '../shared/types/api.types';
 
 export type InventoryResponse = ApiDataResponse<Inventory[]>;
 

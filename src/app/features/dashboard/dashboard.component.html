@@ -1,3 +1,12 @@
-@if (user()) {
-    <h1 class="welcome-title">Welcome {{ user() }}</h1>
-}
+<main class="dashboard">
+  <header class="dashboard-header">
+    @if (user()) {
+      <div class="dashboard-welcome">
+        <p class="dashboard-change-name">Welcome,</p>
+        <input class="dashboard-change-name" [value]="user()"/>
+      </div>
+      <p class="dashboard-desc">Rummage through your stuff here.</p>
+    }
+  </header>
+  <tc-search class="dashboard-search-bar"/>
+</main>

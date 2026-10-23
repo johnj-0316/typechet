@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 
-import { InventoryResponse, InventoryService } from './inventory.service';
+import { InventoryResponse, InventoryService } from '../../services/inventory.service';
 import { InventoryItemComponent } from './inventory-item/inventory-item.component';
 
 @Component({

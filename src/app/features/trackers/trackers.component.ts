@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 
-import { TrackersResponse, TrackersService } from './trackers.service';
+import { TrackersResponse, TrackersService } from '../../services/trackers.service';
 import { TrackerItemComponent } from './tracker-item/tracker-item.component';
 
 @Component({

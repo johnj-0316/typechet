@@ -1,26 +1,22 @@
 import { Component, inject, signal } from '@angular/core';
 
-import { ProfileService } from '../users/profile.service';
+import { ProfileService } from '../../services/profile.service';
+import { SearchComponent } from '../../shared/components/search/search.component';
 
 @Component({
-    imports: [],
-    selector: 'tc-dashboard',
-    styleUrl: './dashboard.component.css',
-    templateUrl: './dashboard.component.html',
+  imports: [SearchComponent],
+  selector: 'tc-dashboard',
+  styleUrl: './dashboard.component.css',
+  templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent {
-    userProfile = inject(ProfileService);
-    user = signal<string | null>('');
+  private readonly profileService = inject(ProfileService);
 
-    constructor() {
-        const profileObservable = this.userProfile.getUserProfile();
-        profileObservable?.subscribe({
-            next: (res) => {
-                this.user.set(res.user.name);
-            },
-            error: (res) => {
-                console.log(res);
-            },
-        });
-    }
+  readonly user = signal<string | null>('');
+
+  constructor() {
+    this.profileService.getUserProfile().subscribe({
+      next: (response) => this.user.set(response.user.displayName || response.user.name),
+    });
+  }
 }

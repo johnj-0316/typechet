@@ -54,19 +54,6 @@ label {
     font-size: 0.8rem;
 }
 
-input {
-    width: 250px;
-    padding: 0.7em 1.25em;
-    border: 1px solid lightgray;
-    border-radius: 20px;
-    font-size: 0.8rem;
-}
-
-input:focus {
-    outline: 2px solid var(--primary-color);
-    outline-offset: 1.5px;
-}
-
 /* Submit Btn */
 .submit-form-btn {
     margin-top: 0.25em;

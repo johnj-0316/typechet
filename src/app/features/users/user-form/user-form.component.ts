@@ -1,7 +1,7 @@
 import { Component, inject, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Validators } from '@angular/forms';
-import { UserService } from '../user.service';
+import { UserService } from '../../../services/user.service';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 

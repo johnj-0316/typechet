@@ -6,7 +6,7 @@ import { NavComponent } from '../nav/nav.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { dashboardItems } from './dashboard-nav.items';
 import { NavItem } from '../nav/nav.type';
-import { UserService } from '../../../features/users/user.service';
+import { UserService } from '../../../services/user.service';
 
 @Component({
     imports: [NavComponent, RouterOutlet, SidebarComponent],

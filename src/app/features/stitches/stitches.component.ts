@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 
-import { StitchesResponse, StitchesService } from './stitches.service';
+import { StitchesResponse, StitchesService } from '../../services/stitches.service';
 import { StitchItemComponent } from './stitch-item/stitch-item.component';
 
 @Component({
