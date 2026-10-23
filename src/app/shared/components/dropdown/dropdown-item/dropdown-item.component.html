@@ -1,6 +1,27 @@
-<div class="dropdown-item">
+@if (data().path) {
+  <a
+    class="dropdown-item"
+    [class.danger]="data().tone === 'danger'"
+    [class.disabled]="data().disabled"
+    [routerLink]="data().path"
+    (click)="select()"
+  >
     @if (icon()) {
-        <svg [lucideIcon]="icon()"></svg>
+      <svg [lucideIcon]="icon()"></svg>
     }
-    <a>{{ data().label }}</a>
-</div>
+    <span>{{ data().label }}</span>
+  </a>
+} @else {
+  <button
+    class="dropdown-item"
+    [class.danger]="data().tone === 'danger'"
+    type="button"
+    [disabled]="data().disabled"
+    (click)="select()"
+  >
+    @if (icon()) {
+      <svg [lucideIcon]="icon()"></svg>
+    }
+    <span>{{ data().label }}</span>
+  </button>
+}

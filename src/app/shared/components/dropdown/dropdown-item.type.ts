@@ -1,7 +1,10 @@
-import { LucideIconData } from "@lucide/angular";
+import { LucideIconData } from '@lucide/angular';
 
 export type DropdownItemData = {
-    label: string;
-    icon?: LucideIconData;
-    path?: string;
+  id: string;
+  label: string;
+  icon?: LucideIconData;
+  path?: string;
+  disabled?: boolean;
+  tone?: 'default' | 'danger';
 };

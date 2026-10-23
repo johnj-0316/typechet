@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { LucideX } from '@lucide/angular';
 
 @Component({
@@ -8,4 +8,5 @@ import { LucideX } from '@lucide/angular';
   templateUrl: './modal.component.html',
 })
 export class ModalComponent {
+  buttonText = input.required<string | null>();
 }

@@ -1,5 +1,5 @@
 dialog::backdrop {
-    background-color: lightgray;
+    opacity: 0.9;
 }
 
 dialog {
