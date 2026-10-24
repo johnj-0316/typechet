@@ -1,12 +1,8 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 
-import { createUser } from "../../services/userServices";
+import { createUser } from '../../services/userServices';
 
-export async function registerUser(
-    req: Request, 
-    res: Response,
-    next: NextFunction
-): Promise<void> {
+export async function registerUser(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { username, email, password } = req.body;
     const user = await createUser(username, email, password);
 
@@ -17,7 +13,7 @@ export async function registerUser(
         }
 
         res.status(201).json({
-            message: "User registered!",
+            message: 'User registered!',
             user,
         });
     });

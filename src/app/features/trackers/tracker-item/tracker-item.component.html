@@ -1,21 +1,21 @@
 <div class="tracker-item">
-  <div class="tracker-info">
-    <div class="tracker-upper">
-      <p class="tracker-title">{{ trackerTitle() }}</p>
-      <tc-line-progress class="tracker-progress" [size]="28" [strokeWidth]="8" />
+    <div class="tracker-info">
+        <div class="tracker-upper">
+            <p class="tracker-title">{{ trackerTitle() }}</p>
+            <tc-line-progress class="tracker-progress" [size]="28" [strokeWidth]="8" />
+        </div>
+        <div class="tracker-lower">
+            <p class="tracker-pattern">
+                <span>Following</span>
+                {{ patternTitle() }}
+            </p>
+            <p class="tracker-date">{{ date() | date: 'MMMM d, yyyy' }}</p>
+        </div>
     </div>
-    <div class="tracker-lower">
-      <p class="tracker-pattern">
-        <span>Following</span>
-        {{ patternTitle() }}
-      </p>
-      <p class="tracker-date">{{ date() | date: 'MMMM d, yyyy' }}</p>
+    <div class="tracker-icons">
+        <button class="button-icon">
+            <svg class="tracker-play" lucidePlay></svg>
+        </button>
+        <tc-dropdown [items]="menuItems" />
     </div>
-  </div>
-  <div class="tracker-icons">
-    <button class="button-icon">
-      <svg class="tracker-play" lucidePlay></svg>
-    </button>
-    <tc-dropdown [items]="menuItems" />
-  </div>
 </div>

@@ -1,12 +1,16 @@
 <main class="dashboard">
-  <header class="dashboard-header">
-    @if (user()) {
-      <div class="dashboard-welcome">
-        <p class="dashboard-change-name">Welcome,</p>
-        <input class="dashboard-change-name" [value]="user()"/>
-      </div>
-      <p class="dashboard-desc">Rummage through your stuff here.</p>
-    }
-  </header>
-  <tc-search class="dashboard-search-bar"/>
+    <header class="dashboard-header">
+        @if (user()) {
+            <div class="dashboard-welcome">
+                <p class="dashboard-change-name">Welcome</p>
+                <input
+                    class="dashboard-change-name"
+                    [formField]="nameForm.displayName"
+                    (keydown.enter)="editDisplayName()"
+                />
+            </div>
+            <p class="dashboard-desc">Rummage through your stuff here.</p>
+        }
+    </header>
+    <tc-search class="dashboard-search-bar" />
 </main>

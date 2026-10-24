@@ -1,10 +1,10 @@
 import { Component, input } from '@angular/core';
 
 @Component({
-  imports: [],
-  selector: 'tc-line-progress',
-  styleUrl: './line-progress.component.css',
-  templateUrl: './line-progress.component.html',
+    imports: [],
+    selector: 'tc-line-progress',
+    styleUrl: './line-progress.component.css',
+    templateUrl: './line-progress.component.html',
 })
 export class LineProgressComponent {
     value = input<number>(80);

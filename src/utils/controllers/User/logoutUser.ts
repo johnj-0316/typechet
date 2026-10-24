@@ -1,10 +1,6 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response } from 'express';
 
-export function logoutUser(
-    req: Request,
-    res: Response,
-    next: NextFunction
-) {
+export function logoutUser(req: Request, res: Response, next: NextFunction) {
     req.logout((error) => {
         if (error) {
             next(error);
@@ -17,7 +13,7 @@ export function logoutUser(
                 return;
             }
 
-            res.clearCookie("connect.sid");
+            res.clearCookie('connect.sid');
             res.sendStatus(204);
         });
     });

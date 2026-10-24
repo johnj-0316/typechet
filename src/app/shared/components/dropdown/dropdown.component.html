@@ -1,25 +1,25 @@
 <button
-  cdkOverlayOrigin
-  #dropdownOrigin="cdkOverlayOrigin"
-  class="dropdown-button"
-  [class.open]="open()"
-  type="button"
-  (click)="toggle($event)"
+    cdkOverlayOrigin
+    #dropdownOrigin="cdkOverlayOrigin"
+    class="dropdown-button"
+    [class.open]="open()"
+    type="button"
+    (click)="toggle($event)"
 >
-  <svg lucideEllipsisVertical></svg>
+    <svg lucideEllipsisVertical></svg>
 </button>
 <ng-template
-  cdkConnectedOverlay
-  [cdkConnectedOverlayOrigin]="dropdownOrigin"
-  [cdkConnectedOverlayOpen]="open()"
-  [cdkConnectedOverlayPositions]="positions()"
-  [cdkConnectedOverlayViewportMargin]="4"
-  (overlayOutsideClick)="closeOnOutsideClick()"
-  (detach)="closeOnOutsideClick()"
+    cdkConnectedOverlay
+    [cdkConnectedOverlayOrigin]="dropdownOrigin"
+    [cdkConnectedOverlayOpen]="open()"
+    [cdkConnectedOverlayPositions]="positions()"
+    [cdkConnectedOverlayViewportMargin]="4"
+    (overlayOutsideClick)="closeOnOutsideClick()"
+    (detach)="closeOnOutsideClick()"
 >
-  <div class="dropdown-panel">
-    @for (item of items(); track item.id) {
-      <tc-dropdown-item [data]="item" (selected)="select($event)" />
-    }
-  </div>
+    <div class="dropdown-panel">
+        @for (item of items(); track item.id) {
+            <tc-dropdown-item [data]="item" (selected)="select($event)" />
+        }
+    </div>
 </ng-template>

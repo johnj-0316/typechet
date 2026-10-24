@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from "express";
-import { validationResult } from "express-validator";
-import { ClientError } from "../errors/Error";
+import { Request, Response, NextFunction } from 'express';
+import { validationResult } from 'express-validator';
+import { ClientError } from '../errors/Error';
 
-export function validate(message = "Invalid request.") {
+export function validate(message = 'Invalid request.') {
     return (req: Request, _res: Response, next: NextFunction) => {
         const result = validationResult(req);
 

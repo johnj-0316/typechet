@@ -4,10 +4,6 @@ import { LandingComponent } from './features/landing/landing.component';
 import { SignupComponent } from './features/users/signup/signup.component';
 import { SigninComponent } from './features/users/signin/signin.component';
 import { authGuard, guestGuard } from './core/auth/auth-guard';
-import { PatternsComponent } from './features/patterns/patterns.component';
-import { TrackersComponent } from './features/trackers/trackers.component';
-import { StitchesComponent } from './features/stitches/stitches.component';
-import { InventoryComponent } from './features/inventory/inventory.component';
 import { DashboardLayoutComponent } from './core/layout/dashboard-layout/dashboard-layout.component';
 import { TestpageComponent } from './features/testpage/testpage.component';
 
@@ -33,19 +29,31 @@ export const routes: Routes = [
             },
             {
                 path: 'patterns',
-                component: PatternsComponent,
+                loadComponent: () =>
+                    import('./features/patterns/patterns.component').then(
+                        (m) => m.PatternsComponent,
+                    ),
             },
             {
                 path: 'trackers',
-                component: TrackersComponent,
+                loadComponent: () =>
+                    import('./features/trackers/trackers.component').then(
+                        (m) => m.TrackersComponent,
+                    ),
             },
             {
                 path: 'stitches',
-                component: StitchesComponent,
+                loadComponent: () =>
+                    import('./features/stitches/stitches.component').then(
+                        (m) => m.StitchesComponent,
+                    ),
             },
             {
                 path: 'inventory',
-                component: InventoryComponent,
+                loadComponent: () =>
+                    import('./features/inventory/inventory.component').then(
+                        (m) => m.InventoryComponent,
+                    ),
             },
         ],
     },
@@ -61,6 +69,6 @@ export const routes: Routes = [
     },
     {
         path: 'testing',
-        component: TestpageComponent
-    }
+        component: TestpageComponent,
+    },
 ];

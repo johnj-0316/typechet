@@ -1,4 +1,4 @@
-import rateLimit from "express-rate-limit";
+import rateLimit from 'express-rate-limit';
 
 export const profileLimit = rateLimit({
     windowMs: 10 * 60 * 1000,
@@ -9,7 +9,7 @@ export const profileLimit = rateLimit({
     skipSuccessfulRequests: false,
     message: {
         error: {
-            message: "Too many requests for editing your profile. Try again later."
-        }
-    }
+            message: 'Too many requests for editing your profile. Try again later.',
+        },
+    },
 });

@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Validators } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
@@ -6,75 +6,70 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
-  imports: [ReactiveFormsModule],
-  selector: 'tc-user-form',
-  styleUrl: './user-form.component.css',
-  templateUrl: './user-form.component.html',
+    imports: [ReactiveFormsModule],
+    selector: 'tc-user-form',
+    styleUrl: './user-form.component.css',
+    templateUrl: './user-form.component.html',
 })
-export class UserFormComponent {
-  readonly router = inject(Router);
-  readonly user = inject(UserService);
-  readonly mode = input.required<"signin" | "signup">();
-  readonly buttonLabel = input.required<string>();
-  readonly userForm = new FormGroup({
-    username: new FormControl("", {
-      nonNullable: true
-    }),
-    email: new FormControl("", {
-      nonNullable: true,
-      validators: [Validators.required, Validators.email]
-    }),
-    password: new FormControl("", {
-      nonNullable: true,
-      validators: [Validators.required, Validators.minLength(8)]
-    })
-  });
+export class UserFormComponent implements OnInit {
+    readonly router = inject(Router);
+    readonly user = inject(UserService);
+    readonly mode = input.required<'signin' | 'signup'>();
+    readonly buttonLabel = input.required<string>();
+    readonly userForm = new FormGroup({
+        username: new FormControl('', {
+            nonNullable: true,
+        }),
+        email: new FormControl('', {
+            nonNullable: true,
+            validators: [Validators.required, Validators.email],
+        }),
+        password: new FormControl('', {
+            nonNullable: true,
+            validators: [Validators.required, Validators.minLength(8)],
+        }),
+    });
 
-  ngOnInit() {
-    const username = this.userForm.controls.username;
+    ngOnInit() {
+        const username = this.userForm.controls.username;
 
-    if (this.mode() === "signup") {
-      username.setValidators([
-        Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(15)
-      ]);
-    } else {
-      username.clearValidators();
-      username.setValue("");
+        if (this.mode() === 'signup') {
+            username.setValidators([
+                Validators.required,
+                Validators.minLength(5),
+                Validators.maxLength(15),
+            ]);
+        } else {
+            username.clearValidators();
+            username.setValue('');
+        }
+
+        username.updateValueAndValidity();
     }
 
-    username.updateValueAndValidity();
-  }
+    handleSubmit() {
+        if (!this.userForm.valid) return;
 
-  handleSubmit() {
-    if (!this.userForm.valid)
-      return;
+        const { username, email, password } = this.userForm.getRawValue();
 
-    const { username, email, password } = this.userForm.getRawValue();
-    let res: Observable<object>;
-
-    if (this.mode() === "signin") {
-      this.user.signin(email, password).subscribe({
-        next: (res: any) => {
-          this.router.navigate(["/dashboard"]);
-        },
-        error: res => {
-          alert(JSON.stringify(res));
+        if (this.mode() === 'signin') {
+            this.user.signin(email, password).subscribe({
+                next: (res: any) => {
+                    this.router.navigate(['/dashboard']);
+                },
+                error: (res) => {
+                    alert(JSON.stringify(res));
+                },
+            });
+        } else {
+            this.user.signup(username, email, password).subscribe({
+                next: (res: any) => {
+                    this.router.navigate(['/dashboard']);
+                },
+                error: (res) => {
+                    alert(JSON.stringify(res));
+                },
+            });
         }
-      });
-    } 
-    else {
-      res = this.user.signup(username, email, password);
-
-      this.user.signup(username, email, password).subscribe({
-        next: (res: any) => {
-          this.router.navigate(["/dashboard"]);
-        },
-        error: res => {
-          alert(JSON.stringify(res));
-        }
-      });
     }
-  }
 }

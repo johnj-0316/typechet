@@ -41,7 +41,9 @@ form {
 }
 
 /* Text Field Layout */
-.username-field, .email-field, .password-field {
+.username-field,
+.email-field,
+.password-field {
     display: flex;
     flex-direction: column;
     gap: 0.65em;

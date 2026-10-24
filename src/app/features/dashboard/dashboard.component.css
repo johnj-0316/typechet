@@ -1,64 +1,65 @@
 /* Layout */
 :host {
-  height: 100%;
-  display: block;
-  color: var(--light-black);
+    height: 100%;
+    display: block;
+    color: var(--light-black);
 }
 
 .dashboard {
-  width: min(1120px, 100%);
-  height: 70%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 0 auto;
+    width: min(1120px, 100%);
+    height: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
 }
 
 .dashboard-header {
-  margin-bottom: 2rem;
-  text-align: center;
+    margin-bottom: 2rem;
+    text-align: center;
 }
 
 .dashboard-welcome {
-  display: flex;
-  gap: 0.25em;
+    display: flex;
+    gap: 0.6em;
 }
 
 .dashboard-change-name {
-  max-width: 500px;
-  field-sizing: content;
-  display: inline-block;
-  background: none;
-  border: none;
-  color: inherit;
-  overflow: clip;
-  text-overflow: ellipsis;
+    max-width: 500px;
+    field-sizing: content;
+    display: inline-block;
+    background: none;
+    border: none;
+    color: inherit;
+    overflow: clip;
+    text-overflow: ellipsis;
 }
 
 .dashboard-search-bar {
-  width: 65%;
+    width: 65%;
 }
 
 /* Typography */
-h1, p {
-  margin: 0;
+h1,
+p {
+    margin: 0;
 }
 
 .dashboard-change-name {
-  margin-bottom: 0.4rem;
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 540;
-  letter-spacing: -0.045em;
+    margin-bottom: 0.4rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 540;
+    letter-spacing: -0.045em;
 }
 
 .dashboard-change-name:focus {
-  outline: none;
+    outline: none;
 }
 
 .dashboard-desc {
-  margin-top: 1em;
-  color: rgb(from var(--light-black) r g b / 58%);
+    margin-top: 0.75em;
+    color: rgb(from var(--light-black) r g b / 58%);
 }
 
 /* Animations */

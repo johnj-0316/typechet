@@ -4,17 +4,13 @@
             <a routerLink="">typechet</a>
         </li>
         @for (item of data(); track item.label) {
-            @if (item.kind == "link") {
+            @if (item.kind == 'link') {
                 <li [class]="'nav-link ' + (item.class ?? '')">
                     <a [routerLink]="item.path">{{ item.label }}</a>
                 </li>
-            }
-            @else if (item.kind == "button") {
+            } @else if (item.kind == 'button') {
                 <li>
-                    <button
-                        [class]="'button-icon ' + (item.class ?? '')"
-                        (click)="item.action()"
-                    >
+                    <button [class]="'button-icon ' + (item.class ?? '')" (click)="item.action()">
                         <svg [lucideIcon]="item.icon"></svg>
                     </button>
                 </li>

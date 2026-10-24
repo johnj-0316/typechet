@@ -1,22 +1,22 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 
-import { sessionUser } from "../User/sessionUser";
-import { getUserStitches, getUserStitch } from "../../services/stitchServices";
-import { StitchesGetRouteParams, StitchesGetQueryParams } from "./stitches.types";
-import { handlePagination } from "../../tools/handlePagination";
+import { sessionUser } from '../User/sessionUser';
+import { getUserStitches, getUserStitch } from '../../services/stitchServices';
+import { StitchesGetRouteParams, StitchesGetQueryParams } from './stitches.types';
+import { handlePagination } from '../../tools/handlePagination';
 
 export async function getStitches(
-    req: Request<StitchesGetRouteParams, unknown, unknown, StitchesGetQueryParams>, 
-    res: Response
+    req: Request<StitchesGetRouteParams, unknown, unknown, StitchesGetQueryParams>,
+    res: Response,
 ): Promise<void> {
     const { id } = req.params;
     const { offset, limit } = req.query;
     const userId = sessionUser(req);
 
     const pq = handlePagination(offset, limit);
-    const data = id ? 
-        await getUserStitch(userId, id)
+    const data = id
+        ? await getUserStitch(userId, id)
         : await getUserStitches(userId, pq.offset, pq.limit);
-    
-    res.status(200).json({ message: "Found stitches!", data });
+
+    res.status(200).json({ message: 'Found stitches!', data });
 }

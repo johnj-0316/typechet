@@ -1,12 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 
-import { Profile } from '../shared/types/api.types';
+import { ApiDataResponse, Profile } from '../shared/types/api.types';
 
-export type UserProfileResponse = {
-    message: string;
-    user: Profile;
-};
+export type UserProfileResponse = ApiDataResponse<Profile>;
 
 @Service()
 export class ProfileService {
@@ -16,12 +13,7 @@ export class ProfileService {
         return this.httpProfile.get<UserProfileResponse>('/api/v1/auth/profile');
     }
 
-    editUserProfile(name: string, displayName: string, profileUrl: string, phone: string) {
-        return this.httpProfile.post<UserProfileResponse>('/api/v1/auth/profile', {
-            name,
-            displayName,
-            profileUrl,
-            phone
-        });
+    editUserProfile(profile: Partial<Omit<Profile, 'id' | 'createdAt' | 'updatedAt'>>) {
+        return this.httpProfile.put<UserProfileResponse>('/api/v1/auth/profile', profile);
     }
 }

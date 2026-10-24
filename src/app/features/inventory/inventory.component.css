@@ -1,32 +1,32 @@
 :host {
-  display: block;
-  flex-basis: 70%;
+    display: block;
+    flex-basis: 70%;
 }
 
 h1 {
-  font-weight: 400;
+    font-weight: 400;
 }
 
 .inventory-list {
-  width: 100%;
-  display: grid;
+    width: 100%;
+    display: grid;
 }
 
 .inventory-headers {
-  display: grid;
-  grid-template-columns: 2.05fr 1fr 1.25fr 0.8fr;
-  gap: 1rem;
-  padding: 0.7rem 1rem;
-  color: var(--primary-color);
-  font-size: 0.68rem;
-  font-weight: 400;
-  font-style: italic;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+    display: grid;
+    grid-template-columns: 2.05fr 1fr 1.25fr 0.8fr;
+    gap: 1rem;
+    padding: 0.7rem 1rem;
+    color: var(--primary-color);
+    font-size: 0.68rem;
+    font-weight: 400;
+    font-style: italic;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
 @media (max-width: 760px) {
-  .inventory-list-header {
-    display: none;
-  }
+    .inventory-list-header {
+        display: none;
+    }
 }

@@ -1,19 +1,19 @@
-import { describe, expect, beforeEach, it, test } from "vitest";
+import { describe, expect, beforeEach, it, test } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
 
-import { GetColorName } from "hex-color-to-color-name";
+import { GetColorName } from 'hex-color-to-color-name';
 
 describe.each([
-  {
-    input: "#FFFFFF",
-    expected: "White",
-  },
-])("GetColorName($input)", ({ input, expected }) => {
-  test(`Expected: ${expected}`, () => {
-    const name = GetColorName(input);
-    expect(name).toHaveLength(expected.length);
-  });
+    {
+        input: '#FFFFFF',
+        expected: 'White',
+    },
+])('GetColorName($input)', ({ input, expected }) => {
+    test(`Expected: ${expected}`, () => {
+        const name = GetColorName(input);
+        expect(name).toHaveLength(expected.length);
+    });
 });
 
 // describe('App', () => {

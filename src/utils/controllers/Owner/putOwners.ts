@@ -1,17 +1,23 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 
-import { sessionUser } from "../User/sessionUser";
-import { editOwner } from "../../services/ownerServices";
-import { OwnerPutRouteParams, OwnerPutBodyParams } from "./owners.types";
+import { sessionUser } from '../User/sessionUser';
+import { editOwner } from '../../services/ownerServices';
+import { OwnerPutRouteParams, OwnerPutBodyParams } from './owners.types';
 
 export async function putOwners(
-    req: Request<OwnerPutRouteParams, unknown, OwnerPutBodyParams>, 
-    res: Response
+    req: Request<OwnerPutRouteParams, unknown, OwnerPutBodyParams>,
+    res: Response,
 ) {
     const { user_pattern_id } = req.params;
     const { user_id, pattern_id, message } = req.body;
     const authenticatedUserId = sessionUser(req);
 
-    const data = await editOwner(authenticatedUserId, user_pattern_id, pattern_id, user_id, message);
-    res.status(200).json({ message: "Successfully edited ownership!", data });
+    const data = await editOwner(
+        authenticatedUserId,
+        user_pattern_id,
+        pattern_id,
+        user_id,
+        message,
+    );
+    res.status(200).json({ message: 'Successfully edited ownership!', data });
 }

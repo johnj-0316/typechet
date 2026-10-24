@@ -2,20 +2,20 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DropdownItemComponent } from './dropdown-item.component';
 
 describe('DropdownItemComponent', () => {
-  let component: DropdownItemComponent;
-  let fixture: ComponentFixture<DropdownItemComponent>;
+    let component: DropdownItemComponent;
+    let fixture: ComponentFixture<DropdownItemComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [DropdownItemComponent],
-    }).compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [DropdownItemComponent],
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(DropdownItemComponent);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
-  });
+        fixture = TestBed.createComponent(DropdownItemComponent);
+        component = fixture.componentInstance;
+        await fixture.whenStable();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

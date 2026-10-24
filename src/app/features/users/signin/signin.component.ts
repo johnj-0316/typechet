@@ -4,9 +4,9 @@ import { NavComponent } from '../../../core/layout/nav/nav.component';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  imports: [NavComponent, UserFormComponent, RouterLink],
-  selector: 'tc-signin',
-  styleUrl: './signin.component.css',
-  templateUrl: './signin.component.html',
+    imports: [NavComponent, UserFormComponent, RouterLink],
+    selector: 'tc-signin',
+    styleUrl: './signin.component.css',
+    templateUrl: './signin.component.html',
 })
 export class SigninComponent {}

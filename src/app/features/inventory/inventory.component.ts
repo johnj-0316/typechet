@@ -4,20 +4,20 @@ import { InventoryResponse, InventoryService } from '../../services/inventory.se
 import { InventoryItemComponent } from './inventory-item/inventory-item.component';
 
 @Component({
-  imports: [InventoryItemComponent],
-  selector: 'tc-inventory',
-  styleUrl: './inventory.component.css',
-  templateUrl: './inventory.component.html',
+    imports: [InventoryItemComponent],
+    selector: 'tc-inventory',
+    styleUrl: './inventory.component.css',
+    templateUrl: './inventory.component.html',
 })
 export class InventoryComponent {
-  private readonly inventoryService = inject(InventoryService);
-  readonly inventory = signal<InventoryResponse | undefined>(undefined);
+    private readonly inventoryService = inject(InventoryService);
+    readonly inventory = signal<InventoryResponse | undefined>(undefined);
 
-  constructor() {
-    this.inventoryService.getInventory().subscribe({
-      next: (response) => {
-        this.inventory.set(response);
-      },
-    });
-  }
+    constructor() {
+        this.inventoryService.getInventory().subscribe({
+            next: (response) => {
+                this.inventory.set(response);
+            },
+        });
+    }
 }

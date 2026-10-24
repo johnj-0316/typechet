@@ -17,8 +17,8 @@ import { UserService } from '../../../services/user.service';
 export class DashboardLayoutComponent {
     readonly router = inject(Router);
     readonly userService = inject(UserService);
-    readonly dashboardItems: NavItem[] = dashboardItems.map(item => {
-        if (item.kind === "button" && item.label === "Account Details") {
+    readonly dashboardItems: NavItem[] = dashboardItems.map((item) => {
+        if (item.kind === 'button' && item.label === 'Account Details') {
             return {
                 ...item,
                 action: () => this.logOut(),
@@ -31,11 +31,11 @@ export class DashboardLayoutComponent {
     logOut() {
         this.userService.signout().subscribe({
             next: (res) => {
-                this.router.navigate(["/sign-in"]);
+                this.router.navigate(['/sign-in']);
             },
-            error: res => {
+            error: (res) => {
                 alert(res);
-            }
-        })
+            },
+        });
     }
 }

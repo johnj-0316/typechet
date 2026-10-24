@@ -1,4 +1,4 @@
-import rateLimit from "express-rate-limit";
+import rateLimit from 'express-rate-limit';
 
 export const registerLimit = rateLimit({
     windowMs: 60 * 60 * 1000,
@@ -8,7 +8,7 @@ export const registerLimit = rateLimit({
     skipSuccessfulRequests: true,
     message: {
         error: {
-            message: "Too many attempts for registration. Try again later."
-        }
-    }
+            message: 'Too many attempts for registration. Try again later.',
+        },
+    },
 });

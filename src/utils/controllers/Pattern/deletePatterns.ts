@@ -1,19 +1,18 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 
-import { sessionUser } from "../User/sessionUser";
-import { PatternDeleteRouteParams } from "./pattern.types";
-import { deletePattern } from "../../services/patternServices";
-import { ClientError } from "../../errors/Error";
+import { sessionUser } from '../User/sessionUser';
+import { PatternDeleteRouteParams } from './pattern.types';
+import { deletePattern } from '../../services/patternServices';
+import { ClientError } from '../../errors/Error';
 
 export async function deletePatterns(
-    req: Request<PatternDeleteRouteParams>, 
-    res: Response
+    req: Request<PatternDeleteRouteParams>,
+    res: Response,
 ): Promise<void> {
     const { id } = req.params;
     const userId = sessionUser(req);
 
-    if (!id)
-        throw new ClientError("Missing id parameter.", 400);
+    if (!id) throw new ClientError('Missing id parameter.', 400);
 
     await deletePattern(userId, id);
     res.sendStatus(204);

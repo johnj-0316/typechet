@@ -1,14 +1,9 @@
-import {
-    inventory,
-    patterns,
-    stitches,
-    trackers,
-    userProfiles
-} from "../../../db/schema";
+import { inventory, patterns, stitches, trackers, userProfiles } from '../../../db/schema';
 
 type ApiDataResponse<T> = {
     message: string;
     data: T;
+    user: T;
 };
 
 type Inventory = typeof inventory.$inferSelect;
@@ -20,15 +15,8 @@ type Profile = typeof userProfiles.$inferSelect;
 type Stitches = typeof stitches.$inferSelect;
 
 type Trackers = typeof trackers.$inferSelect &
-    Pick<typeof patterns.$inferSelect, "rows"> & {
-        patternTitle: typeof patterns.$inferSelect["title"];
+    Pick<typeof patterns.$inferSelect, 'rows'> & {
+        patternTitle: (typeof patterns.$inferSelect)['title'];
     };
 
-export type {
-    ApiDataResponse,
-    Inventory,
-    Pattern,
-    Profile,
-    Stitches,
-    Trackers
-};
+export type { ApiDataResponse, Inventory, Pattern, Profile, Stitches, Trackers };

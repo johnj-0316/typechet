@@ -11,7 +11,8 @@
 }
 
 /* Line Design */
-.progress-bg, .progress-line {
+.progress-bg,
+.progress-line {
     border-radius: 20px;
     height: 100%;
 }

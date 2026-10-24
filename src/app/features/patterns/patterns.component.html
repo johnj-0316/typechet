@@ -2,19 +2,14 @@
 @defer {
     <div class="pattern-grid">
         @for (pattern of patterns()?.data; track pattern.id) {
-            <tc-pattern-item 
+            <tc-pattern-item
                 [title]="pattern.title"
                 [date]="pattern.createdAt | date: 'MMMM d, yyyy'"
             ></tc-pattern-item>
         }
     </div>
-}
-@placeholder {
+} @placeholder {
     <div class="loading">
-        <img
-            class="loading-gif"
-            src="/assets/vectorby-web-5811.gif"
-            alt="Crochet animation"
-        />
+        <img class="loading-gif" src="/assets/vectorby-web-5811.gif" alt="Crochet animation" />
     </div>
 }

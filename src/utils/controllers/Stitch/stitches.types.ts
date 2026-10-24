@@ -1,20 +1,20 @@
 type StitchesGetRouteParams = {
-    id?: string
+    id?: string;
 };
 
 type StitchesGetQueryParams = {
-    offset?: string,
-    limit?: string
+    offset?: string;
+    limit?: string;
 };
 
 type StitchesPostBodyParams = {
-    shorthand: string,
-    name: string,
-    origin?: string
+    shorthand: string;
+    name: string;
+    origin?: string;
 };
 
 type StitchesPutRouteParams = {
-    id: string
+    id: string;
 };
 
 type StitchesPutBodyParams = StitchesPostBodyParams;
@@ -27,5 +27,5 @@ export type {
     StitchesPostBodyParams,
     StitchesPutRouteParams,
     StitchesPutBodyParams,
-    StitchesDeleteRouteParams
-}
+    StitchesDeleteRouteParams,
+};

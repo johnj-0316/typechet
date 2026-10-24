@@ -1,4 +1,4 @@
-import { ValidationError } from "express-validator";
+import { ValidationError } from 'express-validator';
 
 export { ClientError, APIError, ServerError };
 
@@ -9,7 +9,11 @@ class ClientError extends Error {
     statusCode: number; //400;
     details: void | string | ValidationError | ValidationError[];
 
-    constructor(message: string, statusCode: number, details?: string | ValidationError | ValidationError[]) {
+    constructor(
+        message: string,
+        statusCode: number,
+        details?: string | ValidationError | ValidationError[],
+    ) {
         super(message);
         this.statusCode = statusCode;
         this.details = details;
@@ -20,7 +24,11 @@ class APIError extends Error {
     statusCode: number; //401-404;
     details: void | string | ValidationError | ValidationError[];
 
-    constructor(message: string, statusCode: number, details?: string | ValidationError | ValidationError[]) {
+    constructor(
+        message: string,
+        statusCode: number,
+        details?: string | ValidationError | ValidationError[],
+    ) {
         super(message);
         this.statusCode = statusCode;
         this.details = details;

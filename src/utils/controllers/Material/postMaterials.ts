@@ -1,16 +1,28 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 
-import { sessionUser } from "../User/sessionUser";
-import { createMaterial } from "../../services/materialServices";
-import { MaterialsPostBodyParams } from "./materials.types";
+import { sessionUser } from '../User/sessionUser';
+import { createMaterial } from '../../services/materialServices';
+import { MaterialsPostBodyParams } from './materials.types';
 
 export async function postMaterials(
-    req: Request<unknown, unknown, MaterialsPostBodyParams>, 
-    res: Response
+    req: Request<unknown, unknown, MaterialsPostBodyParams>,
+    res: Response,
 ): Promise<void> {
-    const { pattern_id, item, amount, amount_unit, category, color, color_hex, cost, cost_unit } = req.body;
+    const { pattern_id, item, amount, amount_unit, category, color, color_hex, cost, cost_unit } =
+        req.body;
     const userId = sessionUser(req);
-    
-    const data = await createMaterial(userId, pattern_id, item, category, amount, amount_unit, color, color_hex, cost, cost_unit);
-    res.status(201).json({ message: "Item successfully added!", data });
+
+    const data = await createMaterial(
+        userId,
+        pattern_id,
+        item,
+        category,
+        amount,
+        amount_unit,
+        color,
+        color_hex,
+        cost,
+        cost_unit,
+    );
+    res.status(201).json({ message: 'Item successfully added!', data });
 }

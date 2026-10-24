@@ -1,7 +1,6 @@
-<button
-class="modal-btn"
-(click)="myDialog.showModal()"
->{{ buttonText() || "Modal Button Text"}}</button>
+<button class="modal-btn" (click)="myDialog.showModal()">
+    {{ buttonText() || 'Modal Button Text' }}
+</button>
 
 <dialog #myDialog>
     <button (click)="myDialog.close()" class="modal-exit">

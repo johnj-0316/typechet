@@ -1,20 +1,21 @@
-import { LucideIconData } from "@lucide/angular";
+import { LucideIconData } from '@lucide/angular';
 
-export type NavItem = {
-    kind: 'link';
-    label: string;
-    path: string;
-    class?: string;
-}
-| {
-    kind: 'button';
-    label: string;
-    icon: LucideIconData;
-    action: (...args: any[]) => any;
-    class?: string;
-}
-| {
-    kind: 'search';
-    label: string;
-    class?: string;
-};
+export type NavItem =
+    | {
+          kind: 'link';
+          label: string;
+          path: string;
+          class?: string;
+      }
+    | {
+          kind: 'button';
+          label: string;
+          icon: LucideIconData;
+          action: (...args: any[]) => any;
+          class?: string;
+      }
+    | {
+          kind: 'search';
+          label: string;
+          class?: string;
+      };

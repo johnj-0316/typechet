@@ -1,31 +1,31 @@
 type OwnerGetRouteParams = {
-    pattern_id?: string | void
+    pattern_id?: string | void;
 };
 
 type OwnerGetQueryParams = {
-    offset?: string,
-    limit?: string
+    offset?: string;
+    limit?: string;
 };
 
 type OwnerPostBodyParams = {
-    pattern_id: string,
-    user_id: string,
-    message?: string
+    pattern_id: string;
+    user_id: string;
+    message?: string;
 };
 
 type OwnerPutRouteParams = {
-    user_pattern_id: string
+    user_pattern_id: string;
 };
 
 type OwnerPutBodyParams = OwnerPostBodyParams;
 
 type OwnerDeleteRouteParams = OwnerPutRouteParams;
 
-export type { 
-    OwnerGetRouteParams, 
-    OwnerGetQueryParams, 
-    OwnerPostBodyParams, 
-    OwnerPutRouteParams, 
-    OwnerPutBodyParams, 
-    OwnerDeleteRouteParams 
+export type {
+    OwnerGetRouteParams,
+    OwnerGetQueryParams,
+    OwnerPostBodyParams,
+    OwnerPutRouteParams,
+    OwnerPutBodyParams,
+    OwnerDeleteRouteParams,
 };

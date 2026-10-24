@@ -1,17 +1,14 @@
-import passport from "passport";
+import passport from 'passport';
 
-import { findUserById } from "../services/userServices";
-import { users } from "../../db/schema";
+import { findUserById } from '../services/userServices';
+import { users } from '../../db/schema';
 
-type CleanUser = Omit<
-  typeof users.$inferSelect,
-  "hashedPassword"
->;
+type CleanUser = Omit<typeof users.$inferSelect, 'hashedPassword'>;
 
 declare global {
-  namespace Express {
-    interface User extends CleanUser {}
-  }
+    namespace Express {
+        interface User extends CleanUser {}
+    }
 }
 
 passport.serializeUser((user: CleanUser, done) => {
@@ -28,8 +25,7 @@ passport.deserializeUser(async (uid: string, done) => {
         }
 
         done(null, user);
-    }
-    catch (err) {
+    } catch (err) {
         done(err);
     }
 });

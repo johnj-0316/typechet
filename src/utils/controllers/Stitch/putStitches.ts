@@ -1,18 +1,17 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 
-import { sessionUser } from "../User/sessionUser";
-import { editStitch } from "../../services/stitchServices";
-import { StitchesPutRouteParams, StitchesPutBodyParams } from "./stitches.types";
+import { sessionUser } from '../User/sessionUser';
+import { editStitch } from '../../services/stitchServices';
+import { StitchesPutRouteParams, StitchesPutBodyParams } from './stitches.types';
 
 export async function putStitches(
-    req: Request<StitchesPutRouteParams, unknown, StitchesPutBodyParams>, 
-    res: Response
+    req: Request<StitchesPutRouteParams, unknown, StitchesPutBodyParams>,
+    res: Response,
 ): Promise<void> {
-
     const { id } = req.params;
     const { shorthand, name, origin } = req.body;
     const userId = sessionUser(req);
-    
+
     const data = await editStitch(userId, id, shorthand, name, origin);
-    res.status(200).json({ message: "Successfully edited stitch!", data });
+    res.status(200).json({ message: 'Successfully edited stitch!', data });
 }

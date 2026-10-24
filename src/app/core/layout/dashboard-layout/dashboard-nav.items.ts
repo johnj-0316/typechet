@@ -11,18 +11,18 @@ export const dashboardItems: NavItem[] = [
         label: 'Friends',
         kind: 'button',
         icon: LucideUsersRound.icon,
-        action: () => {}
+        action: () => {},
     },
     {
         label: 'Design',
         kind: 'button',
         icon: LucidePalette.icon,
-        action: () => {}
+        action: () => {},
     },
     {
         label: 'Account Details',
         kind: 'button',
         icon: LucideUserRound.icon,
-        action: () => {}
+        action: () => {},
     },
 ];

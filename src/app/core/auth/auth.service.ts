@@ -7,8 +7,6 @@ export class AuthService {
     readonly client = inject(HttpClient);
 
     getCurrentUser() {
-        return this.client.get<Profile>(
-            "/api/v1/auth/profile",
-        );
+        return this.client.get<Profile>('/api/v1/auth/profile');
     }
 }

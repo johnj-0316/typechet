@@ -8,7 +8,7 @@ export class UserService {
     signin(email: string, password: string) {
         return this.httpUser.post('/api/v1/auth/login', {
             email,
-            password
+            password,
         });
     }
 
@@ -16,7 +16,7 @@ export class UserService {
         return this.httpUser.post('/api/v1/auth/register', {
             username,
             email,
-            password
+            password,
         });
     }
 

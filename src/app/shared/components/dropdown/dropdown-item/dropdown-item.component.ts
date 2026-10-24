@@ -4,18 +4,17 @@ import { DropdownItemData } from '../dropdown-item.type';
 import { LucideDynamicIcon } from '@lucide/angular';
 
 @Component({
-  imports: [LucideDynamicIcon, RouterLink],
-  selector: 'tc-dropdown-item',
-  styleUrl: './dropdown-item.component.css',
-  templateUrl: './dropdown-item.component.html',
+    imports: [LucideDynamicIcon, RouterLink],
+    selector: 'tc-dropdown-item',
+    styleUrl: './dropdown-item.component.css',
+    templateUrl: './dropdown-item.component.html',
 })
 export class DropdownItemComponent {
-  data = input.required<DropdownItemData>();
-  selected = output<DropdownItemData>();
-  icon = computed(() => this.data().icon ?? null);
+    data = input.required<DropdownItemData>();
+    selected = output<DropdownItemData>();
+    icon = computed(() => this.data().icon ?? null);
 
-  select(): void {
-    if (!this.data().disabled)
-      this.selected.emit(this.data());
-  }
+    select(): void {
+        if (!this.data().disabled) this.selected.emit(this.data());
+    }
 }

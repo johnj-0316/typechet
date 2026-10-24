@@ -4,9 +4,8 @@
     --sidebar-icon-size: 1.25rem;
 
     --sidebar-collapsed-width: calc(
-        (var(--sidebar-link-margin) * 2) +
-        (var(--sidebar-link-padding) * 2) +
-        var(--sidebar-icon-size)
+        (var(--sidebar-link-margin) * 2) + (var(--sidebar-link-padding) * 2) +
+            var(--sidebar-icon-size)
     );
 
     position: relative;

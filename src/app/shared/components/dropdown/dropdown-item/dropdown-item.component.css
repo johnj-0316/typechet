@@ -1,46 +1,46 @@
 /* Item Layout */
 .dropdown-item {
-  box-sizing: border-box;
-  display: flex;
-  width: 100%;
-  align-items: center;
-  gap: 0.7em;
-  padding: 0.65em 0.8em;
-  border: 0;
-  border-radius: 5px;
-  background: transparent;
-  color: var(--light-black);
-  font: inherit;
-  font-size: 0.85rem;
-  text-align: left;
-  text-decoration: none;
-  white-space: nowrap;
-  cursor: pointer;
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 0.7em;
+    padding: 0.65em 0.8em;
+    border: 0;
+    border-radius: 5px;
+    background: transparent;
+    color: var(--light-black);
+    font: inherit;
+    font-size: 0.85rem;
+    text-align: left;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
 }
 
 /* Interactive States */
 .dropdown-item:hover,
 .dropdown-item:focus-visible,
 .danger:hover {
-  background: var(--primary-color);
-  color: whitesmoke;
-  outline: none;
+    background: var(--primary-color);
+    color: whitesmoke;
+    outline: none;
 }
 
 /* Item Icon */
 .dropdown-item svg {
-  width: 16px;
-  height: 16px;
+    width: 16px;
+    height: 16px;
 }
 
 /* Item Variants */
 .danger {
-  color: #a94442;
+    color: #a94442;
 }
 
 .dropdown-item:disabled,
 .dropdown-item.disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-  pointer-events: none;
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
 }

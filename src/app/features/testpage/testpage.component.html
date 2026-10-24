@@ -1,161 +1,165 @@
 <main class="dashboard-prototype">
-  <header class="dashboard-header">
-    <div>
-      <p class="eyebrow">Sunday, October 18</p>
-      <h1>Good morning, John</h1>
-      <p class="header-copy">You have two active projects ready to continue.</p>
-    </div>
-    <button class="primary-action" type="button">
-      <svg lucidePlus></svg>
-      New pattern
-    </button>
-  </header>
-
-  <section class="summary-grid">
-    <article class="summary-card accent-card">
-      <div class="summary-icon"><svg lucideBookOpen></svg></div>
-      <div>
-        <span>Patterns</span>
-        <strong>12</strong>
-      </div>
-      <small>3 in progress</small>
-    </article>
-
-    <article class="summary-card">
-      <div class="summary-icon mint"><svg lucideCirclePlay></svg></div>
-      <div>
-        <span>Active trackers</span>
-        <strong>2</strong>
-      </div>
-      <small>18 rows this week</small>
-    </article>
-
-    <article class="summary-card">
-      <div class="summary-icon gold"><svg lucideSpool></svg></div>
-      <div>
-        <span>Custom stitches</span>
-        <strong>8</strong>
-      </div>
-      <small>32 total stitches</small>
-    </article>
-
-    <article class="summary-card">
-      <div class="summary-icon blue"><svg lucidePackageOpen></svg></div>
-      <div>
-        <span>Inventory items</span>
-        <strong>24</strong>
-      </div>
-      <small>3 running low</small>
-    </article>
-  </section>
-
-  <div class="dashboard-grid">
-    <div class="main-column">
-      <section class="dashboard-section">
-        <div class="section-header">
-          <div>
-            <p class="eyebrow">Pick up where you left off</p>
-            <h2>Continue crocheting</h2>
-          </div>
-          <button class="text-action" type="button">
-            View trackers <svg lucideArrowRight></svg>
-          </button>
-        </div>
-
-        <article class="active-project">
-          <div class="project-art">
-            <span></span><span></span><span></span><span></span><span></span>
-          </div>
-          <div class="project-details">
-            <span class="status-pill">In progress</span>
-            <h3>Cloud Cardigan</h3>
-            <p>Body panel · Row 28 of 42</p>
-            <div class="progress-row">
-              <div class="progress-track"><span></span></div>
-              <strong>67%</strong>
-            </div>
-            <div class="project-meta">
-              <span><svg lucideClock3></svg> Updated 2 hours ago</span>
-              <span><svg lucideScissors></svg> Half double crochet</span>
-            </div>
-          </div>
-          <button class="resume-button" type="button">
-            <svg lucideCirclePlay></svg>
-            Resume
-          </button>
-        </article>
-      </section>
-
-      <section class="dashboard-section">
-        <div class="section-header compact">
-          <h2>Recent patterns</h2>
-          <button class="text-action" type="button">View all <svg lucideArrowRight></svg></button>
-        </div>
-        <div class="pattern-grid">
-          @for (pattern of patterns; track pattern.title) {
-            <article class="pattern-card">
-              <div class="pattern-swatch" [style.--pattern-color]="pattern.color">
-                <svg lucideSparkles></svg>
-              </div>
-              <div class="pattern-card-copy">
-                <strong>{{ pattern.title }}</strong>
-                <span>{{ pattern.meta }}</span>
-              </div>
-              <button type="button"><svg lucideChevronRight></svg></button>
-            </article>
-          }
-        </div>
-      </section>
-    </div>
-
-    <aside class="side-column">
-      <section class="side-card activity-card">
-        <div class="section-header compact">
-          <div>
-            <p class="eyebrow">Last 7 days</p>
-            <h2>Activity</h2>
-          </div>
-          <span class="trend"><svg lucideTrendingUp></svg> 14%</span>
-        </div>
-        <div class="activity-total">
-          <strong>4h 35m</strong>
-          <span>crochet time</span>
-        </div>
-        <div class="activity-chart">
-          @for (bar of activity; track $index) {
-            <div class="chart-column">
-              <div class="chart-track"><span [style.height.%]="bar.value"></span></div>
-              <small>{{ bar.day }}</small>
-            </div>
-          }
-        </div>
-      </section>
-
-      <section class="side-card inventory-card">
-        <div class="section-header compact">
-          <h2>Inventory</h2>
-          <button class="icon-link" type="button"><svg lucideArrowRight></svg></button>
-        </div>
-        <div class="inventory-row">
-          <span class="yarn-dot rose"></span>
-          <div><strong>Dusty rose yarn</strong><small>12g remaining</small></div>
-          <span class="low-label">Low</span>
-        </div>
-        <div class="inventory-row">
-          <span class="yarn-dot cream"></span>
-          <div><strong>Cream cotton</strong><small>28g remaining</small></div>
-          <span class="low-label">Low</span>
-        </div>
-        <button class="inventory-action" type="button">Open inventory</button>
-      </section>
-
-      <section class="side-card quick-card">
-        <div class="quick-icon"><svg lucideCalendarDays></svg></div>
+    <header class="dashboard-header">
         <div>
-          <strong>7 day streak</strong>
-          <span>You’re on a roll. Crochet today to keep it going.</span>
+            <p class="eyebrow">Sunday, October 18</p>
+            <h1>Good morning, John</h1>
+            <p class="header-copy">You have two active projects ready to continue.</p>
         </div>
-      </section>
-    </aside>
-  </div>
+        <button class="primary-action" type="button">
+            <svg lucidePlus></svg>
+            New pattern
+        </button>
+    </header>
+
+    <section class="summary-grid">
+        <article class="summary-card accent-card">
+            <div class="summary-icon"><svg lucideBookOpen></svg></div>
+            <div>
+                <span>Patterns</span>
+                <strong>12</strong>
+            </div>
+            <small>3 in progress</small>
+        </article>
+
+        <article class="summary-card">
+            <div class="summary-icon mint"><svg lucideCirclePlay></svg></div>
+            <div>
+                <span>Active trackers</span>
+                <strong>2</strong>
+            </div>
+            <small>18 rows this week</small>
+        </article>
+
+        <article class="summary-card">
+            <div class="summary-icon gold"><svg lucideSpool></svg></div>
+            <div>
+                <span>Custom stitches</span>
+                <strong>8</strong>
+            </div>
+            <small>32 total stitches</small>
+        </article>
+
+        <article class="summary-card">
+            <div class="summary-icon blue"><svg lucidePackageOpen></svg></div>
+            <div>
+                <span>Inventory items</span>
+                <strong>24</strong>
+            </div>
+            <small>3 running low</small>
+        </article>
+    </section>
+
+    <div class="dashboard-grid">
+        <div class="main-column">
+            <section class="dashboard-section">
+                <div class="section-header">
+                    <div>
+                        <p class="eyebrow">Pick up where you left off</p>
+                        <h2>Continue crocheting</h2>
+                    </div>
+                    <button class="text-action" type="button">
+                        View trackers <svg lucideArrowRight></svg>
+                    </button>
+                </div>
+
+                <article class="active-project">
+                    <div class="project-art">
+                        <span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="project-details">
+                        <span class="status-pill">In progress</span>
+                        <h3>Cloud Cardigan</h3>
+                        <p>Body panel · Row 28 of 42</p>
+                        <div class="progress-row">
+                            <div class="progress-track"><span></span></div>
+                            <strong>67%</strong>
+                        </div>
+                        <div class="project-meta">
+                            <span><svg lucideClock3></svg> Updated 2 hours ago</span>
+                            <span><svg lucideScissors></svg> Half double crochet</span>
+                        </div>
+                    </div>
+                    <button class="resume-button" type="button">
+                        <svg lucideCirclePlay></svg>
+                        Resume
+                    </button>
+                </article>
+            </section>
+
+            <section class="dashboard-section">
+                <div class="section-header compact">
+                    <h2>Recent patterns</h2>
+                    <button class="text-action" type="button">
+                        View all <svg lucideArrowRight></svg>
+                    </button>
+                </div>
+                <div class="pattern-grid">
+                    @for (pattern of patterns; track pattern.title) {
+                        <article class="pattern-card">
+                            <div class="pattern-swatch" [style.--pattern-color]="pattern.color">
+                                <svg lucideSparkles></svg>
+                            </div>
+                            <div class="pattern-card-copy">
+                                <strong>{{ pattern.title }}</strong>
+                                <span>{{ pattern.meta }}</span>
+                            </div>
+                            <button type="button"><svg lucideChevronRight></svg></button>
+                        </article>
+                    }
+                </div>
+            </section>
+        </div>
+
+        <aside class="side-column">
+            <section class="side-card activity-card">
+                <div class="section-header compact">
+                    <div>
+                        <p class="eyebrow">Last 7 days</p>
+                        <h2>Activity</h2>
+                    </div>
+                    <span class="trend"><svg lucideTrendingUp></svg> 14%</span>
+                </div>
+                <div class="activity-total">
+                    <strong>4h 35m</strong>
+                    <span>crochet time</span>
+                </div>
+                <div class="activity-chart">
+                    @for (bar of activity; track $index) {
+                        <div class="chart-column">
+                            <div class="chart-track">
+                                <span [style.height.%]="bar.value"></span>
+                            </div>
+                            <small>{{ bar.day }}</small>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            <section class="side-card inventory-card">
+                <div class="section-header compact">
+                    <h2>Inventory</h2>
+                    <button class="icon-link" type="button"><svg lucideArrowRight></svg></button>
+                </div>
+                <div class="inventory-row">
+                    <span class="yarn-dot rose"></span>
+                    <div><strong>Dusty rose yarn</strong><small>12g remaining</small></div>
+                    <span class="low-label">Low</span>
+                </div>
+                <div class="inventory-row">
+                    <span class="yarn-dot cream"></span>
+                    <div><strong>Cream cotton</strong><small>28g remaining</small></div>
+                    <span class="low-label">Low</span>
+                </div>
+                <button class="inventory-action" type="button">Open inventory</button>
+            </section>
+
+            <section class="side-card quick-card">
+                <div class="quick-icon"><svg lucideCalendarDays></svg></div>
+                <div>
+                    <strong>7 day streak</strong>
+                    <span>You’re on a roll. Crochet today to keep it going.</span>
+                </div>
+            </section>
+        </aside>
+    </div>
 </main>

@@ -1,34 +1,34 @@
 type PatternGetRouteParams = {
-    id?: string | void
+    id?: string | void;
 };
 
 type PatternGetQueryParams = {
-    offset?: string,
-    limit?: string
+    offset?: string;
+    limit?: string;
 };
 
 type PatternPostBodyParams = {
-    title: string,
-    rows: string[],
-    is_editing: boolean,
-    description?: string
+    title: string;
+    rows: string[];
+    is_editing: boolean;
+    description?: string;
 };
 
 type PatternDeleteRouteParams = {
-    id: string
+    id: string;
 };
 
 type PatternPutRouteParams = {
-    id: string
+    id: string;
 };
 
 type PatternPutBodyParams = PatternPostBodyParams;
 
-export type { 
-    PatternGetRouteParams, 
-    PatternGetQueryParams, 
+export type {
+    PatternGetRouteParams,
+    PatternGetQueryParams,
     PatternPostBodyParams,
     PatternPutRouteParams,
     PatternPutBodyParams,
-    PatternDeleteRouteParams 
+    PatternDeleteRouteParams,
 };
