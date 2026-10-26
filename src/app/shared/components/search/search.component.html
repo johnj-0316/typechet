@@ -1,2 +1,9 @@
-<svg lucideSearch></svg>
-<input class="user-input search" placeholder="Keywords for patterns, trackers, stitches..." />
+<button class="search-button" type="button" (click)="search(searchInput.value)">
+    <svg lucideSearch></svg>
+</button>
+<input
+    #searchInput
+    class="user-input search"
+    placeholder="Keywords for patterns, trackers, stitches..."
+    (keydown.enter)="search(searchInput.value)"
+/>

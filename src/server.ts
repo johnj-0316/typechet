@@ -18,6 +18,7 @@ import { stitchRouter } from './utils/routers/stitches';
 import { inventoryRouter } from './utils/routers/inventories';
 import { trackerRouter } from './utils/routers/trackers';
 import { materialRouter } from './utils/routers/materials';
+import { searchRouter } from './utils/routers/search';
 import { handleError } from './utils/errors/handleError';
 
 import './utils/auth/serialization';
@@ -101,6 +102,8 @@ app.use(api('inventories'), authUser, inventoryRouter);
 app.use(api('trackers'), authUser, trackerRouter);
 
 app.use(api('materials'), authUser, materialRouter);
+
+app.use(api('search'), authUser, searchRouter);
 
 app.use(handleError);
 
