@@ -16,13 +16,13 @@
 }
 
 .dashboard-header {
-    margin-bottom: 2rem;
+    margin-bottom: 2.25rem;
     text-align: center;
 }
 
 .dashboard-welcome {
     display: flex;
-    gap: 0.6em;
+    gap: 0.7em;
 }
 
 .dashboard-change-name {
@@ -38,6 +38,18 @@
 
 .dashboard-search-bar {
     width: 65%;
+    max-width: 650px;
+}
+
+.dashboard-search-bar {
+    border-radius: 25px;
+    box-shadow: 0px 1px 5px lightgray;
+}
+
+.dashboard-actions {
+    display: flex;
+    gap: 1em;
+    margin-top: 1.5em;
 }
 
 /* Typography */
@@ -58,7 +70,7 @@ p {
 }
 
 .dashboard-desc {
-    margin-top: 0.75em;
+    margin-top: 0.1em;
     color: rgb(from var(--light-black) r g b / 58%);
 }
 

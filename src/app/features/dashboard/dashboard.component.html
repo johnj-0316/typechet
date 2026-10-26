@@ -7,10 +7,21 @@
                     class="dashboard-change-name"
                     [formField]="nameForm.displayName"
                     (keydown.enter)="editDisplayName()"
+                    (blur)="editDisplayName()"
                 />
             </div>
             <p class="dashboard-desc">Rummage through your stuff here.</p>
         }
     </header>
     <tc-search class="dashboard-search-bar" />
+    <div class="dashboard-actions">
+        @for (actionItem of actionItems; track actionItem.id) {
+            <tc-action
+                [label]="actionItem.label"
+                [icon]="actionItem.icon"
+                [action]="actionItem.action"
+                [link]="actionItem.link"
+            />
+        }
+    </div>
 </main>
