@@ -1,5 +1,5 @@
-# Crochet Counter
-
+# Typechet
+## A Crochet Counter App
 Crochet Counter is a full-stack application for organizing crochet patterns, tracking progress through pattern rows, managing yarn and supplies, and maintaining a personal stitch library.
 
 The project is under active development. Its core data and authentication layers have been migrated from Supabase to a self-hosted PostgreSQL and Express stack.
