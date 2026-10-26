@@ -3,6 +3,7 @@
     <div class="pattern-grid">
         @for (pattern of patterns()?.data; track pattern.id) {
             <tc-pattern-item
+                [patternId]="pattern.id"
                 [title]="pattern.title"
                 [date]="pattern.createdAt | date: 'MMMM d, yyyy'"
             ></tc-pattern-item>

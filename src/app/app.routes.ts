@@ -1,11 +1,18 @@
 import { Routes } from '@angular/router';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { inject } from '@angular/core';
+import { map } from 'rxjs';
+
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { LandingComponent } from './features/landing/landing.component';
 import { SignupComponent } from './features/users/signup/signup.component';
 import { SigninComponent } from './features/users/signin/signin.component';
-import { authGuard, guestGuard } from './core/auth/auth-guard';
 import { DashboardLayoutComponent } from './core/layout/dashboard-layout/dashboard-layout.component';
 import { TestpageComponent } from './features/testpage/testpage.component';
+
+import { PatternsService } from './services/patterns.service';
+
+import { authGuard, guestGuard } from './core/auth/auth-guard';
 
 /*
 {
@@ -26,6 +33,26 @@ export const routes: Routes = [
             {
                 path: '',
                 component: DashboardComponent,
+            },
+            {
+                path: 'patterns/:id',
+                loadComponent: () =>
+                    import('./features/patterns/pattern/pattern.component').then(
+                        (m) => m.PatternComponent,
+                    ),
+                resources: (ctx) => {
+                    const patternService = inject(PatternsService);
+
+                    return {
+                        pattern: rxResource({
+                            params: () => ctx.params()['id'],
+                            stream: ({ params: id }) =>
+                                patternService
+                                    .getPattern(id)
+                                    .pipe(map((response) => response.data)),
+                        }),
+                    };
+                },
             },
             {
                 path: 'patterns',

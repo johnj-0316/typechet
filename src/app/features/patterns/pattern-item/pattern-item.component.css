@@ -23,8 +23,11 @@
 
 /* Typography */
 .pattern-title {
+    display: block;
     margin: 0 0 0.5em;
+    color: inherit;
     font-size: 1.05rem;
+    text-decoration: none;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

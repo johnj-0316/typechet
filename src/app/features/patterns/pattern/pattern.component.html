@@ -1,0 +1,37 @@
+<article class="pattern">
+    <a class="pattern-back" routerLink="/dashboard/patterns">
+        <svg lucideArrowLeft></svg>
+        Go back
+    </a>
+
+    <header class="pattern-header">
+        <div>
+            <p class="pattern-label">Pattern</p>
+            <h1>{{ pattern().title }}</h1>
+        </div>
+
+        <span class="pattern-status">
+            {{ pattern().isEditing ? 'Draft' : 'Published' }}
+        </span>
+    </header>
+
+    @if (pattern().description) {
+        <p class="pattern-description">{{ pattern().description }}</p>
+    }
+
+    <dl class="pattern-details">
+        <div>
+            <dt>Rows</dt>
+            <dd>{{ rowCount() }}</dd>
+        </div>
+        <div>
+            <dt>Last updated</dt>
+            <dd>{{ pattern().updatedAt | date: 'MMMM d, yyyy' }}</dd>
+        </div>
+    </dl>
+
+    <section class="pattern-rows">
+        <h2>Pattern rows</h2>
+        <pre>{{ pattern().rows | json }}</pre>
+    </section>
+</article>

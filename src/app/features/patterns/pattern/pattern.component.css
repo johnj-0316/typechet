@@ -1,0 +1,88 @@
+/* Page layout */
+:host {
+    display: block;
+    width: min(900px, 100%);
+}
+
+.pattern {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.pattern-header {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+/* Navigation */
+.pattern-back {
+    width: fit-content;
+    display: flex;
+    gap: 0.75em;
+    align-items: center;
+    color: var(--primary-color);
+}
+
+/* Typography */
+.pattern-label,
+h1,
+.pattern-description,
+dl,
+dd,
+h2 {
+    margin: 0;
+}
+
+.pattern-label,
+dt {
+    color: rgb(from var(--light-black) r g b / 60%);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+h1 {
+    font-size: clamp(2rem, 3vw, 3.5rem);
+    font-weight: 500;
+}
+
+.pattern-description {
+    max-width: 65ch;
+    line-height: 1.6;
+}
+
+/* Status */
+.pattern-status {
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    background: rgb(from var(--primary-color) r g b / 12%);
+    color: var(--primary-color);
+}
+
+/* Pattern metadata */
+.pattern-details {
+    display: flex;
+    gap: 3rem;
+}
+
+.pattern-details div {
+    display: grid;
+    gap: 0.25rem;
+}
+
+/* Pattern rows */
+.pattern-rows {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.pattern-rows pre {
+    overflow-x: auto;
+    margin: 0;
+    padding: 1rem;
+    border-radius: 12px;
+    white-space: pre-wrap;
+    background: rgb(from var(--light-black) r g b / 5%);
+}

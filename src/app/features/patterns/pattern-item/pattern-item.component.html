@@ -23,7 +23,9 @@
         </svg>
     </div>
     <div class="pattern-info">
-        <p class="pattern-title">{{ title() }}</p>
+        <a class="pattern-title" [routerLink]="['/dashboard/patterns', patternId()]">
+            {{ title() }}
+        </a>
         <div>
             <time datetime="">{{ date() }}</time>
             <tc-dropdown [items]="menuItems" (itemSelected)="select($event)" />
