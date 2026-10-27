@@ -17,8 +17,13 @@ export async function getMaterials(
 
     const pq = handlePagination(offset, limit);
     const data = material_id
-        ? await getMaterial(userId, material_id, pattern_id)
-        : await getAllMaterials(userId, pattern_id, pq.offset, pq.limit);
+        ? await getMaterial({ userId, id: material_id, patternId: pattern_id })
+        : await getAllMaterials({
+              userId,
+              patternId: pattern_id,
+              offset: pq.offset,
+              limit: pq.limit,
+          });
 
     res.status(200).json({ message: 'Found all items!', data });
 }

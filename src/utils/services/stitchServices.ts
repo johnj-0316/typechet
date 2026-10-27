@@ -3,12 +3,22 @@ import { and, eq, ne, or } from 'drizzle-orm';
 import { db } from '../../db';
 import { stitches } from '../../db/schema';
 import { APIError } from '../errors/Error';
+import {
+    CreateStitchParams,
+    DeleteStitchParams,
+    EditStitchParams,
+    GetUserStitchesParams,
+    GetUserStitchParams,
+    Stitch,
+} from './stitchServices.types';
 
 export { getUserStitches, getUserStitch, createStitch, editStitch, deleteStitch };
 
-type Stitch = typeof stitches.$inferSelect;
-
-async function getUserStitches(userId: string, offset: number, limit: number): Promise<Stitch[]> {
+async function getUserStitches({
+    userId,
+    offset,
+    limit,
+}: GetUserStitchesParams): Promise<Stitch[]> {
     return db
         .select()
         .from(stitches)
@@ -17,7 +27,7 @@ async function getUserStitches(userId: string, offset: number, limit: number): P
         .offset(offset);
 }
 
-async function getUserStitch(userId: string, id: string): Promise<Stitch> {
+async function getUserStitch({ userId, id }: GetUserStitchParams): Promise<Stitch> {
     const [stitch] = await db
         .select()
         .from(stitches)
@@ -34,12 +44,12 @@ async function getUserStitch(userId: string, id: string): Promise<Stitch> {
     return stitch;
 }
 
-async function createStitch(
-    userId: string,
-    shorthand: string,
-    name: string,
-    origin?: string,
-): Promise<Stitch> {
+async function createStitch({
+    userId,
+    shorthand,
+    name,
+    origin,
+}: CreateStitchParams): Promise<Stitch> {
     const [stitch] = await db
         .insert(stitches)
         .values({
@@ -53,13 +63,13 @@ async function createStitch(
     return stitch;
 }
 
-async function editStitch(
-    userId: string,
-    id: string,
-    shorthand: string,
-    name: string,
-    origin?: string,
-): Promise<Stitch> {
+async function editStitch({
+    userId,
+    id,
+    shorthand,
+    name,
+    origin,
+}: EditStitchParams): Promise<Stitch> {
     const [stitch] = await db
         .update(stitches)
         .set({
@@ -75,7 +85,7 @@ async function editStitch(
     return stitch;
 }
 
-async function deleteStitch(userId: string, id: string): Promise<void> {
+async function deleteStitch({ userId, id }: DeleteStitchParams): Promise<void> {
     const [stitch] = await db
         .delete(stitches)
         .where(and(eq(stitches.authorId, userId), eq(stitches.id, +id), ne(stitches.custom, false)))

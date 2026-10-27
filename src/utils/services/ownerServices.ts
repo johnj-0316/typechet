@@ -4,13 +4,19 @@ import { db } from '../../db';
 import { owners, patterns } from '../../db/schema';
 import { APIError } from '../errors/Error';
 import { handleOwnerEndpoint } from '../tools/handleOwnerEndpoint';
+import {
+    DeleteOwnerParams,
+    EditOwnerParams,
+    GetAllOwnersParams,
+    GetOwnerByPatternParams,
+    Owner,
+    OwnerId,
+    PostOwnerParams,
+} from './ownerServices.types';
 
 export { getAllOwners, getOwnerByPattern, postOwner, editOwner, deleteOwner };
 
-type Owner = typeof owners.$inferSelect;
-type OwnerId = Pick<Owner, 'userId'>;
-
-async function getAllOwners(userId: string, offset: number, limit: number): Promise<OwnerId[]> {
+async function getAllOwners({ userId, offset, limit }: GetAllOwnersParams): Promise<OwnerId[]> {
     return db
         .select({ userId: owners.userId })
         .from(owners)
@@ -21,12 +27,12 @@ async function getAllOwners(userId: string, offset: number, limit: number): Prom
         .offset(offset);
 }
 
-async function getOwnerByPattern(
-    userId: string,
-    patternId: string,
-    offset: number,
-    limit: number,
-): Promise<OwnerId[]> {
+async function getOwnerByPattern({
+    userId,
+    patternId,
+    offset,
+    limit,
+}: GetOwnerByPatternParams): Promise<OwnerId[]> {
     return db
         .select({ userId: owners.userId })
         .from(owners)
@@ -36,12 +42,12 @@ async function getOwnerByPattern(
         .offset(offset);
 }
 
-async function postOwner(
-    authenticatedUserId: string,
-    patternId: string,
-    userId: string,
-    message?: string | null,
-): Promise<Owner> {
+async function postOwner({
+    authenticatedUserId,
+    patternId,
+    userId,
+    message,
+}: PostOwnerParams): Promise<Owner> {
     return db.transaction(async (tx) => {
         const [pattern] = await tx
             .select({ id: patterns.id })
@@ -64,13 +70,13 @@ async function postOwner(
     });
 }
 
-async function editOwner(
-    authenticatedUserId: string,
-    compositeEndpoint: string,
-    patternId: string,
-    userId: string,
-    message?: string | null,
-): Promise<Owner> {
+async function editOwner({
+    authenticatedUserId,
+    compositeEndpoint,
+    patternId,
+    userId,
+    message,
+}: EditOwnerParams): Promise<Owner> {
     const [existingUserId, existingPatternId] = handleOwnerEndpoint(compositeEndpoint);
 
     if (existingUserId === authenticatedUserId || userId === authenticatedUserId)
@@ -114,7 +120,10 @@ async function editOwner(
     });
 }
 
-async function deleteOwner(authenticatedUserId: string, compositeEndpoint: string): Promise<void> {
+async function deleteOwner({
+    authenticatedUserId,
+    compositeEndpoint,
+}: DeleteOwnerParams): Promise<void> {
     const [userId, patternId] = handleOwnerEndpoint(compositeEndpoint);
 
     const [owner] = await db

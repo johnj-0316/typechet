@@ -12,17 +12,17 @@ export async function postMaterials(
         req.body;
     const userId = sessionUser(req);
 
-    const data = await createMaterial(
+    const data = await createMaterial({
         userId,
-        pattern_id,
+        patternId: pattern_id,
         item,
         category,
         amount,
-        amount_unit,
+        amountUnit: amount_unit,
         color,
-        color_hex,
+        colorHex: color_hex,
         cost,
-        cost_unit,
-    );
+        costUnit: cost_unit,
+    });
     res.status(201).json({ message: 'Item successfully added!', data });
 }

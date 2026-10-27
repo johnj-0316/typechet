@@ -3,20 +3,15 @@ import { unionAll } from 'drizzle-orm/pg-core';
 
 import { db } from '../../db';
 import { owners, patterns, stitches, trackers } from '../../db/schema';
+import { SearchResult, SearchUserDataParams } from './searchServices.types';
 
-export type SearchResult = {
-    type: 'pattern' | 'tracker' | 'stitch';
-    id: string;
-    title: string;
-    subtitle: string | null;
-    updatedAt: Date;
-};
+export type { SearchResult } from './searchServices.types';
 
-export async function searchUserData(
-    userId: string,
-    searchTerm: string,
-    limit: number,
-): Promise<SearchResult[]> {
+export async function searchUserData({
+    userId,
+    searchTerm,
+    limit,
+}: SearchUserDataParams): Promise<SearchResult[]> {
     const query = `%${escapeLikePattern(searchTerm.trim())}%`;
 
     const patternSearch = db

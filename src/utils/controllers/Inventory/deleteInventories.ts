@@ -14,6 +14,6 @@ export async function deleteInventories(
 
     if (id === '') throw new ClientError('Missing id parameter.', 400);
 
-    await deleteItem(userId, id);
+    await deleteItem({ userId, id });
     res.sendStatus(204);
 }

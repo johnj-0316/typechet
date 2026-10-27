@@ -5,34 +5,43 @@ import { eq } from 'drizzle-orm';
 import { userProfiles, users } from '../../db/schema';
 
 import { APIError } from '../errors/Error';
-
-type userProfile = typeof userProfiles.$inferSelect;
+import {
+    CleanUser,
+    CreateUserParams,
+    EditUserProfileParams,
+    FindUserByEmailParams,
+    FindUserByIdParams,
+    FindUserProfileByIdParams,
+    User,
+    UserProfile,
+    VerifyCredentialsParams,
+} from './userServices.types';
 
 export { findUserById, findUserProfileById, editUserProfile, verifyCredentials, createUser };
 
-async function findUserByEmail(email: string) {
+async function findUserByEmail({ email }: FindUserByEmailParams) {
     const cleanMail = email.trim().toLowerCase();
     const [user] = await db.select().from(users).where(eq(users.email, cleanMail)).limit(1);
     return user;
 }
 
-async function findUserById(uid: string) {
+async function findUserById({ uid }: FindUserByIdParams) {
     const [user] = await db.select().from(users).where(eq(users.uid, uid)).limit(1);
     return user ? cleanUser(user) : undefined;
 }
 
-async function findUserProfileById(uid: string) {
+async function findUserProfileById({ uid }: FindUserProfileByIdParams) {
     const [user] = await db.select().from(userProfiles).where(eq(userProfiles.id, uid)).limit(1);
     return user;
 }
 
-async function editUserProfile(
-    id: string,
-    name: string,
-    displayName: string,
-    profileUrl?: string,
-    phone?: string,
-): Promise<userProfile> {
+async function editUserProfile({
+    id,
+    name,
+    displayName,
+    profileUrl,
+    phone,
+}: EditUserProfileParams): Promise<UserProfile> {
     const [profile] = await db
         .update(userProfiles)
         .set({
@@ -49,8 +58,8 @@ async function editUserProfile(
     return profile;
 }
 
-async function verifyCredentials(email: string, password: string) {
-    const user = await findUserByEmail(email);
+async function verifyCredentials({ email, password }: VerifyCredentialsParams) {
+    const user = await findUserByEmail({ email });
 
     // check if user exists by email and password matches hash in db.
     if (!user || !user.hashedPassword || !(await verify(user.hashedPassword, password)))
@@ -59,7 +68,7 @@ async function verifyCredentials(email: string, password: string) {
     return cleanUser(user);
 }
 
-async function createUser(username: string, email: string, password: string) {
+async function createUser({ username, email, password }: CreateUserParams) {
     const cleanName = username.trim();
     const cleanMail = email.toLowerCase().trim();
     const hashedPassword = await hash(password);
@@ -82,9 +91,7 @@ async function createUser(username: string, email: string, password: string) {
     });
 }
 
-function cleanUser(
-    user: typeof users.$inferSelect,
-): Omit<typeof users.$inferSelect, 'hashedPassword'> {
+function cleanUser(user: User): CleanUser {
     const { hashedPassword, ...cleanUser } = user;
     return cleanUser;
 }

@@ -11,7 +11,7 @@ const verifyStrategy = new Strategy(
     },
     async (email: string, password: string, done) => {
         try {
-            const user = await verifyCredentials(email, password);
+            const user = await verifyCredentials({ email, password });
 
             if (!user) {
                 return done(null, false, {

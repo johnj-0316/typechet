@@ -1,5 +1,3 @@
-import { patterns, trackers } from '../../../db/schema';
-
 type TrackersGetRouteParams = {
     id?: string;
 };
@@ -25,11 +23,6 @@ type TrackersPutBodyParams = Omit<TrackersPostBodyParams, 'pattern_id'>;
 
 type TrackersDeleteRouteParams = TrackersPutRouteParams;
 
-type TrackerWithPatternRows = typeof trackers.$inferSelect &
-    Pick<typeof patterns.$inferSelect, 'rows'> & {
-        patternTitle: (typeof patterns.$inferSelect)['title'];
-    };
-
 export type {
     TrackersGetRouteParams,
     TrackersGetQueryParams,
@@ -37,5 +30,4 @@ export type {
     TrackersPutRouteParams,
     TrackersPutBodyParams,
     TrackersDeleteRouteParams,
-    TrackerWithPatternRows,
 };

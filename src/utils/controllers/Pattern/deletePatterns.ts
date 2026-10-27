@@ -14,6 +14,6 @@ export async function deletePatterns(
 
     if (!id) throw new ClientError('Missing id parameter.', 400);
 
-    await deletePattern(userId, id);
+    await deletePattern({ userId, id });
     res.sendStatus(204);
 }

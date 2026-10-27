@@ -13,18 +13,18 @@ export async function putMaterials(
         req.body;
     const userId = sessionUser(req);
 
-    const data = await editMaterial(
+    const data = await editMaterial({
         userId,
         id,
-        pattern_id,
+        patternId: pattern_id,
         item,
         category,
         amount,
-        amount_unit,
+        amountUnit: amount_unit,
         color,
-        color_hex,
+        colorHex: color_hex,
         cost,
-        cost_unit,
-    );
+        costUnit: cost_unit,
+    });
     res.status(200).json({ message: 'Successfully edited the item!', data });
 }

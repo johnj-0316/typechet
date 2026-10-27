@@ -5,16 +5,18 @@ import { inventory } from '../../db/schema';
 import { APIError } from '../errors/Error';
 import { handleInventoryCategory } from '../tools/handleInventoryCategory';
 import { handleHexCodeConversion } from '../tools/handleHexCodeConversion';
+import {
+    CreateItemParams,
+    DeleteItemParams,
+    EditItemParams,
+    GetAllItemsParams,
+    GetItemParams,
+    InventoryItem,
+} from './inventoryServices.types';
 
 export { getAllItems, getItem, createItem, editItem, deleteItem };
 
-type InventoryItem = typeof inventory.$inferSelect;
-
-async function getAllItems(
-    userId: string,
-    offset: number,
-    limit: number,
-): Promise<InventoryItem[]> {
+async function getAllItems({ userId, offset, limit }: GetAllItemsParams): Promise<InventoryItem[]> {
     return db
         .select()
         .from(inventory)
@@ -23,7 +25,7 @@ async function getAllItems(
         .offset(offset);
 }
 
-async function getItem(userId: string, id: string): Promise<InventoryItem> {
+async function getItem({ userId, id }: GetItemParams): Promise<InventoryItem> {
     const [item] = await db
         .select()
         .from(inventory)
@@ -35,17 +37,17 @@ async function getItem(userId: string, id: string): Promise<InventoryItem> {
     return item;
 }
 
-async function createItem(
-    userId: string,
-    item: string,
-    category: string,
-    amount?: string,
-    amountUnit?: string,
-    color?: string,
-    colorHex?: string,
-    cost?: string,
-    costUnit?: string,
-): Promise<InventoryItem> {
+async function createItem({
+    userId,
+    item,
+    category,
+    amount,
+    amountUnit,
+    color,
+    colorHex,
+    cost,
+    costUnit,
+}: CreateItemParams): Promise<InventoryItem> {
     const [createdItem] = await db
         .insert(inventory)
         .values({
@@ -64,18 +66,18 @@ async function createItem(
     return createdItem;
 }
 
-async function editItem(
-    userId: string,
-    id: string,
-    item: string,
-    category: string,
-    amount?: string,
-    amountUnit?: string,
-    color?: string,
-    colorHex?: string,
-    cost?: string,
-    costUnit?: string,
-): Promise<InventoryItem> {
+async function editItem({
+    userId,
+    id,
+    item,
+    category,
+    amount,
+    amountUnit,
+    color,
+    colorHex,
+    cost,
+    costUnit,
+}: EditItemParams): Promise<InventoryItem> {
     const [updatedItem] = await db
         .update(inventory)
         .set({
@@ -96,7 +98,7 @@ async function editItem(
     return updatedItem;
 }
 
-async function deleteItem(userId: string, id: string): Promise<void> {
+async function deleteItem({ userId, id }: DeleteItemParams): Promise<void> {
     const [deletedItem] = await db
         .delete(inventory)
         .where(and(eq(inventory.id, +id), eq(inventory.authorId, userId)))

@@ -11,6 +11,11 @@ export async function postOwners(
     const { pattern_id, user_id, message } = req.body;
     const authenticatedUserId = sessionUser(req);
 
-    const data = await postOwner(authenticatedUserId, pattern_id, user_id, message);
+    const data = await postOwner({
+        authenticatedUserId,
+        patternId: pattern_id,
+        userId: user_id,
+        message,
+    });
     res.status(201).json({ message: 'Owner successfully added!', data });
 }

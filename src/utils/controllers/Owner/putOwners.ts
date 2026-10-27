@@ -12,12 +12,12 @@ export async function putOwners(
     const { user_id, pattern_id, message } = req.body;
     const authenticatedUserId = sessionUser(req);
 
-    const data = await editOwner(
+    const data = await editOwner({
         authenticatedUserId,
-        user_pattern_id,
-        pattern_id,
-        user_id,
+        compositeEndpoint: user_pattern_id,
+        patternId: pattern_id,
+        userId: user_id,
         message,
-    );
+    });
     res.status(200).json({ message: 'Successfully edited ownership!', data });
 }

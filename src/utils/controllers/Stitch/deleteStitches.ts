@@ -14,6 +14,6 @@ export async function deleteStitches(
 
     if (!id) throw new ClientError('Missing id parameter.', 400);
 
-    await deleteStitch(userId, id);
+    await deleteStitch({ userId, id });
     res.sendStatus(204);
 }

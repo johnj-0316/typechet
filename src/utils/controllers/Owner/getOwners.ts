@@ -15,8 +15,13 @@ export async function getOwners(
     const pq = handlePagination(offset, limit);
 
     const data = pattern_id
-        ? await getOwnerByPattern(userId, pattern_id, pq.offset, pq.limit)
-        : await getAllOwners(userId, pq.offset, pq.limit);
+        ? await getOwnerByPattern({
+              userId,
+              patternId: pattern_id,
+              offset: pq.offset,
+              limit: pq.limit,
+          })
+        : await getAllOwners({ userId, offset: pq.offset, limit: pq.limit });
 
     res.status(200).json({ message: 'Found all owners!', data });
 }

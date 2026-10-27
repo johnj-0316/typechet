@@ -3,15 +3,18 @@ import { and, eq, getTableColumns } from 'drizzle-orm';
 import { db } from '../../db';
 import { owners, patterns, trackers } from '../../db/schema';
 import { APIError } from '../errors/Error';
+import {
+    CreateTrackerParams,
+    DeleteTrackerParams,
+    EditTrackerParams,
+    GetUserTrackerParams,
+    GetUserTrackersParams,
+    Tracker,
+    TrackerWithPatternRows,
+} from './trackerServices.types';
 
 export { getUserTrackers, getUserTracker, createTracker, editTracker, deleteTracker };
-export type { TrackerWithPatternRows };
-
-type Tracker = typeof trackers.$inferSelect;
-type TrackerWithPatternRows = Tracker & {
-    rows: (typeof patterns.$inferSelect)['rows'];
-    patternTitle: (typeof patterns.$inferSelect)['title'];
-};
+export type { TrackerWithPatternRows } from './trackerServices.types';
 
 const trackerSelection = {
     ...getTableColumns(trackers),
@@ -19,11 +22,11 @@ const trackerSelection = {
     patternTitle: patterns.title,
 };
 
-async function getUserTrackers(
-    userId: string,
-    offset: number,
-    limit: number,
-): Promise<TrackerWithPatternRows[]> {
+async function getUserTrackers({
+    userId,
+    offset,
+    limit,
+}: GetUserTrackersParams): Promise<TrackerWithPatternRows[]> {
     return db
         .select(trackerSelection)
         .from(trackers)
@@ -33,7 +36,10 @@ async function getUserTrackers(
         .offset(offset);
 }
 
-async function getUserTracker(userId: string, id: string): Promise<TrackerWithPatternRows> {
+async function getUserTracker({
+    userId,
+    id,
+}: GetUserTrackerParams): Promise<TrackerWithPatternRows> {
     const [tracker] = await db
         .select(trackerSelection)
         .from(trackers)
@@ -46,14 +52,14 @@ async function getUserTracker(userId: string, id: string): Promise<TrackerWithPa
     return tracker;
 }
 
-async function createTracker(
-    userId: string,
-    patternId: string,
-    currentRow: string,
-    currentIndex: string,
-    title?: string,
-    currentStitch?: string,
-): Promise<Tracker> {
+async function createTracker({
+    userId,
+    patternId,
+    currentRow,
+    currentIndex,
+    title,
+    currentStitch,
+}: CreateTrackerParams): Promise<Tracker> {
     return db.transaction(async (tx) => {
         const [owner] = await tx
             .select({ userId: owners.userId })
@@ -79,14 +85,14 @@ async function createTracker(
     });
 }
 
-async function editTracker(
-    userId: string,
-    id: string,
-    currentRow: string,
-    currentIndex: string,
-    title?: string,
-    currentStitch?: string,
-): Promise<Tracker> {
+async function editTracker({
+    userId,
+    id,
+    currentRow,
+    currentIndex,
+    title,
+    currentStitch,
+}: EditTrackerParams): Promise<Tracker> {
     const [tracker] = await db
         .update(trackers)
         .set({
@@ -103,7 +109,7 @@ async function editTracker(
     return tracker;
 }
 
-async function deleteTracker(userId: string, id: string): Promise<void> {
+async function deleteTracker({ userId, id }: DeleteTrackerParams): Promise<void> {
     const [tracker] = await db
         .delete(trackers)
         .where(and(eq(trackers.id, id), eq(trackers.userId, userId)))

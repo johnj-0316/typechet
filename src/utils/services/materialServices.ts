@@ -5,21 +5,27 @@ import { materials, owners, patterns } from '../../db/schema';
 import { APIError } from '../errors/Error';
 import { handleInventoryCategory } from '../tools/handleInventoryCategory';
 import { handleHexCodeConversion } from '../tools/handleHexCodeConversion';
+import {
+    CreateMaterialParams,
+    DeleteMaterialParams,
+    EditMaterialParams,
+    GetAllMaterialsParams,
+    GetMaterialParams,
+    Material,
+} from './materialServices.types';
 
 export { getAllMaterials, getMaterial, createMaterial, editMaterial, deleteMaterial };
 
-type Material = typeof materials.$inferSelect;
-
-function authoredPatternIds(userId: string) {
+function authoredPatternIds({ userId }: Pick<GetMaterialParams, 'userId'>) {
     return db.select({ id: patterns.id }).from(patterns).where(eq(patterns.authorId, userId));
 }
 
-async function getAllMaterials(
-    userId: string,
-    patternId: string,
-    offset: number,
-    limit: number,
-): Promise<Material[]> {
+async function getAllMaterials({
+    userId,
+    patternId,
+    offset,
+    limit,
+}: GetAllMaterialsParams): Promise<Material[]> {
     return db
         .select(getTableColumns(materials))
         .from(materials)
@@ -29,7 +35,7 @@ async function getAllMaterials(
         .offset(offset);
 }
 
-async function getMaterial(userId: string, id: string, patternId: string): Promise<Material> {
+async function getMaterial({ userId, id, patternId }: GetMaterialParams): Promise<Material> {
     const [material] = await db
         .select(getTableColumns(materials))
         .from(materials)
@@ -48,18 +54,18 @@ async function getMaterial(userId: string, id: string, patternId: string): Promi
     return material;
 }
 
-async function createMaterial(
-    userId: string,
-    patternId: string,
-    item: string,
-    category: string,
-    amount?: string,
-    amountUnit?: string,
-    color?: string,
-    colorHex?: string,
-    cost?: string,
-    costUnit?: string,
-): Promise<Material> {
+async function createMaterial({
+    userId,
+    patternId,
+    item,
+    category,
+    amount,
+    amountUnit,
+    color,
+    colorHex,
+    cost,
+    costUnit,
+}: CreateMaterialParams): Promise<Material> {
     return db.transaction(async (tx) => {
         const [pattern] = await tx
             .select({ id: patterns.id })
@@ -88,19 +94,19 @@ async function createMaterial(
     });
 }
 
-async function editMaterial(
-    userId: string,
-    id: string,
-    patternId: string,
-    item: string,
-    category: string,
-    amount?: string,
-    amountUnit?: string,
-    color?: string,
-    colorHex?: string,
-    cost?: string,
-    costUnit?: string,
-): Promise<Material> {
+async function editMaterial({
+    userId,
+    id,
+    patternId,
+    item,
+    category,
+    amount,
+    amountUnit,
+    color,
+    colorHex,
+    cost,
+    costUnit,
+}: EditMaterialParams): Promise<Material> {
     const [material] = await db
         .update(materials)
         .set({
@@ -117,7 +123,7 @@ async function editMaterial(
             and(
                 eq(materials.id, +id),
                 eq(materials.patternId, +patternId),
-                inArray(materials.patternId, authoredPatternIds(userId)),
+                inArray(materials.patternId, authoredPatternIds({ userId })),
             ),
         )
         .returning();
@@ -127,14 +133,14 @@ async function editMaterial(
     return material;
 }
 
-async function deleteMaterial(userId: string, id: string, patternId: string): Promise<void> {
+async function deleteMaterial({ userId, id, patternId }: DeleteMaterialParams): Promise<void> {
     const [material] = await db
         .delete(materials)
         .where(
             and(
                 eq(materials.id, +id),
                 eq(materials.patternId, +patternId),
-                inArray(materials.patternId, authoredPatternIds(userId)),
+                inArray(materials.patternId, authoredPatternIds({ userId })),
             ),
         )
         .returning({ id: materials.id });

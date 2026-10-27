@@ -8,9 +8,10 @@ export async function getSearchResults(
     req: Request<unknown, unknown, unknown, SearchQueryParams>,
     res: Response,
 ): Promise<void> {
+    const { q, limit: requestedLimit } = req.query;
     const userId = sessionUser(req);
-    const limit = req.query.limit ? Number(req.query.limit) : 10;
-    const data = await searchUserData(userId, req.query.q, limit);
+    const limit = requestedLimit ? Number(requestedLimit) : 10;
+    const data = await searchUserData({ userId, searchTerm: q, limit });
 
     res.status(200).json({ message: 'Search completed!', data });
 }

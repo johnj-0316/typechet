@@ -17,7 +17,7 @@ passport.serializeUser((user: CleanUser, done) => {
 
 passport.deserializeUser(async (uid: string, done) => {
     try {
-        const user = await findUserById(uid);
+        const user = await findUserById({ uid });
 
         if (!user) {
             done(null, false);

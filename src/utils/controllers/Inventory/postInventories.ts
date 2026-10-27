@@ -11,16 +11,16 @@ export async function postInventories(
     const { item, amount, amount_unit, category, color, color_hex, cost, cost_unit } = req.body;
     const userId = sessionUser(req);
 
-    const data = await createItem(
+    const data = await createItem({
         userId,
         item,
         category,
         amount,
-        amount_unit,
+        amountUnit: amount_unit,
         color,
-        color_hex,
+        colorHex: color_hex,
         cost,
-        cost_unit,
-    );
+        costUnit: cost_unit,
+    });
     res.status(201).json({ message: 'Item successfully added!', data });
 }

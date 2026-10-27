@@ -14,7 +14,9 @@ export async function getInventories(
     const userId = sessionUser(req);
 
     const pq = handlePagination(offset, limit);
-    const data = id ? await getItem(userId, id) : await getAllItems(userId, pq.offset, pq.limit);
+    const data = id
+        ? await getItem({ userId, id })
+        : await getAllItems({ userId, offset: pq.offset, limit: pq.limit });
 
     res.status(200).json({ message: 'Found all items!', data });
 }

@@ -14,6 +14,6 @@ export async function deleteTrackers(
 
     if (!id) throw new ClientError('Missing id parameter.', 400);
 
-    await deleteTracker(userId, id);
+    await deleteTracker({ userId, id });
     res.sendStatus(204);
 }

@@ -4,7 +4,7 @@ import { APIError } from '../../errors/Error';
 import { findUserProfileById } from '../../services/userServices';
 
 export async function findUser(req: Request, res: Response): Promise<void> {
-    const user = await findUserProfileById(req.user!.uid);
+    const user = await findUserProfileById({ uid: req.user!.uid });
 
     if (!user) throw new APIError('User was not found!', 404);
 

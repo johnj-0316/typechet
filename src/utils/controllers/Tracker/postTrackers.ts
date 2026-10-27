@@ -11,13 +11,13 @@ export async function postTrackers(
     const { pattern_id, title, current_row, current_stitch, current_index } = req.body;
     const userId = sessionUser(req);
 
-    const data = await createTracker(
+    const data = await createTracker({
         userId,
-        pattern_id,
-        current_row,
-        current_index,
+        patternId: pattern_id,
+        currentRow: current_row,
+        currentIndex: current_index,
         title,
-        current_stitch,
-    );
+        currentStitch: current_stitch,
+    });
     res.status(201).json({ message: 'Tracker successfully created!', data });
 }

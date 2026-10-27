@@ -16,8 +16,8 @@ export async function getPatterns(
     //pq should throw error on faulty values
     const pq = handlePagination(offset, limit);
     const data = id
-        ? await getPattern(userId, id)
-        : await getAllPatterns(userId, pq.offset, pq.limit);
+        ? await getPattern({ userId, id })
+        : await getAllPatterns({ userId, offset: pq.offset, limit: pq.limit });
 
     res.status(200).json({ message: 'Found patterns!', data });
 }

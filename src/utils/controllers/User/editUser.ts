@@ -9,7 +9,13 @@ export async function editUser(
     res: Response,
 ): Promise<void> {
     const { name, displayName, profileUrl, phone } = req.body;
-    const user = await editUserProfile(req.user!.uid, name, displayName, profileUrl, phone);
+    const user = await editUserProfile({
+        id: req.user!.uid,
+        name,
+        displayName,
+        profileUrl,
+        phone,
+    });
 
     if (!user) throw new APIError('Profile was not found!', 404);
 

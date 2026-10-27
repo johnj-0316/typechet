@@ -18,6 +18,6 @@ export async function deleteMaterials(
     if (!pattern_id || !material_id)
         throw new ClientError('Missing pattern or material id parameter.', 400);
 
-    await deleteMaterial(userId, material_id, pattern_id);
+    await deleteMaterial({ userId, id: material_id, patternId: pattern_id });
     res.sendStatus(204);
 }

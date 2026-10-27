@@ -11,6 +11,6 @@ export async function postStitches(
     const { shorthand, name, origin } = req.body;
     const userId = sessionUser(req);
 
-    const data = await createStitch(userId, shorthand, name, origin);
+    const data = await createStitch({ userId, shorthand, name, origin });
     res.status(201).json({ message: 'Stitch successfully created!', data });
 }

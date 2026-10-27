@@ -15,8 +15,8 @@ export async function getStitches(
 
     const pq = handlePagination(offset, limit);
     const data = id
-        ? await getUserStitch(userId, id)
-        : await getUserStitches(userId, pq.offset, pq.limit);
+        ? await getUserStitch({ userId, id })
+        : await getUserStitches({ userId, offset: pq.offset, limit: pq.limit });
 
     res.status(200).json({ message: 'Found stitches!', data });
 }

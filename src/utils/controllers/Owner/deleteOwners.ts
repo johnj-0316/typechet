@@ -14,6 +14,9 @@ export async function deleteOwners(
 
     if (!user_pattern_id) throw new ClientError('Missing id parameter.', 400);
 
-    await deleteOwner(userId, user_pattern_id);
+    await deleteOwner({
+        authenticatedUserId: userId,
+        compositeEndpoint: user_pattern_id,
+    });
     res.sendStatus(204);
 }

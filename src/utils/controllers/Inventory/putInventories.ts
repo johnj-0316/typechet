@@ -12,17 +12,17 @@ export async function putInventories(
     const { item, amount, amount_unit, category, color, color_hex, cost, cost_unit } = req.body;
     const userId = sessionUser(req);
 
-    const data = await editItem(
+    const data = await editItem({
         userId,
         id,
         item,
         category,
         amount,
-        amount_unit,
+        amountUnit: amount_unit,
         color,
-        color_hex,
+        colorHex: color_hex,
         cost,
-        cost_unit,
-    );
+        costUnit: cost_unit,
+    });
     res.status(200).json({ message: 'Successfully edited the item!', data });
 }

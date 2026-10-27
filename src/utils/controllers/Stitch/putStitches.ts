@@ -12,6 +12,6 @@ export async function putStitches(
     const { shorthand, name, origin } = req.body;
     const userId = sessionUser(req);
 
-    const data = await editStitch(userId, id, shorthand, name, origin);
+    const data = await editStitch({ userId, id, shorthand, name, origin });
     res.status(200).json({ message: 'Successfully edited stitch!', data });
 }

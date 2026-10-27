@@ -15,8 +15,8 @@ export async function getTrackers(
 
     const pq = handlePagination(offset, limit);
     const trackerData = id
-        ? await getUserTracker(userId, id)
-        : await getUserTrackers(userId, pq.offset, pq.limit);
+        ? await getUserTracker({ userId, id })
+        : await getUserTrackers({ userId, offset: pq.offset, limit: pq.limit });
 
     res.status(200).json({ message: 'Found all trackers!', data: trackerData });
 }
