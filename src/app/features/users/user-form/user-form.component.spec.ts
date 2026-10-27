@@ -12,6 +12,8 @@ describe('UserFormComponent', () => {
 
         fixture = TestBed.createComponent(UserFormComponent);
         component = fixture.componentInstance;
+        fixture.componentRef.setInput('mode', 'signin');
+        fixture.componentRef.setInput('buttonLabel', 'Sign in');
         await fixture.whenStable();
     });
 

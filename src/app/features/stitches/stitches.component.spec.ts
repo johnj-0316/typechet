@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
+
+import { StitchesService } from '../../services/stitches.service';
 import { StitchesComponent } from './stitches.component';
 
 describe('StitchesComponent', () => {
@@ -8,6 +11,12 @@ describe('StitchesComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [StitchesComponent],
+            providers: [
+                {
+                    provide: StitchesService,
+                    useValue: { getStitches: () => of({ message: 'Stitches loaded.', data: [] }) },
+                },
+            ],
         }).compileComponents();
 
         fixture = TestBed.createComponent(StitchesComponent);

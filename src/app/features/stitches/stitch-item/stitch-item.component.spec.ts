@@ -12,6 +12,10 @@ describe('StitchItemComponent', () => {
 
         fixture = TestBed.createComponent(StitchItemComponent);
         component = fixture.componentInstance;
+        fixture.componentRef.setInput('shorthand', 'sc');
+        fixture.componentRef.setInput('name', 'Single crochet');
+        fixture.componentRef.setInput('origin', 'US');
+        fixture.componentRef.setInput('custom', false);
         await fixture.whenStable();
     });
 

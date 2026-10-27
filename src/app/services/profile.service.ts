@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Service } from '@angular/core';
 
-import { ApiDataResponse, Profile } from '../shared/types/api.types';
+import { ApiUserResponse, Profile } from '../shared/types/api.types';
 
-export type UserProfileResponse = ApiDataResponse<Profile>;
+export type UserProfileResponse = ApiUserResponse<Profile>;
 
 @Service()
 export class ProfileService {

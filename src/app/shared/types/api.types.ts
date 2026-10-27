@@ -3,6 +3,10 @@ import { inventory, patterns, stitches, trackers, userProfiles } from '../../../
 type ApiDataResponse<T> = {
     message: string;
     data: T;
+};
+
+type ApiUserResponse<T> = {
+    message: string;
     user: T;
 };
 
@@ -19,4 +23,4 @@ type Trackers = typeof trackers.$inferSelect &
         patternTitle: (typeof patterns.$inferSelect)['title'];
     };
 
-export type { ApiDataResponse, Inventory, Pattern, Profile, Stitches, Trackers };
+export type { ApiDataResponse, ApiUserResponse, Inventory, Pattern, Profile, Stitches, Trackers };
